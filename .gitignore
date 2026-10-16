@@ -1,0 +1,14 @@
+# OS-generated metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local editor history and swap files
+.history/
+*.swp
+*.swo
+*~
+
+# Python validation caches
+__pycache__/
+*.pyc
