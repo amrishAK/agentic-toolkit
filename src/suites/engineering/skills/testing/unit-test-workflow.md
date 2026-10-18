@@ -1,13 +1,21 @@
 ---
 name: unit-test-workflow
-description: "Use when reviewing, designing, writing, updating, or fixing unit tests. Provides contract-driven test selection, readable fixtures, deterministic execution, controlled test doubles, regression protection, and targeted validation. Uses the programming language catalogue for language-specific guidance."
+description: "Use when reviewing, designing, writing, updating, or fixing unit tests. Provides contract-driven test selection, readable fixtures, deterministic execution, controlled test doubles, regression protection, and targeted validation. Uses the language-specific skill matrix for language guidance."
 ---
 
 # Unit-test workflow
 
-Use this workflow with the [programming language catalogue](../programming-languages/programming-language-catalog.md)'s **Unit testing** guidance for the relevant languages. It complements the code-quality workflow with testing-specific procedures; it does not require loading that skill or authorize production-code changes.
+## When to use
 
-## 1. Establish the intended contract
+Use this skill when reviewing, designing, writing, updating, or fixing unit tests.
+
+## Scope and boundaries
+
+Use this workflow with the [language-specific skill matrix](../../../../shared/skills/references/programming-language-matrix.md)'s **Unit testing** guidance for the relevant languages. It complements the code-quality workflow with testing-specific procedures; it does not require loading that skill or authorize production-code changes.
+
+## Procedure
+
+### 1. Establish the intended contract
 
 - Identify review/design versus test-writing scope. Review-only requests must not edit; explicit writing or combined requests can proceed without redundant confirmation.
 - Read requirements, public contracts, relevant implementation/callers, existing tests, and test configuration. Current implementation is evidence, not automatically the correct specification.
@@ -15,7 +23,7 @@ Use this workflow with the [programming language catalogue](../programming-langu
 - Reuse the existing framework, naming, fixtures, language standard/MSRV, and test registration. Avoid unrelated changes and new dependencies.
 - Keep production logic and public interfaces unchanged unless explicitly authorized. Necessary test-target registration and fixtures are in scope.
 
-## 2. Select meaningful scenarios
+### 2. Select meaningful scenarios
 
 - Map important behavior to normal cases, boundaries, defined errors, state transitions, and regression conditions. Prioritize risk and observable contracts, not one test for every method.
 - For a regression, reproduce the relevant triggering condition and assert the intended outcome. Demonstrate failure on the buggy behavior when feasible without destructive changes; otherwise report that this was not verified.
@@ -23,7 +31,7 @@ Use this workflow with the [programming language catalogue](../programming-langu
 - Avoid arbitrary test counts, unit/integration ratios, speed limits, or coverage percentages. Honor explicit project gates and use coverage to identify meaningful gaps, not as proof of correctness.
 - Keep unit, integration, diagnostic, stress, and performance scopes distinct. Recommend broader tests when unit isolation cannot validate the relevant contract.
 
-## 3. Write readable, reliable tests
+### 3. Write readable, reliable tests
 
 - Name tests by behavior using repository conventions. Keep Arrange/Act/Assert clear without mandatory phase comments or a rigid single-call rule.
 - One coherent scenario per test; multiple assertions are appropriate when they jointly establish that scenario.
@@ -32,7 +40,7 @@ Use this workflow with the [programming language catalogue](../programming-langu
 - Keep tests independent of execution order, incidental representation, noncontractual message text, and unspecified outcomes.
 - Clean up resources and restore modified state even when assertions fail, using framework- and language-appropriate facilities.
 
-## 4. Control dependencies and nondeterminism
+### 4. Control dependencies and nondeterminism
 
 - Prefer real fast, deterministic collaborators where practical. Use fakes/stubs to control costly or nondeterministic boundaries; use mocks when interactions themselves form part of the contract.
 - Do not mock every dependency or impose new production abstractions just for tests. Use existing injection seams and explain limitations when no suitable seam exists.
@@ -41,13 +49,13 @@ Use this workflow with the [programming language catalogue](../programming-langu
 - Seed random inputs and preserve reproduction details. Repeated runs and sanitizers can expose issues, but cannot prove determinism or race freedom.
 - Do not intentionally invoke undefined behavior in ordinary tests. Any diagnostic/death testing needs supported isolated infrastructure and an explicit purpose.
 
-## 5. Diagnose failures without weakening contracts
+### 5. Diagnose failures without weakening contracts
 
 - Determine whether a failure is a test defect, production bug, environment problem, or ambiguous specification.
 - Correct wrong tests only when supported by the intended contract. Do not delete assertions, loosen expectations, ignore tests, or add retries merely to make a run green.
 - When a correct regression test fails because production fixes are outside scope, report the failure and minimal required production correction rather than silently changing behavior.
 
-## 6. Validate and report
+### 6. Validate and report
 
 - Build and execute the smallest relevant selection using existing project tooling. Confirm new tests are registered and the intended cases actually executed; zero matching tests is not a pass for the requested behavior.
 - Broaden runs when shared fixtures, configuration changes, or failures warrant it. Use supported coverage or instrumentation only when relevant; do not install tooling simply to complete a checklist.

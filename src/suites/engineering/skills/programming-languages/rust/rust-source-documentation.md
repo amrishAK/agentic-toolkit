@@ -5,9 +5,17 @@ description: "Use for reviewing or writing Rust source documentation, rustdoc, a
 
 # Rust source documentation
 
+## When to use
+
+Use this skill for reviewing or writing Rust source documentation, rustdoc, and safety comments.
+
+## Scope and boundaries
+
 Apply within authorized comments-only scope. Respect MSRV, edition, features/targets, runtime, panic strategy, and rustdoc conventions.
 
-## Document
+## Procedure
+
+### Document
 
 - Identify externally reachable APIs through module visibility and re-exports; do not mechanically document every `pub` or `pub(crate)` item.
 - Use `///` for items and `//!` for module/crate documentation at valid positions. Preserve existing documentation attributes and attachment to the intended item.
@@ -18,7 +26,7 @@ Apply within authorized comments-only scope. Respect MSRV, edition, features/tar
 - Keep examples accurate, minimal, and MSRV-compatible. Use appropriate error propagation and hidden setup where useful; do not use `ignore` or `no_run` merely to hide a broken example.
 - Comments explain contracts or reasoning, not every branch. Avoid arbitrary length thresholds and invented guarantees.
 
-## Validate
+### Validate
 
 Inspect the diff for comments-only edits and correct rustdoc attachment; documentation tests can execute code.
 

@@ -5,9 +5,17 @@ description: "Use when reviewing, designing, writing, updating, or diagnosing bl
 
 # End-to-end test workflow
 
+## When to use
+
+Use this skill to design or review black-box tests of complete user-visible application journeys.
+
+## Scope and boundaries
+
 Verify complete user-visible journeys through a running application and the infrastructure required for those journeys. E2E scope is defined by the journey and system boundary, not by the number of services or implementation language. This workflow is self-contained; component integration and unit tests remain separate.
 
-## 1. Define the journey and oracle
+## Procedure
+
+### 1. Define the journey and oracle
 
 - Establish review/design versus test-writing scope. Review-only requests must not edit; explicit writing and combined requests may proceed directly.
 - Read requirements, application interfaces, existing E2E tests, fixtures, runner configuration, and project guidance. Current behavior is evidence, not automatically the correct specification.
@@ -16,7 +24,7 @@ Verify complete user-visible journeys through a running application and the infr
 - Match project naming and keep Arrange/Act/Assert readable. Multi-step journeys are appropriate; avoid unnecessary inter-test dependencies.
 - Keep changes to tests, fixtures, necessary registration, and related documentation. Ask before production, dependency, deployment, or infrastructure changes that are not explicitly authorized.
 
-## 2. Verify environment safety
+### 2. Verify environment safety
 
 - Identify the application artifact/version, base URLs or executable, dependency versions, configuration, and required permissions before execution.
 - Use local or explicitly authorized disposable environments. Confirm target identity and isolation before destructive actions; never infer safety solely from a hostname.
@@ -24,7 +32,7 @@ Verify complete user-visible journeys through a running application and the infr
 - Prevent real payments, emails, messages, or other external side effects with supported sandbox endpoints or controlled substitutes. Do not expose credentials in logs, traces, screenshots, or committed fixtures.
 - Do not install tooling or provision services merely to complete a checklist. Reuse documented infrastructure; report unavailable prerequisites or request necessary authorization.
 
-## 3. Keep the journey real
+### 3. Keep the journey real
 
 - Exercise the actual running application and meaningful first-party components needed for the journey. Do not intercept core responses or call internal functions to simulate success.
 - Use supported real dependencies where their semantics form part of the claimed coverage. Use controlled substitutes or provider sandboxes outside that boundary when necessary.
@@ -32,7 +40,7 @@ Verify complete user-visible journeys through a running application and the infr
 - Use fixture APIs to establish preconditions, not to perform the action the scenario claims to test. Do not bypass authentication in a journey intended to validate login.
 - Separate contract/provider compatibility tests, component integration, load testing, benchmarks, and security audits from ordinary E2E coverage.
 
-## 4. Make setup and execution reliable
+### 4. Make setup and execution reliable
 
 - Build/start the intended artifact or verify the existing authorized deployment. Check application and dependency readiness using bounded health checks, not fixed sleeps.
 - Give each test independent state and unique names suitable for parallel execution. Reset permitted fixture state; avoid process-global environment or working-directory changes.
@@ -42,7 +50,7 @@ Verify complete user-visible journeys through a running application and the infr
 - For CLI/protocol journeys, verify contractual exit/error responses and meaningful output or state; a status code alone rarely establishes the full journey.
 - Use reproducible test data and justified comparisons. Treat unstable timestamps, ordering, locale, and floating-point expectations according to the actual contract.
 
-## 5. Diagnose failures and clean up
+### 5. Diagnose failures and clean up
 
 - Capture relevant runner traces, screenshots, application logs, child-process output, exit status, and dependency diagnostics while redacting sensitive information.
 - Separate test defects, production bugs, environmental failures, and ambiguous expectations. Preserve correct failing assertions; do not loosen or disable them to make runs green.
@@ -50,7 +58,7 @@ Verify complete user-visible journeys through a running application and the infr
 - Ensure cleanup runs after assertion failures and timeouts. Gracefully stop and then, if necessary, terminate only specifically identified test-owned processes.
 - Remove only known test-owned resources. Report teardown errors without hiding the original failure; retain bounded failure artifacts according to project policy.
 
-## 6. Verify and report
+### 6. Verify and report
 
 - Register persistent automated tests and run the smallest relevant journey selection using the actual runner.
 - Confirm selected scenarios executed. Zero matches, all-skipped runs, or missing required infrastructure are not verified behavior.

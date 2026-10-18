@@ -5,9 +5,17 @@ description: "Use for reviewing or writing C# XML source documentation. Covers r
 
 # C# source documentation
 
+## When to use
+
+Use this skill for reviewing or writing C# XML source documentation.
+
+## Scope and boundaries
+
 Apply within authorized comments-only scope. Respect supported target frameworks, language version, nullable context, and existing XML documentation conventions.
 
-## Document
+## Procedure
+
+### Document
 
 - Follow the project's XML documentation style. Use `<summary>` for purpose and appropriate `<param>`, `<typeparam>`, `<returns>`, `<exception>`, `<remarks>`, and `<example>` elements where they add contract information.
 - Document externally reachable APIs, including the exposure created by containing types and interfaces. Do not mechanically add boilerplate to every member or repeat inherited contracts unnecessarily; use `<inheritdoc/>` where supported and appropriate.
@@ -17,7 +25,7 @@ Apply within authorized comments-only scope. Respect supported target frameworks
 - Ensure examples are minimal, compilable for supported target frameworks, and demonstrate realistic disposal and error handling. Do not hide broken examples with omissions or unsupported directives.
 - Preserve attributes, directives, nullable annotations, and tooling-specific markup. XML documentation must remain well-formed and must not alter executable behavior.
 
-## Validate
+### Validate
 
 Review the diff to confirm comments-only changes and correct XML attachment. Use existing XML documentation warning, build, analyzer, or documentation-generation checks for the affected targets.
 

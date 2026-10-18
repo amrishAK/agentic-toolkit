@@ -5,9 +5,17 @@ description: "Use for black-box Rust integration test review, design, or impleme
 
 # Rust integration testing
 
+## When to use
+
+Use this skill for black-box Rust integration test review, design, or implementation.
+
+## Scope and boundaries
+
 Apply with the integration-test workflow. Preserve production behavior/interfaces unless explicitly authorized.
 
-## Test
+## Procedure
+
+### Test
 
 - Respect MSRV, features/targets, runtime, and test configuration.
 - Use registered external Cargo integration targets, normally `tests/`; respect explicit `[[test]]` and shared test-support conventions.
@@ -18,7 +26,7 @@ Apply with the integration-test workflow. Preserve production behavior/interface
 - Use synchronous guards plus explicit awaited teardown; `Drop` does not guarantee async shutdown.
 - Discover Cargo-built executables through supported mechanisms, not guessed paths. Complete application journeys remain E2E.
 
-## Validate
+### Validate
 
 Select the correct package, registered target, and filter; confirm scenarios executed. Follow supported feature/target configurations rather than enabling all features.
 

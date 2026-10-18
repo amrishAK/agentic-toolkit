@@ -5,9 +5,17 @@ description: "Use for reviewing, writing, fixing, or refactoring C++ code. Cover
 
 # C++ code quality
 
+## When to use
+
+Use this skill for reviewing, writing, fixing, or refactoring C++ code.
+
+## Scope and boundaries
+
 Apply with the code-quality workflow and authorized task scope; this skill does not authorize edits.
 
-## Review and implement
+## Procedure
+
+### Review and implement
 
 - Respect standard/compiler/library, ABI/runtime, exception/RTTI policy, platform, and freestanding/real-time constraints. Shared headers may also have C consumers.
 - Prefer value semantics, RAII, and Rule of Zero. Define/delete special members only when ownership or copy/move semantics require it.
@@ -22,7 +30,7 @@ Apply with the code-quality workflow and authorized task scope; this skill does 
 - Review synchronization, predicates, atomics, shutdown, and lifetime. Shared ownership does not make the pointee thread-safe; `volatile` is not synchronization.
 - Document caller-visible ownership, lifetime, errors, and thread safety; review layout/width/endian/platform assumptions.
 
-## Validate
+### Validate
 
 Build/test relevant targets and template instantiations/shared-header modes. Use supported warnings/static analysis, instrumented ASan/UBSan, or separate TSan where useful; Valgrind is platform-dependent.
 

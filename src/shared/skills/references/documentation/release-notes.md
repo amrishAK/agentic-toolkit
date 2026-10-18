@@ -6,7 +6,7 @@ Use release notes when the project adopts a user-facing summary for a version. P
 
 For file-based release notes, include the exact release version in the filename, including any prerelease suffix; for example, `v1.2.0-notes.md` or `v1.3.0-rc.1-notes.md`. Match the project's version/tag naming convention and keep one file per version.
 
-Release notes explain what changed for users and what they need to do. The [release plan](./documentation-requirements-release-docs.md) owns milestone progress, acceptance gates, and candidate evidence; the [changelog](./documentation-requirements-community-docs.md#changelog) owns the curated history across versions. Link to those sources rather than copying progress tables or raw commit logs.
+Release notes explain what changed for users and what they need to do. The [release plan](release-docs.md) owns milestone progress, acceptance gates, and candidate evidence; the [changelog](community-docs.md#changelog) owns the curated history across versions. Link to those sources rather than copying progress tables or raw commit logs.
 
 ## Structure
 

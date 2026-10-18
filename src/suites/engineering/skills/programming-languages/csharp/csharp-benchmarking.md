@@ -5,9 +5,17 @@ description: "Use for C# benchmark review, planning, implementation, execution, 
 
 # C# benchmarking
 
+## When to use
+
+Use this skill for C# benchmark review, planning, implementation, execution, or analysis.
+
+## Scope and boundaries
+
 Apply with the benchmark workflow; do not optimize production code or consume unapproved resources.
 
-## Measure
+## Procedure
+
+### Measure
 
 - Respect SDK/runtime, target framework, configuration, architecture, JIT mode, tiered compilation, runtime settings, and installed benchmark harness. Reuse the project's BenchmarkDotNet or other established tooling.
 - Measure optimized, representative artifacts. Account for JIT warmup, tiered compilation, dynamic profile-guided optimization, and cold-start versus steady-state behavior according to the question.
@@ -18,9 +26,3 @@ Apply with the benchmark workflow; do not optimize production code or consume un
 - For concurrency, describe worker startup/shutdown, contention, total work, and timing semantics. Complete worker lifetimes and avoid measuring setup unintentionally.
 - Keep profilers, tracing, diagnostics, and instrumented builds separate from ordinary timing unless the measurement explicitly concerns their overhead.
 - Record runtime/toolchain, configuration, hardware, and workload identity. Limit comparisons and causal claims to equivalent evidence.
-
-## Validate and report
-
-Build the intended optimized benchmark target and verify that the expected nonempty workload completed correctly. Use the shared workflow for repetitions, comparisons, raw metadata, shared entry points, and Python HTML reports.
-
-Report harness and runtime settings, exact commands, results, variation, and limitations. Do not present one run or a profiler capture as verified performance improvement.

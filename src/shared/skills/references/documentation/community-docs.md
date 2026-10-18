@@ -8,7 +8,7 @@ Use these outlines only when the project's stage and audience make the documents
 
 ### Purpose and requirement
 
-Applicable when the project adopts a contribution process; the staged [open-source baseline](../../project-standards/references/project-conventions-oss-baseline.md) identifies when it is required. The default location is `CONTRIBUTING.md`.
+Applicable when the project adopts a contribution process; the staged [open-source baseline](../../../../suites/engineering/skills/project-standards/references/project-conventions-oss-baseline.md) identifies when it is required. The default location is `CONTRIBUTING.md`.
 
 ### Structure and what belongs here
 

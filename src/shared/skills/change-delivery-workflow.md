@@ -5,9 +5,17 @@ description: "Use for selected review fixes such as apply 1, apply 1,2 or apply 
 
 # Approved change delivery
 
+## When to use
+
+Use this skill for selected review fixes such as apply 1, apply 1,2 or apply all through authorized implementers or reviewer-delegated subagents.
+
+## Scope and boundaries
+
 Selected-fix coordination is available to reviewers with explicit delegation capability; they never edit directly. Commit/push/PR actions remain separate and parent-only. This workflow grants no tools or implicit authorization; no MCP server is required.
 
-## Fix handoff
+## Procedure
+
+### Fix handoff
 
 - Read the numbered review and its scope/revision. Accept `apply1`, `apply 1`, comma-separated IDs such as `apply 1,2`, or `apply all` as explicit authorization for those recommended corrections only. `all` means all actionable findings in that report, not every issue discoverable in the project.
 - Validate every ID before starting. If the report/selection is ambiguous, unavailable or invalid, ask one focused question rather than partially applying a guessed selection. Recheck affected content; refresh materially stale findings and confirm changed remedies before editing.
@@ -17,7 +25,7 @@ Selected-fix coordination is available to reviewers with explicit delegation cap
 - Report each selected ID as fixed, unresolved or blocked with changed files, exact checks/results and remaining limitations. Preserve original IDs through the fix cycle; a new review must distinguish retained IDs from newly discovered findings.
 - Re-review the affected scope and report remaining blockers. Approval to fix or a ready verdict is not approval to stage, commit, push or create a PR.
 
-## Commit
+### Commit
 
 Reviewer roles stop before this section; these actions require a separate authorized parent/coordinator.
 
@@ -26,7 +34,7 @@ Reviewer roles stop before this section; these actions require a separate author
 3. Stage only approved content using explicit paths. Inspect the final index; if it contains unrelated work, stop without unstaging it. Reconfirm approval if scope/content changed.
 4. Include `Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>` unless the user asks not to. Create only the approved local commit, verify its files/message, and report the hash and remaining worktree state. Do not push automatically.
 
-## Push and create a PR
+### Push and create a PR
 
 1. Obtain pre-PR review against the explicitly chosen base. Confirm repository, remote, source/base branches and reviewed head hash. Do not create branches implicitly or include unreviewed commits.
 2. If the head needs pushing, show destination and commits and obtain separate push approval. Push only that branch without force; verify the remote head equals the reviewed hash. Warn that a push can trigger CI.

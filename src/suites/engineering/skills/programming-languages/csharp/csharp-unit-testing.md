@@ -5,9 +5,17 @@ description: "Use for reviewing, designing, writing, or maintaining C# unit test
 
 # C# unit testing
 
+## When to use
+
+Use this skill for reviewing, designing, writing, or maintaining C# unit tests.
+
+## Scope and boundaries
+
 Apply with the unit-test workflow. Keep production logic and interfaces unchanged unless explicitly authorized.
 
-## Test
+## Procedure
+
+### Test
 
 - Respect the supported SDK, target framework, language version, and installed test framework/version. Reuse the project's xUnit, NUnit, MSTest, or other established tooling rather than introducing a framework by default.
 - Test observable behavior and documented contracts, including boundaries, validation, state transitions, and meaningful exception types or properties. Assert message text only when it is contractual.
@@ -19,7 +27,7 @@ Apply with the unit-test workflow. Keep production logic and interfaces unchange
 - Use fakes or mocks at true external boundaries. Do not mock the behavior under test or assert incidental call ordering unless the contract requires it.
 - Use property-based testing or generated cases only when supported by the project and when they improve meaningful contract coverage. Avoid brittle implementation-coupled assertions.
 
-## Validate
+### Validate
 
 Select the configured solution/project, target framework, test framework, and filter. Run the intended tests and confirm they executed; a successful command with zero selected tests is not validation.
 

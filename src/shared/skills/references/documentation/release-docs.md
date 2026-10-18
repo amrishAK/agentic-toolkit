@@ -4,7 +4,7 @@
 
 Use a release document when a milestone is planned. The default location is `docs/releases/<milestone>.md`. It owns milestone scope and readiness, not feature implementation state or high-level roadmap direction. Distinguish a planning milestone from a package version or published release.
 
-For a user-facing summary of delivered changes and upgrade actions, use the separate [release notes requirements](./documentation-requirements-release-notes.md).
+For a user-facing summary of delivered changes and upgrade actions, use the separate [release notes requirements](release-notes.md).
 
 ## Structure
 

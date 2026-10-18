@@ -5,9 +5,17 @@ description: "Use for reviewing, designing, writing, or maintaining C unit tests
 
 # C unit testing
 
+## When to use
+
+Use this skill for reviewing, designing, writing, or maintaining C unit tests.
+
+## Scope and boundaries
+
 Apply with the unit-test workflow. Keep production logic/interfaces unchanged unless explicitly authorized.
 
-## Test
+## Procedure
+
+### Test
 
 - Respect the C standard, compiler/platform, and existing harness. Keep production C compiled as C.
 - Reuse Unity, cmocka, CUnit, or project tooling. Catch2 is a C++ framework, not pure C; a C++ harness is valid only when established or requested.
@@ -18,7 +26,7 @@ Apply with the unit-test workflow. Keep production logic/interfaces unchanged un
 - Ensure harness teardown survives fatal assertions. Reset permitted fixture state and avoid order dependencies.
 - Check `errno` only as specified. Use type-appropriate assertions and descriptive names with useful table-case diagnostics.
 
-## Validate
+### Validate
 
 Register and build the affected test target in supported C mode. Run the relevant selection and confirm intended cases executed.
 

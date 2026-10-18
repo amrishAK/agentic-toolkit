@@ -1,13 +1,21 @@
 ---
 name: benchmark-workflow
-description: "Use when reviewing, planning, implementing, running, comparing, or reporting benchmarks. Covers user focus, readable workloads, resource budgets, reproducible sampling, memory metrics, shared entry points, and Python-generated HTML reports. Uses the programming language catalogue."
+description: "Use when reviewing, planning, implementing, running, comparing, or reporting benchmarks. Covers user focus, readable workloads, resource budgets, reproducible sampling, memory metrics, shared entry points, and Python-generated HTML reports. Uses the language-specific skill matrix."
 ---
 
 # Benchmark workflow
 
-Apply this methodology with the [programming language catalogue](../programming-languages/programming-language-catalog.md)'s **Benchmarking** guidance for the relevant languages. Benchmarking measures performance; tests establish correctness and profiling helps explain costs. Do not substitute one for another.
+## When to use
 
-## 1. Clarify the measurement question
+Use this skill to plan, implement, run, compare, or report benchmarks.
+
+## Scope and boundaries
+
+Apply this methodology with the [language-specific skill matrix](../../../../shared/skills/references/programming-language-matrix.md)'s **Benchmarking** guidance for the relevant languages. Benchmarking measures performance; tests establish correctness and profiling helps explain costs. Do not substitute one for another.
+
+## Procedure
+
+### 1. Clarify the measurement question
 
 - Honor review-only or plan-only requests without edits or workload execution. Explicit implementation/run/report requests may proceed within their scope.
 - Inspect existing benchmarks, contracts, relevant implementation, native tools, and entry-point commands before selecting tooling.
@@ -16,7 +24,7 @@ Apply this methodology with the [programming language catalogue](../programming-
 - Record an agreed plan: scenarios, input distribution/sizes, concurrency, measured region, units, correctness oracle, warm/cold state, configuration, repetitions, run bounds, and comparison criteria.
 - Separate microbenchmarks, real component benchmarks, and whole-application/load measurements. Public interfaces are preferred when relevant, but a microbenchmark can legitimately isolate an internal algorithm; label that scope.
 
-## 2. Implement understandable workloads
+### 2. Implement understandable workloads
 
 - Reuse project harnesses and supported versions. Keep workload construction, measurement, and validation clearly separated with descriptive scenario names.
 - Use small explicit fixtures and helpers only when they reduce confusion. Parameterize genuinely comparable inputs; avoid giant benchmark functions, speculative frameworks, and arbitrary benchmark counts.
@@ -26,7 +34,7 @@ Apply this methodology with the [programming language catalogue](../programming-
 - Use representative data and documented seeds. Reset mutable/consumed state correctly; distinguish intentional cache warming from accidental reuse.
 - Keep production optimization outside scope unless explicitly requested. Preserve unrelated work and update only necessary benchmark registration, fixtures, report tooling, and usage documentation.
 
-## 3. Make measurements safe and reproducible
+### 3. Make measurements safe and reproducible
 
 - Specify duration, memory/storage, concurrency, and external-operation limits before heavy runs. Do not exhaust shared resources or alter affinity, power settings, services, or host configuration without authorization.
 - Use test-owned files/data/services and clean up on failures. Real component benchmarks need explicit dependency arrangements and readiness; never silently switch a failed real dependency to a fake.
@@ -37,7 +45,7 @@ Apply this methodology with the [programming language catalogue](../programming-
 - Use warm-up when appropriate and distinguish cold-start/cold-cache objectives. Never clear shared OS caches or claim a cold-cache experiment without a supported safe method.
 - Use repeated samples and independent runs according to the runner's methodology. Alternate or randomize comparable run order where useful to reduce drift; record the order.
 
-## 4. Compare honestly
+### 4. Compare honestly
 
 - Compare equivalent scenario definitions, units, build intent, hardware/environment, and instrumentation. If a variable is intentionally changed, identify it and limit attribution accordingly.
 - Separate within-process iterations from independent trials; do not inflate evidence by treating correlated iterations as independent samples.
@@ -48,7 +56,7 @@ Apply this methodology with the [programming language catalogue](../programming-
 - Use improved/regressed/inconclusive conclusions against the agreed practical threshold and measurement uncertainty. Statistical significance alone does not establish practical value.
 - Hosted CI runners are suitable for smoke checks but not automatically stable performance gates. Establish noise/baselines and controlled runner conditions before adding tight thresholds.
 
-## 5. Standardize execution and reporting
+### 5. Standardize execution and reporting
 
 - Expose needed commands through the project's [shared entry point](../project-standards/references/project-conventions-entry-points.md), for example `bench-build`, `bench`, `bench-report`, and `bench-compare`. Add only commands required by the request.
 - Delegate measurement to native harnesses and analysis/reporting to Python. Keep identical target semantics locally and in GitHub Actions; document workload/configuration/result-path variables.

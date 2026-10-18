@@ -5,9 +5,17 @@ description: "Use for reviewing, designing, writing, or maintaining Rust unit te
 
 # Rust unit testing
 
+## When to use
+
+Use this skill for reviewing, designing, writing, or maintaining Rust unit tests.
+
+## Scope and boundaries
+
 Apply with the unit-test workflow. Keep production logic/interfaces unchanged unless explicitly authorized.
 
-## Test
+## Procedure
+
+### Test
 
 - Respect MSRV, edition, features/targets, panic strategy, and existing runtime/test tools.
 - Prefer established `#[cfg(test)] mod tests` organization. Private access may verify meaningful invariants, not incidental representation.
@@ -18,7 +26,7 @@ Apply with the unit-test workflow. Keep production logic/interfaces unchanged un
 - Do not construct invalid references or invoke undefined behavior as a safe-rejection test. Keep supported unsafe diagnostics separate.
 - Reuse supported seeded property/model tests where useful; do not add crates to satisfy a checklist. Justify floating-point tolerances.
 
-## Validate
+### Validate
 
 Select the correct Cargo package, unit-test target, and filter. Confirm intended cases ran; zero matches are not validation.
 

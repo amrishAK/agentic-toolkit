@@ -5,9 +5,17 @@ description: "Use for reviewing or writing C source documentation and Doxygen co
 
 # C source documentation
 
+## When to use
+
+Use this skill for reviewing or writing C source documentation and Doxygen comments.
+
+## Scope and boundaries
+
 Apply within authorized comments-only scope. Respect the selected C standard, compilation mode, platform, and existing documentation tooling.
 
-## Document
+## Procedure
+
+### Document
 
 - Use the project's Doxygen/comment style; do not require `/** */` when supported alternatives are established.
 - Document public headers and meaningful internal invariants. Keep canonical contracts at declarations; avoid duplicating them at definitions.
@@ -18,7 +26,7 @@ Apply within authorized comments-only scope. Respect the selected C standard, co
 - Use relevant `@param` directions, `@return`/`@retval`, and preconditions/warnings without empty boilerplate or redundant type descriptions.
 - Keep examples valid C with checked failures and cleanup. Preserve C/C++ linkage, preprocessor structure, line continuations, and tool-consumed annotations.
 
-## Validate
+### Validate
 
 Inspect the diff for comments-only edits and valid placement; comments can affect preprocessing or code separation.
 

@@ -1,20 +1,28 @@
 ---
 name: code-quality-workflow
-description: "Use when reviewing, implementing, fixing, or refactoring code to apply a shared Clean Code/SOLID workflow, evidence-based findings, focused changes, regression tests, and honest validation reporting. Complements language-specific guidance selected through the programming language catalogue."
+description: "Use when reviewing, implementing, fixing, or refactoring code to apply a shared Clean Code/SOLID workflow, evidence-based findings, focused changes, regression tests, and honest validation reporting. Complements language-specific guidance selected through the language-specific skill matrix."
 ---
 
 # Code quality workflow
 
-Use this workflow with the [programming language catalogue](../programming-languages/programming-language-catalog.md)'s **Code quality** guidance for the relevant languages. Language correctness, safety, and supported toolchains take precedence over design heuristics. This skill does not replace project instructions or authorize edits on a review-only request.
+## When to use
 
-## 1. Establish scope and constraints
+Use this skill to review, refactor, or implement focused code changes using clear design and evidence-based validation.
+
+## Scope and boundaries
+
+Use this workflow with the [language-specific skill matrix](../../../../shared/skills/references/programming-language-matrix.md)'s **Code quality** guidance for the relevant languages. Language correctness, safety, and supported toolchains take precedence over design heuristics. This skill does not replace project instructions or authorize edits on a review-only request.
+
+## Procedure
+
+### 1. Establish scope and constraints
 
 - Identify whether the task is review-only, implementation, or both. Review-only work must not edit source or create caches or tracking artifacts.
 - Read the relevant code, callers, tests, and project guidance. Identify the selected language version, toolchain/runtime floor, target configuration, platform requirements, public contracts, and existing patterns.
 - Preserve unrelated work. Ask a focused question only when a material behavior or design choice cannot be safely inferred.
 - Reuse established helpers and conventions. Do not introduce a dependency, upgrade a standard, or change an API/ABI merely to follow a newer idiom.
 
-## 2. Apply Clean Code and SOLID pragmatically
+### 2. Apply Clean Code and SOLID pragmatically
 
 - Choose names that convey domain meaning and keep functions/modules cohesive. Single responsibility concerns meaningful reasons for change, not how many steps a function performs.
 - Prefer explicit contracts, straightforward control flow, and intentional error handling. Do not impose arbitrary limits on function length, nesting, or parameter counts.
@@ -25,7 +33,7 @@ Use this workflow with the [programming language catalogue](../programming-langu
 - Evaluate boolean and output parameters in context rather than treating them as automatic defects.
 - Comments explain intent, invariants, ownership, safety, and non-obvious decisions. Accurate public API documentation remains important even when the implementation looks simple.
 
-## 3. Review with evidence
+### 3. Review with evidence
 
 - Apply relevant language-specific checks and trace suspected issues through callers and error paths. Prefer concrete triggering conditions over speculation.
 - For diff reviews, focus on introduced or tightly coupled issues; label pre-existing issues separately.
@@ -41,14 +49,14 @@ Use this workflow with the [programming language catalogue](../programming-langu
 
 State review scope, checks performed, and remaining uncertainty. If no actionable findings are identified, say so without implying the code is proven correct. An ordinary code review is not a complete security audit.
 
-## 4. Implement focused changes
+### 4. Implement focused changes
 
 - For implementation or combined requests, briefly identify key issues or design choices, then apply the requested changes without redundant confirmation.
 - Make the smallest complete change. Preserve behavior and public contracts unless changing them is part of the request.
 - Update affected callers and directly related documentation. Add focused tests for changed behavior, regression conditions, boundaries, and important error paths.
 - Review the diff for unintended behavior, unnecessary complexity, formatting churn, and unrelated edits.
 
-## 5. Validate and report
+### 5. Validate and report
 
 - Use existing build, formatting, test, and analysis tooling. Run the narrowest checks that actually cover the change, including affected compilation targets; broaden when evidence warrants it.
 - Follow the language-specific agent and repository guidance for commands and supported tools. Do not guess commands from unrelated ecosystem files or impose artificial short build timeouts.

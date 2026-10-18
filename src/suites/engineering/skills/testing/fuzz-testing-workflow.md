@@ -1,13 +1,21 @@
 ---
 name: fuzz-testing-workflow
-description: "Use for reviewing, designing, implementing, or running bounded fuzz tests for parsers, binary formats, FFI, and stateful APIs. Covers harness correctness, corpus, oracles, instrumentation, minimization, and regression promotion. Uses the programming language catalogue."
+description: "Use for reviewing, designing, implementing, or running bounded fuzz tests for parsers, binary formats, FFI, and stateful APIs. Covers harness correctness, corpus, oracles, instrumentation, minimization, and regression promotion. Uses the language-specific skill matrix."
 ---
 
 # Fuzz testing
 
-Apply with the unit-test role and the [programming language catalogue](../programming-languages/programming-language-catalog.md)'s **Code quality** guidance for the relevant languages. Select supported fuzz tooling separately; the catalogue does not establish fuzz-engine availability. Harness changes, campaign execution, and production fixes are separate scopes.
+## When to use
 
-## Design and implement
+Use this skill for reviewing, designing, implementing, or running bounded fuzz tests for parsers, binary formats, FFI, and stateful APIs.
+
+## Scope and boundaries
+
+Apply with the unit-test role and the [language-specific skill matrix](../../../../shared/skills/references/programming-language-matrix.md)'s **Code quality** guidance for the relevant languages. Select supported fuzz tooling separately; the matrix does not establish fuzz-engine availability. Harness changes, campaign execution, and production fixes are separate scopes.
+
+## Procedure
+
+### Design and implement
 
 - Identify target contract, public/internal boundary, accepted inputs, and oracle: invariant, round trip, independent implementation, defined rejection, or crash/sanitizer detection.
 - Reuse supported installed tooling. C/C++ may use libFuzzer/AFL++ or project tools; Rust may use cargo-fuzz or existing property-based tools. Verify compiler, platform, and nightly requirements before choosing.
@@ -16,7 +24,7 @@ Apply with the unit-test role and the [programming language catalogue](../progra
 - Isolate test-owned state, avoid uncontrolled I/O/global mutation, and reset persistent-mode state. Bound allocations and expensive parsing without excluding in-scope behavior silently.
 - Use meaningful seeds and edge cases; document source/licensing and protect private payloads. Dictionaries/structured generators may improve exploration without proving completeness.
 
-## Execute and triage
+### Execute and triage
 
 - Agree duration/run count, memory/storage/input-size, workers, and operation timeouts before campaigns. Do not exhaust shared resources or fuzz remote services without authorization.
 - Build supported instrumentation; record revision, dirty state, toolchain, features, harness, corpus identity, arguments, and engine reproduction settings.

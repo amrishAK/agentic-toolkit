@@ -5,9 +5,17 @@ description: "Use for black-box C++ integration test review, design, or implemen
 
 # C++ integration testing
 
+## When to use
+
+Use this skill for black-box C++ integration test review, design, or implementation.
+
+## Scope and boundaries
+
 Apply with the integration-test workflow. Preserve production behavior/interfaces unless explicitly authorized.
 
-## Test
+## Procedure
+
+### Test
 
 - Respect standard/compiler/platform/ABI, exception policy, and installed framework version.
 - Link real components through public headers; do not bypass encapsulation or add friends solely for black-box tests.
@@ -17,7 +25,7 @@ Apply with the integration-test workflow. Preserve production behavior/interface
 - Exercise representative supported public template APIs without replacing the meaningful production implementation with mock specializations.
 - Keep uncontrolled wall-clock benchmarks and full application journeys outside ordinary integration scope.
 
-## Validate
+### Validate
 
 Build real components, relevant template instantiations, and registered targets. Verify readiness and actual executions.
 

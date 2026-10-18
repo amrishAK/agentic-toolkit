@@ -5,9 +5,17 @@ description: "Use for reviewing, writing, fixing, or refactoring C# code. Covers
 
 # C# code quality
 
+## When to use
+
+Use this skill for reviewing, writing, fixing, or refactoring C# code.
+
+## Scope and boundaries
+
 Apply with the code-quality workflow and authorized task scope; this skill does not authorize edits.
 
-## Review and implement
+## Procedure
+
+### Review and implement
 
 - Respect the supported .NET SDK/runtime, target framework(s), C# language version, nullable context, package versions, analyzers, platform, and deployment mode. Derive these from project configuration rather than assuming the newest defaults.
 - Prefer clear types, straightforward control flow, and existing project conventions. Use records, pattern matching, LINQ, generics, and newer language features when they improve the contract and are supported by every target.
@@ -21,7 +29,7 @@ Apply with the code-quality workflow and authorized task scope; this skill does 
 - Preserve public API and behavioral compatibility across target frameworks. Review serialization, reflection, trimming, and ahead-of-time constraints when the project uses them.
 - Document caller-visible nullability, ownership/disposal, exceptions, cancellation, side effects, and thread-safety guarantees where they are not clear from the API.
 
-## Validate
+### Validate
 
 Use the project's configured SDK, target frameworks, analyzers, formatting, builds, and focused tests. Confirm the intended targets ran; do not infer support for untested frameworks or runtime modes.
 

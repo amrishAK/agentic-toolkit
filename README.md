@@ -4,7 +4,7 @@ Agentic Toolkit is the authoritative source repository for reusable agents, skil
 
 ## Documentation
 
-Read the [project overview](docs/project-overview.md) for purpose, audience, organization, and boundaries. Browse the maintained definitions under [`src/`](src/). The [documentation index](docs/README.md) and [engineering-suite guide](docs/suites/engineering.md) explain the available roles, skill categories, and task handoffs. Source definitions own detailed behavior contracts; the guides explain how to navigate them.
+Read the [project overview](docs/project-overview.md) for purpose, audience, organization, and boundaries. Browse the maintained definitions under [`src/`](src/). The [quick-start guide](docs/guides/quick-start.md) shows how to find and use current Engineering guidance; the [documentation index](docs/README.md) and [engineering-suite guide](docs/suites/engineering.md) explain roles, skill categories, and task handoffs. Source definitions own detailed behavior contracts; the guides explain how to navigate them.
 
 ## Usage and compatibility
 
@@ -25,23 +25,24 @@ No directory links or MCP dependencies are installed. Host tools, permissions, a
 
 ### Quick start
 
-Requires GNU Make and Python 3.10+ on `PATH`. Run from the repository root:
+For a minimal Copilot install, use GNU Make and Python 3.10+ from the repository root. Preview and install one agent with its linked resources:
 
 ```text
 make list
-make plan SUITE=engineering SCOPE=user
-make install SUITE=engineering SCOPE=user
-make install SUITE=engineering AGENT=benchmark-engineer SCOPE=user
+make plan SUITE=engineering AGENT=code-engineer SCOPE=user
+make install SUITE=engineering AGENT=code-engineer SCOPE=user
 ```
 
-For workspace installation, set `SCOPE=workspace` and `WORKSPACE` to an existing project directory. See the [installation guide](docs/installation.md) for Windows/Linux commands, single-skill selection, staging, update safety, and validation.
+See the [quick-start guide](docs/guides/quick-start.md) to browse and select guidance, and the [installation guide](docs/installation.md) for workspace installation, multi-skill selection, staging, update safety, and validation.
 
 ## Maintaining the collection
 
-- Keep one authoritative definition per agent or skill. Place engineering-specific content in its category and domain-neutral guidance in shared skills.
-- Maintain category-level inventory and task routing in the [engineering skill catalogue](src/suites/engineering/skills/skill-catalog.md), including shared guidance consumed by the suite. Keep required workflows explicit in agent definitions; use the catalogue for additional task selection.
-- Maintain language coverage and task-to-skill mappings in the [programming language catalogue](src/suites/engineering/skills/programming-languages/programming-language-catalog.md). Add language skills and update that catalogue without duplicating language lists in agents, general workflow descriptions, or the engineering skill catalogue.
+- Keep one authoritative definition per agent or skill. Place suite-specific content in its category and domain-neutral agents and skills in shared sources.
+- Keep required role workflows explicit in agent definitions; use the shared [skill selection workflow](src/shared/skills/skill-selection-workflow.md) to choose additional task-specific guidance from the applicable suite matrix. Maintain Engineering category-level inventory and task routing in its [skill selection matrix](src/shared/skills/references/skill-selection-workflow-matrix.md), and language coverage and task-to-skill mappings in the [Engineering language-specific skill matrix](src/shared/skills/references/programming-language-matrix.md). Do not duplicate task-to-skill maps in agent definitions.
+- Add language skills and update the language-specific skill matrix without duplicating language lists in agents, general workflow descriptions, or the Engineering category-level skill selection matrix.
+- Selection workflows own how to access and use their matrices; matrices own routing data. Use the shared [documentation matrix](src/shared/skills/references/documentation-matrix.md) as the single entry point for document types, locations, owners, update triggers, and rule links. Each linked document-type reference owns its usage guidance, content, suggested structure, and validation; common rules apply across types. Keep these references in the same [reference folder](src/shared/skills/references/documentation/) without workflow-specific filename prefixes.
 - Keep `name` and `description` metadata meaningful. Preserve role boundaries and behavior unless an intentional change is requested.
+- Follow [definition-authoring guidance](docs/reference/definition-authoring.md) for the responsibilities and content of agent definitions, skill definitions, supporting references, templates, and catalogues. Follow the [repository glossary](docs/reference/glossary.md) for canonical terminology.
 - Use relative links for repository resources; never link back to a personal installation or embed machine-specific paths.
 - When renaming or moving definitions, update inbound links and links from bundled resources in the same change. Keep resource owner prefixes consistent.
 - Treat agent instructions as source content, not permission to execute their workflows while editing this repository.

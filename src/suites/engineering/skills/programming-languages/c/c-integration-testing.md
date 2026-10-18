@@ -5,9 +5,17 @@ description: "Use for black-box C integration test review, design, or implementa
 
 # C integration testing
 
+## When to use
+
+Use this skill for black-box C integration test review, design, or implementation.
+
+## Scope and boundaries
+
 Apply with the integration-test workflow. Preserve production behavior/interfaces unless explicitly authorized.
 
-## Test
+## Procedure
+
+### Test
 
 - Respect selected C standard, compiler/platform, ABI, and harness; infer compilation mode from build configuration.
 - Link real production components through public headers, not included implementation `.c` files or overridden internal functions.
@@ -18,7 +26,7 @@ Apply with the integration-test workflow. Preserve production behavior/interface
 - Ensure setup/teardown releases buffers, handles, workers, and test-owned processes even on fatal assertions.
 - Respect platform filesystem/socket/process semantics; do not assume POSIX behavior on Windows.
 
-## Validate
+### Validate
 
 Build real components and registered integration targets, verify dependency readiness, and confirm scenarios executed.
 

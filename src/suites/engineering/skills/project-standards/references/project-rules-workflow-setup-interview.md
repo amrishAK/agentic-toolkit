@@ -39,7 +39,7 @@ Ask in this order. Skip a topic only when the evidence is unambiguous, and still
 | 13 | Documentation and release policy | Applicable catalog documents; audiences, release scope/gates, contribution workflow, supported versions, private security-reporting contact and any adopted response commitments |
 | 14 | Setup scope | Which missing baseline documents and structure to create now, which deviations to retain, and what to defer |
 
-Use the [document catalogue](../../documentation/documentation-requirements.md#document-catalogue) to prepare the documentation questions and proposed outlines. Ask unresolved policy questions separately, one at a time; the table groups topics, not multiple questions in one prompt. Do not manufacture policies or contacts to complete a template.
+Use the [document catalogue](../../../../../shared/skills/references/documentation-matrix.md) to prepare the documentation questions and proposed outlines. Ask unresolved policy questions separately, one at a time; the table groups topics, not multiple questions in one prompt. Do not manufacture policies or contacts to complete a template.
 
 ## Structure proposal and refinement
 

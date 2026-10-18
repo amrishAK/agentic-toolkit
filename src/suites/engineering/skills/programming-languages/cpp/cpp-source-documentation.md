@@ -5,9 +5,17 @@ description: "Use for reviewing or writing C++ source documentation and Doxygen 
 
 # C++ source documentation
 
+## When to use
+
+Use this skill for reviewing or writing C++ source documentation and Doxygen comments.
+
+## Scope and boundaries
+
 Apply within authorized comments-only scope. Respect the supported standard/compiler/library, exception policy, ABI, and existing tooling.
 
-## Document
+## Procedure
+
+### Document
 
 - Follow established Doxygen/comment syntax; place canonical contracts at public declarations and explain non-obvious implementation rationale locally.
 - State preconditions, ownership/borrowing, lifetimes, iterator/reference/view invalidation, side effects, and thread-safety obligations where relevant.
@@ -19,7 +27,7 @@ Apply within authorized comments-only scope. Respect the supported standard/comp
 - Use concise summaries and relevant parameter/return/precondition notes. Keep examples compatible with supported versions and realistic RAII/error handling.
 - Preserve macros, directives, attributes, and tooling annotations. Shared C interfaces also need C caller contracts; exceptions must not be described as crossing a prohibited boundary.
 
-## Validate
+### Validate
 
 Review the diff for comments-only changes and safe placement. Use existing Doxygen warning/build checks and relevant supported compilation/template checks when needed.
 

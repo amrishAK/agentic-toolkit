@@ -5,9 +5,17 @@ description: "Use for C benchmark review, planning, implementation, execution, o
 
 # C benchmarking
 
+## When to use
+
+Use this skill for C benchmark review, planning, implementation, execution, or analysis.
+
+## Scope and boundaries
+
 Apply with the benchmark workflow; do not optimize production code or consume unapproved resources.
 
-## Measure
+## Procedure
+
+### Measure
 
 - Compile production C as C with supported standard, compiler, optimization, and ABI. Established C++ harnesses may call C APIs without converting production code.
 - Reuse the harness. For tiny operations, use monotonic timing/batching and supported barriers/output consumption; `volatile` is not a universal optimization barrier.
@@ -17,7 +25,3 @@ Apply with the benchmark workflow; do not optimize production code or consume un
 - Choose meaningful sizes, layouts, locality, and supported concurrency. Use only valid operations and inputs.
 - Record architecture/vectorization/allocator/toolchain differences rather than attributing every effect to source changes.
 - Run sanitizer/leak/profiling checks separately from normal timing; record instrumentation.
-
-## Validate and report
-
-Build the intended optimized artifact and confirm nonempty workloads completed correctly. Use the shared workflow for repetitions, comparisons, raw metadata, shared entry points, and Python HTML reports.

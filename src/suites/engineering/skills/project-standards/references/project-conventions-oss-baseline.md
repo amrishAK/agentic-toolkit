@@ -6,15 +6,15 @@
 
 | Item | Requirement |
 |---|---|
-| `README.md` | Project summary per [project tracking](../../documentation/references/documentation-requirements-project-tracking.md), current status (link to the feature tracker when tracking is adopted), quick start, build/test commands, licence |
+| `README.md` | Project summary per [project tracking](../../../../../shared/skills/references/documentation/project-tracking.md), current status (link to the feature tracker when tracking is adopted), quick start, build/test commands, licence |
 | `LICENSE` | A user-confirmed OSI-approved licence for open-source projects; package metadata uses the same identifier and notices are preserved |
 | `.gitignore`, `.editorconfig` | Derive ignore rules from actual generated/local output without hiding intended files; set line endings, indentation, final newline |
 | Formatter config | Committed and checked in CI (for example `rustfmt.toml`, `.clang-format`) |
 | Linter | Run in CI with warnings treated as errors (for example clippy, clang-tidy or compiler warnings) |
 | CI | A workflow on pull requests and the default branch that calls the [shared entry point](./project-conventions-entry-points.md) |
 | `AGENTS.md` | Project guide, written and maintained with `project-standardizer` |
-| Feature tracker | `docs/status/features.md`, required by default; omit only by an explicit, confirmed project-specific rule. When adopted, keep it current per [project tracking](../../documentation/references/documentation-requirements-project-tracking.md) |
-| Docs | The [docs layout requirements](../../documentation/references/documentation-requirements-docs-layout.md); claims backed by evidence |
+| Feature tracker | `docs/status/features.md`, required by default; omit only by an explicit, confirmed project-specific rule. When adopted, keep it current per [project tracking](../../../../../shared/skills/references/documentation/project-tracking.md) |
+| Docs | The [docs layout requirements](../../../../../shared/skills/references/documentation/docs-layout.md); claims backed by evidence |
 | Commits | [Conventional Commits](./project-conventions-commits.md), checked by a commit-msg hook or a CI check |
 
 ## Stage 2 — before the first public release

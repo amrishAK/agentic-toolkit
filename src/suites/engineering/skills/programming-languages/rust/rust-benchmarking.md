@@ -5,9 +5,17 @@ description: "Use for Rust benchmark review, planning, implementation, execution
 
 # Rust benchmarking
 
+## When to use
+
+Use this skill for Rust benchmark review, planning, implementation, execution, or analysis.
+
+## Scope and boundaries
+
 Apply with the benchmark workflow; do not optimize production code or consume unapproved resources.
 
-## Measure
+## Procedure
+
+### Measure
 
 - Respect MSRV, bench profile, features/targets, allocator, panic strategy, and existing harness. Stable projects need not adopt nightly `#[bench]`.
 - Reuse installed Criterion or other tools. Confirm actual target/export/sampling semantics; `cargo bench` does not make harnesses statistically interchangeable.
@@ -18,6 +26,4 @@ Apply with the benchmark workflow; do not optimize production code or consume un
 - Use representative supported types/payloads and explicit concurrent work/contention; join/await workers.
 - Allocation counters have scope/allocator limitations and differ from process peak memory. Keep Miri/sanitizer/profiling/instrumented runs separate from ordinary timing.
 
-## Validate and report
-
-Confirm the intended artifact/configuration and nonempty correct workloads. Use supported feature sets, not indiscriminate all-features runs. Follow the shared workflow for repetitions, comparisons, raw metadata, shared entry points, and Python HTML reports.
+Use supported feature sets, not indiscriminate all-features runs.

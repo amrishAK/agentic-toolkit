@@ -1,15 +1,23 @@
 ---
 name: integration-test-workflow
-description: "Use when reviewing, designing, writing, or maintaining black-box integration tests. Covers real component boundaries, public contracts, dependency isolation, readiness, bounded waits, resource teardown, and targeted validation. Uses the programming language catalogue; not full-system E2E testing."
+description: "Use when reviewing, designing, writing, or maintaining black-box integration tests. Covers real component boundaries, public contracts, dependency isolation, readiness, bounded waits, resource teardown, and targeted validation. Uses the language-specific skill matrix; not full-system E2E testing."
 ---
 
 # Black-box integration-test workflow
 
+## When to use
+
+Use this skill when reviewing, designing, writing, or maintaining black-box integration tests.
+
+## Scope and boundaries
+
 Verify real components working together through their public contracts. Black-box describes how tests interact and assert, not a prohibition on reading source for planning or diagnosis. Integration tests need not launch the full application; complete deployed user journeys belong to a separate E2E workflow.
 
-Use this skill with the [programming language catalogue](../programming-languages/programming-language-catalog.md)'s **Integration testing** guidance for the relevant languages. It is self-contained and does not require the unit-test or code-quality skills.
+Use this skill with the [language-specific skill matrix](../../../../shared/skills/references/programming-language-matrix.md)'s **Integration testing** guidance for the relevant languages. It is self-contained and does not require the unit-test or code-quality skills.
 
-## 1. Define the boundary and scope
+## Procedure
+
+### 1. Define the boundary and scope
 
 - Identify review/design versus test-writing intent. Review-only work must not edit or create tracking artifacts; explicitly requested writing or combined work may proceed directly.
 - Read requirements, public APIs, relevant implementation, callers, existing tests, and configuration. Use intended contracts as the oracle, not merely current behavior.
@@ -19,7 +27,7 @@ Use this skill with the [programming language catalogue](../programming-language
 - Keep changes to tests, fixtures, necessary test registration, and directly related test documentation. Do not change production logic, public interfaces, dependencies, or shared infrastructure without explicit authorization.
 - Preserve unrelated work and ask only when material behavior, scope, or resource-safety decisions cannot be established.
 
-## 2. Choose realistic dependencies
+### 2. Choose realistic dependencies
 
 - Use real implementations across the boundary under test. For database-driver integration, for example, use the supported real database rather than a fake driver.
 - Use controlled substitutes for dependencies outside that boundary when necessary for isolation or failure control. State what they replace and what compatibility claims they cannot support.
@@ -27,7 +35,7 @@ Use this skill with the [programming language catalogue](../programming-language
 - Prefer local, hermetic environments where feasible. Do not access production services, public networks, credentials, or shared user data without explicit authorization.
 - If required infrastructure is unavailable, report the run as blocked or skipped under the project's explicit policy, not as verified behavior. Do not silently switch to mocks or turn missing prerequisites into passing tests.
 
-## 3. Select contract-driven scenarios
+### 3. Select contract-driven scenarios
 
 - Cover meaningful component interactions: successful flows, boundary inputs, defined failures, error propagation, state consistency, persistence/reopen behavior, and recovery where promised.
 - Overlap with unit tests is useful when it verifies different wiring or real dependency semantics. Avoid duplication that adds no confidence.
@@ -37,7 +45,7 @@ Use this skill with the [programming language catalogue](../programming-language
 - Do not deliberately invoke undefined behavior or exhaust real system resources. Use supported isolated boundary-level failure controls; explain unreachable failure scenarios rather than adding invasive production hooks.
 - Keep full-system E2E, stress, security-audit, and benchmark work separate unless explicitly requested.
 
-## 4. Isolate and manage resources
+### 4. Isolate and manage resources
 
 - Allocate test-owned temporary directories, databases/schemas, ports, processes, and service instances. Use unique namespaces for parallel runs and avoid global environment or working-directory changes where possible.
 - For transactions, verify that tested code shares the transaction before claiming rollback provides isolation. Use separate namespaces where it does not.
@@ -48,7 +56,7 @@ Use this skill with the [programming language catalogue](../programming-language
 - Never delete broad directories, reset shared databases, or stop processes by name. Cleanup must target known test-owned resources.
 - Capture useful logs, exit statuses, and dependency details without exposing secrets. Report teardown errors without masking the primary failure.
 
-## 5. Diagnose and validate
+### 5. Diagnose and validate
 
 - Diagnose contract failures, fixture defects, production bugs, and environmental failures separately. Do not weaken assertions, disable cases, or add retries just to obtain a green run.
 - Preserve correct regressions when production fixes are outside scope; report the failure and required correction.
@@ -57,7 +65,7 @@ Use this skill with the [programming language catalogue](../programming-language
 - Broaden testing when shared fixtures, configuration changes, or observed failures warrant it. Use existing supported instrumentation when relevant, not as a mandatory checklist.
 - State which configurations were exercised. Passing a local run does not certify every compiler, dependency version, feature, or platform.
 
-## 6. Report
+### 6. Report
 
 For reviews, provide concrete gaps or defects with file/item references, impact, and proposed scenarios. For applied work, report:
 

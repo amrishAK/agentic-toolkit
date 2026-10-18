@@ -22,6 +22,8 @@ User-agent folders apply to the Copilot harness. Legacy VS Code Local harness se
 make help
 make list
 make plan CLIENT=copilot SUITE=engineering SCOPE=user
+make plan SUITE=engineering LANGUAGE_SKILLS=exclude
+make plan SUITE=engineering SKILLS=code-quality-workflow,rust-code-quality
 ```
 
 `plan` resolves dependencies, checks destination conflicts, and prints generated paths without creating directories or files. `install` uses the same variables and performs the writes.
@@ -30,14 +32,18 @@ make plan CLIENT=copilot SUITE=engineering SCOPE=user
 |---|---|
 | `CLIENT` | Only `copilot` is currently accepted |
 | `SUITE` | Suite directory name; defaults to `engineering` |
-| `AGENT` | Optional agent name within the suite |
+| `AGENT` | Optional agent name within the suite or shared agents |
 | `SKILL` | Optional skill name within the suite or shared skills; mutually exclusive with `AGENT` |
+| `SKILLS` | Optional comma-separated skill names within the suite or shared skills; mutually exclusive with `AGENT` and `SKILL` |
+| `LANGUAGE_SKILLS` | `include` (default) or `exclude`; applies only to full-suite selection. Other values fail explicitly. |
 | `SCOPE` | `user` or `workspace`; defaults to `user` |
 | `WORKSPACE` | Existing project directory; required for workspace scope unless staging |
 | `DESTDIR` | Optional exact installation root, replacing `.copilot` or `.github`, for staging |
 | `PYTHON` | Python executable used by Make |
 
-Omit `AGENT` and `SKILL` to install all agents and skills in a suite. Single-agent selection installs that agent plus transitively linked skills, catalogues, templates, and references, including shared guidance. Catalogues can link most of the skill collection; selection is not a promise of a small skill count. Cycles are resolved once. Skill selection does not install unrelated agents.
+Omit `AGENT`, `SKILL`, and `SKILLS` to install all agents and skills in a suite, including shared agents. A shared agent can also be selected by name with any suite. Single-agent selection installs that agent plus its required linked skills, catalogues, templates, and references, including shared guidance. Catalogue links are navigational: they do not pull in every listed skill. Installed catalogues link selected or otherwise-required skill definitions locally and link other entries to their maintained source. When the selection workflow is included, each installation renders its matrix from the current maintained source; installation does not modify that source. `SKILL` installs one skill; `SKILLS` installs several selected skills and their required linked resources. Cycles are resolved once. Skill selection does not install unrelated agents.
+
+For full-suite selection, `LANGUAGE_SKILLS=include` preserves the default behavior. Set `LANGUAGE_SKILLS=exclude` to omit skill definitions sourced under `src/suites/<suite>/skills/programming-languages/`, unless explicitly required by selected definitions. Other suite/shared agents, skills, and their linked resources remain included. Language-matrix navigation does not pull excluded skill definitions back in; unavailable entries link to their maintained source. Targeted `AGENT`, `SKILL`, and `SKILLS` selections always install the requested definitions and dependencies regardless of this option.
 
 ## Install examples
 
@@ -45,8 +51,12 @@ User installation, on either platform:
 
 ```text
 make install SUITE=engineering SCOPE=user
+make install SUITE=engineering LANGUAGE_SKILLS=exclude SCOPE=user
 make install SUITE=engineering AGENT=benchmark-engineer SCOPE=user
 make install SUITE=engineering SKILL=agent-output-standardization SCOPE=user
+make plan SUITE=engineering SKILLS=code-quality-workflow,rust-code-quality
+make install SUITE=engineering SKILLS=code-quality-workflow,rust-code-quality
+make install SUITE=engineering SKILL=rust-code-quality LANGUAGE_SKILLS=exclude
 ```
 
 Workspace installation from Windows PowerShell:
@@ -77,9 +87,9 @@ Use a dedicated staging directory, not a home directory or repository root. The 
 
 ## Generated resources and updates
 
-Metadata and tool aliases are preserved. Relative Markdown file links outside code examples are rewritten, including heading fragments. Owner-prefixed templates and references are placed with their skills; catalogues and other navigation resources retain source-relative paths under `agentic-toolkit/resources`. Linked repository documentation is included as a snapshot with its outbound links pointing to the online repository, rather than expanding installation to the whole repository. The MIT license is included under `agentic-toolkit`.
+Metadata and tool aliases are preserved. Relative Markdown file links outside code examples are rewritten, including heading fragments. Owner-prefixed templates and references are placed with their skills; common references such as the [documentation references](../src/shared/skills/references/documentation/), and other navigation resources, retain source-relative paths under `agentic-toolkit/resources`. Linked repository documentation is included as a snapshot with its outbound links pointing to the online repository, rather than expanding installation to the whole repository. The MIT license is included under `agentic-toolkit`.
 
-The installer discovers definitions from source frontmatter and follows Markdown file links; the human-readable catalogues are not a second installation manifest. Sources currently use inline Markdown links. New dependency-link syntax needs corresponding installer support and tests.
+The installer discovers definitions from source frontmatter and follows required Markdown file links. Links from the maintained skill and documentation matrices to skill definitions are treated as navigation, not dependencies; the installer keeps available entries local and points unavailable entries back to their maintained source. The human-readable catalogues are not a second installation manifest. Sources currently use inline Markdown links. New dependency-link syntax needs corresponding installer support and tests.
 
 ## Shared engine and client adapters
 
@@ -99,6 +109,8 @@ For direct Python invocation, use `python -B -m scripts.install plan` from the r
 ## Update safety
 
 An ownership manifest, `.agentic-toolkit.json`, records generated relative paths and content hashes. Re-running the same command updates unmodified managed files and leaves unchanged files untouched. Additional selections are additive: previously installed agents and skills remain. Removed or renamed source definitions are not pruned; uninstall and migration from manually copied definitions are not provided.
+
+Switching an existing installation to `LANGUAGE_SKILLS=exclude` does not remove previously installed language skills. The option controls the current selection, not cleanup; use a fresh staging directory to preview an exclude-only layout.
 
 An unmanaged name collision or locally modified generated file stops installation before generated-file writes. Preserve or move the conflicting file before retrying; do not delete the ownership manifest to bypass the check. Unrelated files are left alone. The manifest records ownership, not a signature or security boundary.
 

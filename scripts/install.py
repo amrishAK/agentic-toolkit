@@ -26,6 +26,11 @@ from scripts.utils import (
 ROOT = Path(__file__).resolve().parent.parent
 MANIFEST = ".agentic-toolkit.json"
 REPOSITORY = "https://github.com/amrishAK/agentic-toolkit/blob/HEAD/"
+CATALOGUES = {
+    "documentation-matrix.md",
+    "programming-language-matrix.md",
+    "skill-selection-workflow-matrix.md",
+}
 
 
 def inventory(root: Path) -> dict[Path, tuple[str, str]]:
@@ -35,7 +40,7 @@ def inventory(root: Path) -> dict[Path, tuple[str, str]]:
         fields = metadata(path)
         if not fields:
             continue
-        kind = "agents" if path.parent.name == "agents" else "skills"
+        kind = "agents" if "agents" in path.relative_to(root / "src").parts else "skills"
         key = kind, fields["name"]
         if key in names:
             raise InstallError(f"Duplicate {kind} name: {key[1]}")
@@ -64,25 +69,74 @@ def output_path(
 
 def render(
     root: Path, suite: str, agent: str = "", skill: str = "",
-    *, client: ClientAdapter = DEFAULT_CLIENT,
+    *, skills: tuple[str, ...] = (), language_skills: str = "include",
+    client: ClientAdapter = DEFAULT_CLIENT,
 ) -> dict[Path, bytes]:
+    if language_skills not in {"include", "exclude"}:
+        raise InstallError("LANGUAGE_SKILLS must be include or exclude.")
     definitions = inventory(root)
     suite_root = root / "src" / "suites" / suite
+    language_skills_root = suite_root / "skills" / "programming-languages"
     if not NAME.fullmatch(suite) or not suite_root.is_dir():
         raise InstallError(f"Unknown suite: {suite!r}")
-    if agent and skill:
-        raise InstallError("Select AGENT or SKILL, not both.")
+    if sum(bool(selection) for selection in (agent, skill, skills)) > 1:
+        raise InstallError("Select only one of AGENT, SKILL, or SKILLS.")
+    if len(set(skills)) != len(skills) or any(not NAME.fullmatch(name) for name in skills):
+        raise InstallError("SKILLS must contain unique, valid skill names.")
+    selected_names = set(skills)
+    if skill:
+        selected_names.add(skill)
+    shared_agents_root = root / "src" / "shared" / "agents"
+    available_agents = {
+        name
+        for path, (kind, name) in definitions.items()
+        if kind == "agents"
+        and (
+            path.is_relative_to(suite_root)
+            or path.is_relative_to(shared_agents_root)
+        )
+    }
+    if agent and agent not in available_agents:
+        raise InstallError(f"Unknown agent {agent!r} for suite {suite!r}")
+    available_skills = {
+        name
+        for path, (kind, name) in definitions.items()
+        if kind == "skills"
+        and (
+            path.is_relative_to(suite_root)
+            or path.is_relative_to(root / "src" / "shared")
+        )
+    }
+    unknown_skills = selected_names - available_skills
+    if unknown_skills:
+        raise InstallError(
+            f"Unknown skill(s) for suite {suite!r}: {', '.join(sorted(unknown_skills))}"
+        )
+    # Filter suite seeds only; targeted selections and dependency traversal stay intact.
     selected = [
         path
         for path, (kind, name) in definitions.items()
         if (
-            (not agent and not skill and path.is_relative_to(suite_root))
-            or (
-                agent and kind == "agents" and name == agent
-                and path.is_relative_to(suite_root)
+            (
+                not agent and not skill and not skills
+                and (
+                    path.is_relative_to(suite_root)
+                    or path.is_relative_to(shared_agents_root)
+                )
+                and not (
+                    language_skills == "exclude" and kind == "skills"
+                    and path.is_relative_to(language_skills_root)
+                )
             )
             or (
-                skill and kind == "skills" and name == skill
+                agent and kind == "agents" and name == agent
+                and (
+                    path.is_relative_to(suite_root)
+                    or path.is_relative_to(shared_agents_root)
+                )
+            )
+            or (
+                name in selected_names and kind == "skills"
                 and (
                     path.is_relative_to(suite_root)
                     or path.is_relative_to(root / "src" / "shared")
@@ -91,42 +145,68 @@ def render(
         )
     ]
     if not selected:
-        raise InstallError(f"No definitions match suite={suite!r}, agent={agent!r}, skill={skill!r}")
+        raise InstallError(
+            f"No definitions match suite={suite!r}, agent={agent!r}, "
+            f"skill={skill!r}, skills={','.join(skills)!r}"
+        )
     pending = list(selected)
-    files: dict[Path, bytes] = {}
+    sources: set[Path] = set()
     visited: set[Path] = set()
     while pending:
         source = pending.pop()
         if source in visited:
             continue
         visited.add(source)
+        text = source.read_text(encoding="utf-8")
+        sources.add(source)
+        if not source.is_relative_to(root / "src"):
+            continue
+        for match in markdown_links(text):
+            resolved = local_link(source, match[2], root)
+            if resolved is None:
+                continue
+            target, _ = resolved
+            if (
+                source.name in CATALOGUES
+                and target in definitions
+                and definitions[target][0] == "skills"
+            ):
+                continue
+            if not target.is_file():
+                raise InstallError(f"Source dependency must be a file: {source}: {match[2]}")
+            pending.append(target)
+
+    files: dict[Path, bytes] = {}
+    for source in sorted(sources):
         destination = output_path(source, definitions, root, client)
         text = source.read_text(encoding="utf-8")
         if source in definitions:
             text = client.translate_definition(definitions[source][0], text)
-
-        def rewrite(match: re.Match[str]) -> str:
-            resolved = local_link(source, match[2], root)
-            if resolved is None:
-                return match[0]
-            target, suffix = resolved
-            if not source.is_relative_to(root / "src"):
-                # Repository documentation is a snapshot, not a dependency registry.
-                link = REPOSITORY + quote(target.relative_to(root).as_posix()) + suffix
-            else:
-                if not target.is_file():
-                    raise InstallError(f"Source dependency must be a file: {source}: {match[2]}")
-                pending.append(target)
-                relative = os.path.relpath(
-                    output_path(target, definitions, root, client), destination.parent
-                )
-                link = quote(Path(relative).as_posix()) + suffix
-            return match[1] + link + match[3]
-
         chunks: list[str] = []
         offset = 0
         for match in markdown_links(text):
-            chunks.extend((text[offset:match.start()], rewrite(match)))
+            chunks.append(text[offset:match.start()])
+            resolved = local_link(source, match[2], root)
+            if resolved is None:
+                chunks.append(match[0])
+            else:
+                target, suffix = resolved
+                if not source.is_relative_to(root / "src"):
+                    # Repository documentation is a snapshot, not a dependency registry.
+                    link = REPOSITORY + quote(target.relative_to(root).as_posix()) + suffix
+                elif (
+                    source.name in CATALOGUES
+                    and target in definitions
+                    and definitions[target][0] == "skills"
+                    and target not in sources
+                ):
+                    link = REPOSITORY + quote(target.relative_to(root).as_posix()) + suffix
+                else:
+                    relative = os.path.relpath(
+                        output_path(target, definitions, root, client), destination.parent
+                    )
+                    link = quote(Path(relative).as_posix()) + suffix
+                chunks.append(match[1] + link + match[3])
             offset = match.end()
         chunks.append(text[offset:])
         translated = "".join(chunks).encode("utf-8")
@@ -135,6 +215,17 @@ def render(
         files[destination] = translated
     files[Path("agentic-toolkit") / "LICENSE"] = (root / "LICENSE").read_bytes()
     return files
+
+
+def parse_skills(value: str) -> tuple[str, ...]:
+    if not value:
+        return ()
+    skills = tuple(name.strip() for name in value.split(","))
+    if any(not name for name in skills):
+        raise InstallError("SKILLS must be a comma-separated list of skill names.")
+    if len(set(skills)) != len(skills) or any(not NAME.fullmatch(name) for name in skills):
+        raise InstallError("SKILLS must contain unique, valid skill names.")
+    return skills
 
 
 def preflight(destination: Path, files: dict[Path, bytes]) -> dict[str, str]:
@@ -228,7 +319,11 @@ def main() -> int:
         print(
             "make list | plan | install | check\n"
             f"  CLIENT={'|'.join(sorted(CLIENTS))} SCOPE=user|workspace SUITE=engineering\n"
-            "  AGENT=<name> or SKILL=<name> (omit both for a suite)\n"
+            "  AGENT=<name> (suite or shared), SKILL=<name>, or SKILLS=<name,name>\n"
+            "  Omit selections to install a suite\n"
+            "  LANGUAGE_SKILLS=include|exclude (default include; full suite only)\n"
+            "  Exclude skips programming-languages skills, not required dependencies;\n"
+            "  AGENT, SKILL, and SKILLS selections are unaffected.\n"
             "  WORKSPACE=<existing project> (required for workspace scope)\n"
             "  DESTDIR=<installation root> (optional staging override)\n"
             "  PYTHON=<Python 3.10+ executable>\n"
@@ -249,6 +344,8 @@ def main() -> int:
         return 0
     files = render(
         ROOT, suite, os.environ.get("AGENT", ""), os.environ.get("SKILL", ""),
+        skills=parse_skills(os.environ.get("SKILLS", "")),
+        language_skills=os.environ.get("LANGUAGE_SKILLS", "include"),
         client=client,
     )
     destination = destination_path(

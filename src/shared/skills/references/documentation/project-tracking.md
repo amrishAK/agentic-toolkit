@@ -46,4 +46,12 @@ Updated: YYYY-MM-DD
 - Feature state records what is implemented; feature references own detailed contracts and open design questions.
 - Roadmap records high-level direction. Release documents own milestone scope, gates, progress and candidate evidence; an implemented feature is not itself a passed release gate.
 - Product overview owns vision, intended usage and boundaries, not mutable status tables or unresolved decisions.
-- Use the [roadmap and known-issues guidance](./documentation-requirements-roadmap-known-issues.md), [product overview outline](./documentation-requirements-product-overview.md), and [release document outline](./documentation-requirements-release-docs.md) for those document types. Update each affected owner in the same change without copying its mutable tables into other documents.
+- Use the [roadmap and known-issues guidance](roadmap-known-issues.md), [product overview outline](product-overview.md), and [release document outline](release-docs.md) for those document types. Update each affected owner in the same change without copying its mutable tables into other documents.
+
+## Review and validation
+
+- Check that the README summary has three to five sentences covering purpose, audience, problem, and current stage, and that the one- or two-sentence `AGENTS.md` summary agrees without introducing a different scope or stage.
+- For an adopted tracker, verify each row uses an allowed state and an appropriate target; compare `In progress` and `Done` with current implementation and test evidence, and confirm `Planned` has a design link and `Not planned` reflects an adopted rejection or non-goal. Refresh the `Updated` date when tracker content changes, and ensure links still resolve and support the recorded state.
+- Compare implementation states with current code and tests, not with feature-document decision status or release-gate status. Recheck evidence when implementation or linked tests change; `Done` requires working code and tests.
+- Treat a missing tracker as an omission unless authoritative project guidance explicitly confirms an opt-out. Do not create or link one when that confirmed opt-out applies.
+- Check local links and heading fragments in the summary and tracker.

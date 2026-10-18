@@ -5,22 +5,32 @@ description: "Use for authorized security review and threat modeling with a read
 
 # Read-only security review
 
-## Scope and evidence
+## When to use
+
+Use this skill for authorized security review and threat modeling with a read-only assessment phase.
+
+## Scope and boundaries
+
+This is a read-only assessment workflow. It does not authorize active probing or direct remediation.
+
+## Procedure
+
+### Scope and evidence
 
 - Establish the authorized source revision/diff or system boundary, deployment assumptions and assets. Read project policies and relevant contracts.
 - Read source/configuration and trace attacker-controlled inputs through trust boundaries to sensitive operations. Consider authentication/authorization, injection, filesystem/process access, unsafe memory/lifetimes, cryptography, sensitive data, dependency/configuration risks and resource exhaustion only where applicable.
-- Use the [programming language catalogue](../programming-languages/programming-language-catalog.md)'s **Code quality** guidance for relevant language-specific issues, including managed-runtime and serialization/reflection boundaries where applicable. Use [architecture guidance](../design-and-planning/architecture-workflow.md) for cross-component boundaries.
+- Use the [language-specific skill matrix](../../../../shared/skills/references/programming-language-matrix.md)'s **Code quality** guidance for relevant language-specific issues, including managed-runtime and serialization/reflection boundaries where applicable. Use [architecture guidance](../design-and-planning/architecture-workflow.md) for cross-component boundaries.
 - Do not expose secret values or copy private material into external tools. Report location/type and necessary redacted evidence only.
 - External documentation lookup must use public generic identifiers, not private code or internal details.
 
-## Assess findings
+### Assess findings
 
 - Verify the actual call path, attacker prerequisites, existing defenses and practical impact. Distinguish reachable vulnerabilities from hardening recommendations and unsupported hypotheses.
 - Provide precise location, triggering conditions, trust-boundary violation, impact, confidence and a focused remediation recommendation. Avoid duplicate findings for one root cause.
 - Use critical/high/medium/low based on demonstrated impact and exploitability. Label missing evidence and conditional assumptions; do not equate a suspicious API or advisory with an exploitable path.
 - Static inspection is not a proof of exploitability or absence of vulnerabilities. Separate inspected evidence, supplied test results and checks not run.
 
-## Boundaries and report
+### Boundaries and report
 
 - Return scope, limitations and findings in the response. During assessment do not delegate edits. Never directly edit files, persist reports, execute commands, install scanners, send payloads, access credentials, change data or probe running systems.
 - Suggest safe bounded validation for a separately authorized executor if runtime evidence is needed. Do not fabricate a reproduction result or use an unauthorized target.

@@ -5,9 +5,17 @@ description: "Use for black-box C# integration test review, design, or implement
 
 # C# integration testing
 
+## When to use
+
+Use this skill for black-box C# integration test review, design, or implementation.
+
+## Scope and boundaries
+
 Apply with the integration-test workflow. Preserve production behavior and public interfaces unless explicitly authorized.
 
-## Test
+## Procedure
+
+### Test
 
 - Respect the supported SDK, target frameworks, test framework, platform, and integration-test conventions.
 - Exercise real components through public APIs and configured dependency-injection or hosting boundaries. Do not expose internals or add test-only production APIs to bypass the boundary.
@@ -18,7 +26,7 @@ Apply with the integration-test workflow. Preserve production behavior and publi
 - Respect parallel execution. Avoid process-wide environment or static-state changes unless controlled and restored; isolate any resource that cannot safely be shared.
 - Keep full user journeys across the deployed application boundary in end-to-end testing rather than labeling them component integration.
 
-## Validate
+### Validate
 
 Build the real components and registered test targets for the intended framework(s). Run the selected cases, confirm dependencies became ready and scenarios executed, and report substitutes and cleanup status.
 

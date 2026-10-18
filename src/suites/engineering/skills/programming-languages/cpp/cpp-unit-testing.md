@@ -5,9 +5,17 @@ description: "Use for reviewing, designing, writing, or maintaining C++ unit tes
 
 # C++ unit testing
 
+## When to use
+
+Use this skill for reviewing, designing, writing, or maintaining C++ unit tests.
+
+## Scope and boundaries
+
 Apply with the unit-test workflow. Keep production logic/interfaces unchanged unless explicitly authorized.
 
-## Test
+## Procedure
+
+### Test
 
 - Respect standard/compiler/platform, exception policy, and installed framework version. Reuse Google Test, Catch2, doctest, or project harness without stale boilerplate.
 - Use RAII fixtures; join workers and restore injected state on assertion/exception paths.
@@ -19,7 +27,7 @@ Apply with the unit-test workflow. Keep production logic/interfaces unchanged un
 - Prefer behavior assertions; mock ordering only when contractual. Use floating-point tolerances justified by the contract.
 - Keep uncontrolled wall-clock performance gates out of ordinary unit tests.
 
-## Validate
+### Validate
 
 Register/build/run affected targets and template instantiations in supported configurations; confirm cases actually executed.
 
