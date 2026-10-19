@@ -1,0 +1,12 @@
+schema_version: "1.0.0"
+name: review-and-security
+depends_on: [core]
+version: "0.1.0"
+description: Change readiness and authorized source security review guidance.
+agents:
+  - change-reviewer
+  - security-reviewer
+skills:
+  - review-workflow
+  - security-review-workflow
+  - change-delivery-workflow

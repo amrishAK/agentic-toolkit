@@ -1,0 +1,13 @@
+schema_version: "1.0.0"
+name: project-standards
+depends_on: [core]
+version: "0.1.0"
+description: Repository setup, conventions, structure, and project guidance.
+agents:
+  - project-standardizer
+skills:
+  - project-conventions
+  - project-rules-workflow
+references:
+  - src/skills/documentation/references/documentation/community-docs.md
+  - src/skills/documentation/references/documentation/project-tracking.md

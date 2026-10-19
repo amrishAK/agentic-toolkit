@@ -1,0 +1,28 @@
+schema_version: "1.0.0"
+name: programming-languages
+version: "0.1.0"
+description: C, C++, C#, and Rust code quality, testing, benchmarking, and source documentation guidance.
+agents: []
+skills:
+  - c-benchmarking
+  - c-code-quality
+  - c-integration-testing
+  - c-source-documentation
+  - c-unit-testing
+  - cpp-benchmarking
+  - cpp-code-quality
+  - cpp-integration-testing
+  - cpp-source-documentation
+  - cpp-unit-testing
+  - csharp-benchmarking
+  - csharp-code-quality
+  - csharp-integration-testing
+  - csharp-source-documentation
+  - csharp-unit-testing
+  - rust-benchmarking
+  - rust-code-quality
+  - rust-integration-testing
+  - rust-source-documentation
+  - rust-unit-testing
+references:
+  - src/skills/programming-languages/references/programming-language-matrix.md

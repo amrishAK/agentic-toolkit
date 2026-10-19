@@ -14,7 +14,7 @@ Agent guidance is often written into personal client configurations. As collecti
 - **Guidance that composes.** Separate role responsibilities from reusable methods, so people can combine the right expertise and workflow for a task without loading an entire collection.
 - **Clear routes through the collection.** Organize guidance so users can start from a task or role and find the relevant skills and supporting material.
 - **A path from source to use.** Make it practical to select and install guidance into an agent client, while keeping the source as the place to make and review changes.
-- **Portability as a direction.** Over time, client-specific adapters could make the same maintained guidance usable in more clients. Each client would need explicit support; shared sources alone do not provide compatibility.
+- **Portability as a direction.** Over time, client-specific adapters could make the same maintained guidance usable in more clients. Each client would need explicit support; source organization alone does not provide compatibility.
 
 ## Intended user workflow
 

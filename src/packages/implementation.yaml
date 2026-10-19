@@ -1,0 +1,11 @@
+schema_version: "1.0.0"
+name: implementation
+depends_on: [core]
+version: "0.1.0"
+description: Code implementation, debugging, and shared Engineering task guidance.
+agents:
+  - code-engineer
+skills:
+  - code-quality-workflow
+  - debugging-workflow
+  - engineering-task-workflow

@@ -4,12 +4,12 @@ Use this guide to create or reorganize maintained skill definitions in `src/`. I
 
 ## Source and installed layout
 
-Maintain each skill as a Markdown file named after the skill:
+Maintain each skill as a Markdown file named after the skill, under a category directory:
 
-- Shared skills: `src/shared/skills/<skill-name>.md`
-- Suite-specific skills: `src/suites/<suite>/skills/<category>/<skill-name>.md`
+- Skills: `src/skills/<category>/<skill-name>.md`
+- Suite membership: `src/suites/<suite>.yaml`, which lists canonical agent and skill names and suite metadata.
 
-For example, `src/suites/engineering/skills/testing/unit-test-workflow.md` is installed as `skills/unit-test-workflow/SKILL.md`. The installer uses the definition name for the installed skill directory and does not install the source category structure.
+For example, `src/skills/testing/unit-test-workflow.md` is installed as `skills/unit-test-workflow/SKILL.md`. Source categories organize definitions but do not determine suite membership or appear in the installed skill directory.
 
 ## Metadata
 

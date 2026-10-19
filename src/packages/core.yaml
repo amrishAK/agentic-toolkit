@@ -1,0 +1,18 @@
+schema_version: "1.0.0"
+name: core
+version: "0.1.0"
+description: Shared documentation agents and output, documentation, and guidance-selection skills for every functional package.
+agents:
+  - source-documentation-writer
+  - technical-documentation-writer
+skills:
+  - agent-output-standardization
+  - skill-selection-workflow
+  - documentation-selection-workflow
+  - technical-documentation-workflow
+references:
+  - src/skills/agent-workflows/references/skill-selection-workflow-matrix.md
+  - src/skills/documentation/references/documentation-matrix.md
+  - src/skills/documentation/references/documentation/docs-layout.md
+  - src/skills/documentation/references/documentation/documentation-rules.md
+  - src/skills/documentation/references/documentation/technical-guides.md

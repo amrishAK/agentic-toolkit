@@ -6,7 +6,8 @@ Entries marked **Proposed V2** describe future direction, not current repository
 
 | Term | Meaning and usage |
 |---|---|
-| **Suite** | A maintained grouping of agent and skill definitions. Identify future groupings as proposed, not available. |
+| **Suite** | A maintained grouping of agent and skill definitions listed in a YAML manifest under `src/suites/`. Source categories organize definitions but do not determine suite membership. Identify future groupings as proposed, not available. |
+| **Installation package** | A versioned functional grouping of agents and skills explicitly listed under `src/packages/` and selected with `PACKAGE=<name>`. Uses the shared installer; distinct from a language pack or remote package registry. |
 | **Agent client** | The external environment that may discover or run agent definitions and provides their runtime, available tools, and permissions. Source layout alone does not establish client support or behavior. |
 | **Agent definition** | Maintained instructions describing an agent role and its boundaries. |
 | **Skill definition** | Maintained reusable task guidance, distinct from agent role instructions. |

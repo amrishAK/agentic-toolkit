@@ -21,7 +21,7 @@ Ask the agent to identify missing or conflicting information before it draws con
 
 The three-stage model below is future direction, not an automatic route through the toolkit. For work covered today, start with the current [Engineering suite guide](../suites/engineering.md), which links to maintained roles and workflows. Product planning is available through the Engineering `product-planner` role; it is not a separate Product Management suite.
 
-For an authorized source security review, use the [security-reviewer role](../../src/suites/engineering/agents/security-reviewer.md) and its [security review workflow](../../src/suites/engineering/skills/review-and-security/security-review-workflow.md). Assessment is read-only: it does not include command execution, active probing, or direct remediation. Fixes require an explicit selection and delegated editing; if the client cannot support that delegation, the reviewer must report the limitation rather than edit directly.
+For an authorized source security review, use the [security-reviewer role](../../src/agents/review-and-security/security-reviewer.md) and its [security review workflow](../../src/skills/review-and-security/security-review-workflow.md). Assessment is read-only: it does not include command execution, active probing, or direct remediation. Fixes require an explicit selection and delegated editing; if the client cannot support that delegation, the reviewer must report the limitation rather than edit directly.
 
 ## Use the proposed lifecycle model
 

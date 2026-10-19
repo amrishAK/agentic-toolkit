@@ -12,6 +12,7 @@ For terminology and source-authoring requirements, see the [reference guides](re
 - [Definition authoring](reference/definition-authoring.md): content ownership and requirements for agents, skills, references, templates, and catalogues.
 - [Agent definition structure](reference/agent-definition-structure.md): recommended organization, metadata, and a copy-ready starter for maintained agent sources.
 - [Skill definition structure](reference/skill-definition-structure.md): maintained skill source layout, generated installation layout, and a copy-ready starter.
+- [Manifest schemas](reference/manifest-schemas.md): versioned manifest contracts, validation, cross-file checks, and current source-layout boundaries.
 
 ## Proposals
 
@@ -30,14 +31,14 @@ Separate early-stage proposals for a Learning and Research Workspace, a Learning
 
 | Suite | Guide | Coverage |
 |---|---|---|
-| Engineering | [Engineering suite](suites/engineering.md) | Agent responsibilities, skill categories, shared guidance, and task handoffs |
+| Engineering | [Engineering suite](suites/engineering.md) | Agent responsibilities, skill categories, and task handoffs |
 
 Only suites with maintained content are documented. Research, standalone product, and everyday-assistance suites are not currently present.
 
 ## Shared agents
 
-- [Technical documentation writer](../src/shared/agents/review/technical-documentation-writer.md): reviews, writes, and updates project documentation using the documentation-selection workflow and applicable document-type rules.
+- [Technical documentation writer](../src/agents/documentation/technical-documentation-writer.md): reviews, writes, and updates project documentation using the documentation-selection workflow and applicable document-type rules.
 
-For task-to-skill selection, use the shared [skill selection workflow](../src/shared/skills/skill-selection-workflow.md) and its [Engineering category-level selection matrix](../src/shared/skills/references/skill-selection-workflow-matrix.md). Language-specific Engineering selection is delegated to the [Engineering language-specific skill matrix](../src/shared/skills/references/programming-language-matrix.md).
+For task-to-skill selection, use the shared [skill selection workflow](../src/skills/agent-workflows/skill-selection-workflow.md) and its [Engineering category-level selection matrix](../src/skills/agent-workflows/references/skill-selection-workflow-matrix.md). Language-specific Engineering selection is delegated to the [Engineering language-specific skill matrix](../src/skills/programming-languages/references/programming-language-matrix.md).
 
 The guides explain how to navigate the sources; they are not client installation instructions. Agent and skill definitions remain authoritative for their detailed contracts. Update the relevant guide when changing suite responsibilities or organization.

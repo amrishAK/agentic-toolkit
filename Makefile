@@ -9,14 +9,16 @@ endif
 CLIENT ?= copilot
 SCOPE ?= user
 SUITE ?= engineering
+PACKAGE ?=
 AGENT ?=
 SKILL ?=
 SKILLS ?=
 LANGUAGE_SKILLS ?= include
+OPTIONAL_PACKAGES ?= include
 WORKSPACE ?=
 DESTDIR ?=
 
-export CLIENT SCOPE SUITE AGENT SKILL SKILLS LANGUAGE_SKILLS WORKSPACE DESTDIR
+export CLIENT SCOPE SUITE PACKAGE AGENT SKILL SKILLS LANGUAGE_SKILLS OPTIONAL_PACKAGES WORKSPACE DESTDIR
 
 .PHONY: help list plan install check
 
@@ -33,4 +35,5 @@ install:
 	@"$(PYTHON)" -B -m scripts.install install
 
 check:
+	@"$(PYTHON)" -B -m scripts.validate_manifests
 	@"$(PYTHON)" -B -m unittest discover -s tests -v

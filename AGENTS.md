@@ -16,18 +16,18 @@ Agentic Toolkit maintains reusable agent and skill Markdown sources independentl
 | [Repository glossary](docs/reference/glossary.md) | Canonical terms for maintained docs, agent definitions, skills, and catalogues | Creating or updating repository guidance |
 | [Definition authoring](docs/reference/definition-authoring.md) | Content ownership and requirements for agent, skill, reference, template, and catalogue sources | Creating or updating agent/skill definitions and supporting resources |
 | [Engineering-suite guide](docs/suites/engineering.md) | Role selection, skill categories, and handoffs | Changing suite responsibilities or organization |
-| [Engineering agents](src/suites/engineering/agents/) | Maintained role definitions | Changing agent behavior or guidance routing |
-| [Engineering skills](src/suites/engineering/skills/) | Categorized engineering workflow definitions and resources | Changing engineering guidance |
-| [Engineering task workflow](src/suites/engineering/skills/implementation/engineering-task-workflow.md) | Shared Engineering task cycle and terminology | Changing or applying Engineering guidance |
-| [Skill selection workflow](src/shared/skills/skill-selection-workflow.md) | Shared method for selecting relevant skills for a task or operation | Changing or applying skill-selection guidance |
-| [Engineering skill selection matrix](src/shared/skills/references/skill-selection-workflow-matrix.md) | Engineering-specific category inventory and task routing used by the shared selection workflow | Adding Engineering skills or selecting task workflows |
-| [Engineering language-specific skill matrix](src/shared/skills/references/programming-language-matrix.md) | Language inventory and task-to-skill routing | Adding language guidance or selecting language-specific skills |
-| [Shared skills](src/shared/skills/) | Reusable skill selection, output, and selected-change coordination guidance | Changing guidance consumed across suites |
+| [Agents by function](src/agents) | Maintained role definitions organized by functional category | Changing agent behavior or guidance routing |
+| [Engineering skills](src/skills) | Categorized engineering workflow definitions and resources | Changing engineering guidance |
+| [Engineering task workflow](src/skills/implementation/engineering-task-workflow.md) | Common Engineering task cycle and terminology | Changing or applying Engineering guidance |
+| [Skill selection workflow](src/skills/agent-workflows/skill-selection-workflow.md) | Method for selecting relevant skills for a task or operation | Changing or applying skill-selection guidance |
+| [Engineering skill selection matrix](src/skills/agent-workflows/references/skill-selection-workflow-matrix.md) | Engineering-specific category inventory and task routing used by the skill selection workflow | Adding Engineering skills or selecting task workflows |
+| [Engineering language-specific skill matrix](src/skills/programming-languages/references/programming-language-matrix.md) | Language inventory and task-to-skill routing | Adding language guidance or selecting language-specific skills |
+| [Cross-cutting Engineering skills](src/skills/agent-workflows) | Reusable skill selection, output, and selected-change coordination guidance | Changing guidance used across Engineering tasks |
 | [License](LICENSE) | MIT terms and copyright | Changing licensing or distributing sources |
 
 Read task-relevant definitions and their linked resources before editing. Definitions are maintained content, not automatically active repository instructions; their tool declarations do not grant this session permissions.
 
-When creating or changing repository documentation, agent definitions, skills, or catalogues, follow the [repository glossary](docs/reference/glossary.md). For source-file ownership and content, follow [definition authoring](docs/reference/definition-authoring.md). When applying or changing Engineering guidance, also use the shared [Engineering task workflow](src/suites/engineering/skills/implementation/engineering-task-workflow.md) for common task framing. The active role and its specialist workflows still own permissions and detailed methods.
+When creating or changing repository documentation, agent definitions, skills, or catalogues, follow the [repository glossary](docs/reference/glossary.md). For source-file ownership and content, follow [definition authoring](docs/reference/definition-authoring.md). When applying or changing Engineering guidance, also use the [Engineering task workflow](src/skills/implementation/engineering-task-workflow.md) for common task framing. The active role and its specialist workflows still own permissions and detailed methods.
 
 ## Editing boundaries
 

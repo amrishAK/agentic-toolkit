@@ -1,0 +1,14 @@
+schema_version: "1.0.0"
+name: testing
+depends_on: [core]
+version: "0.1.0"
+description: Unit, integration, end-to-end, and fuzz testing guidance.
+agents:
+  - unit-tester
+  - integration-tester
+  - e2e-tester
+skills:
+  - unit-test-workflow
+  - integration-test-workflow
+  - e2e-test-workflow
+  - fuzz-testing-workflow

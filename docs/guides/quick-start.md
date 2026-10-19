@@ -4,13 +4,13 @@ Use this guide to find and use maintained Agentic Toolkit guidance for an Engine
 
 ## 1. Choose a starting point
 
-You can browse the maintained definitions without installing them. Start with the [Engineering suite guide](../suites/engineering.md) to find a role or task workflow, or use the [skill selection workflow](../../src/shared/skills/skill-selection-workflow.md) and its [Engineering task matrix](../../src/shared/skills/references/skill-selection-workflow-matrix.md) to select relevant guidance.
+You can browse the maintained definitions without installing them. Start with the [Engineering suite guide](../suites/engineering.md) to find a role or task workflow, or use the [skill selection workflow](../../src/skills/agent-workflows/skill-selection-workflow.md) and its [Engineering task matrix](../../src/skills/agent-workflows/references/skill-selection-workflow-matrix.md) to select relevant guidance.
 
 Choose an agent when you need a role with defined responsibilities and boundaries. Choose a skill when you need a task method. An agent may require linked skills; selecting one skill does not install an agent.
 
 ## 2. Preview a Copilot installation
 
-To install guidance, use GNU Make and Python 3.10 or newer from the repository root. No Python packages are required.
+To install guidance, use GNU Make and Python 3.10 or newer from the repository root. Install the declared Python dependency with `python -m pip install -r requirements.txt` (use `python3` instead of `python` on Linux when needed).
 
 List available definitions, then preview one agent and its linked resources:
 

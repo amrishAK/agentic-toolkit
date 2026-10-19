@@ -1,0 +1,15 @@
+schema_version: "1.0.0"
+name: build-and-delivery
+depends_on: [core]
+version: "0.1.0"
+description: Build systems, CI, containers, and release readiness guidance.
+agents:
+  - build-automation-agent
+skills:
+  - build-system-workflow
+  - ci-workflow
+  - container-build-workflow
+  - release-workflow
+references:
+  - src/skills/documentation/references/documentation/release-docs.md
+  - src/skills/documentation/references/documentation/release-notes.md

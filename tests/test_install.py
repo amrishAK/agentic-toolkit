@@ -9,8 +9,29 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
+import yaml
+
 from scripts import install as installer
 from scripts.clients import ClientAdapter, get_client
+
+
+def write_suite(root: Path, suite: str = "example", **membership) -> Path:
+    definitions = installer.inventory(root)
+    data = {
+        "schema_version": "1.0.0",
+        "name": suite,
+        "version": "0.1.0",
+        "description": "Test collection",
+        **{
+            kind: [name for definition_kind, name in definitions.values() if definition_kind == kind]
+            for kind in ("agents", "skills")
+        },
+        **membership,
+    }
+    path = root / "src" / "suites" / f"{suite}.yaml"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(yaml.safe_dump(data), encoding="utf-8")
+    return path
 
 
 class AlternateTestAdapter:
@@ -47,14 +68,14 @@ class ClientAdapterTests(unittest.TestCase):
         client: ClientAdapter = AlternateTestAdapter()
         with tempfile.TemporaryDirectory(prefix="adapter space ") as directory:
             root = Path(directory).resolve()
-            agents = root / "src" / "suites" / "example" / "agents"
-            skills = agents.parent / "skills"
+            agents = root / "src" / "agents" / "implementation"
+            skills = root / "src" / "skills" / "example"
             agents.mkdir(parents=True)
             (skills / "references").mkdir(parents=True)
             (root / "LICENSE").write_text("Test license", encoding="utf-8")
             (agents / "sample.md").write_text(
                 '---\nname: sample\ndescription: "Example agent"\n---\n'
-                "CLIENT_MARKER\n[workflow](../skills/workflow.md#steps)\n",
+                "CLIENT_MARKER\n[workflow](../../skills/example/workflow.md#steps)\n",
                 encoding="utf-8",
             )
             (skills / "workflow.md").write_text(
@@ -63,9 +84,10 @@ class ClientAdapterTests(unittest.TestCase):
                 encoding="utf-8",
             )
             (skills / "references" / "workflow-details.md").write_text(
-                "[agent](../../agents/sample.md#role)\n[workflow](../workflow.md?mode=read#steps)\n",
+                "[agent](../../../agents/implementation/sample.md#role)\n[workflow](../workflow.md?mode=read#steps)\n",
                 encoding="utf-8",
             )
+            write_suite(root)
             files = installer.render(root, "example", agent="sample", client=client)
             agent = Path("roles") / "sample" / "ROLE.md"
             skill = Path("workflows") / "workflow" / "GUIDE.md"
@@ -97,6 +119,173 @@ class ClientAdapterTests(unittest.TestCase):
                             self.assertTrue(resolved[0].is_file())
 
 
+class SuiteManifestTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.root = Path(self.temporary.name).resolve()
+        (self.root / "LICENSE").write_text("Test license", encoding="utf-8")
+        for kind, name in (
+            ("agents", "included-agent"), ("agents", "outside-agent"),
+            ("skills", "included-skill"), ("skills", "outside-skill"),
+        ):
+            path = self.root / "src" / kind / "example" / f"{name}.md"
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(
+                f"---\nname: {name}\ndescription: Test definition\n---\n",
+                encoding="utf-8",
+            )
+        self.path = write_suite(
+            self.root, agents=["included-agent"], skills=["included-skill"],
+        )
+        self.data = yaml.safe_load(self.path.read_text(encoding="utf-8"))
+
+    def write(self, data) -> None:
+        self.path.write_text(yaml.safe_dump(data), encoding="utf-8")
+
+    def test_yaml_metadata_and_explicit_membership(self) -> None:
+        self.path.write_text(
+            'schema_version: "1.0.0"\n'
+            "name: example\n"
+            'version: "0.1.0"\n'
+            "description: >-\n  A multiline\n  suite description.\n"
+            "agents: [included-agent]\n"
+            "skills:\n  - included-skill # canonical name, not a path\n",
+            encoding="utf-8",
+        )
+        suite = installer.load_suite(self.root, "example", installer.inventory(self.root))
+        self.assertEqual(suite["description"], "A multiline suite description.")
+        files = installer.render(self.root, "example")
+        self.assertEqual(set(files), {
+            Path("agents/included-agent.agent.md"), Path("skills/included-skill/SKILL.md"),
+            Path("agentic-toolkit/LICENSE"),
+        })
+        for selection in (
+            {"agent": "outside-agent"}, {"skill": "outside-skill"},
+            {"skills": ("included-skill", "outside-skill")},
+        ):
+            with self.subTest(selection=selection):
+                with self.assertRaisesRegex(installer.InstallError, "Unknown"):
+                    installer.render(self.root, "example", **selection)
+
+    def test_required_dependencies_need_not_be_suite_members(self) -> None:
+        agent = self.root / "src/agents/example/included-agent.md"
+        agent.write_text(
+            agent.read_text(encoding="utf-8")
+            + "[required](../../skills/example/outside-skill.md)\n",
+            encoding="utf-8",
+        )
+        for selection in ({}, {"agent": "included-agent"}):
+            with self.subTest(selection=selection):
+                files = installer.render(self.root, "example", **selection)
+                self.assertIn(Path("skills/outside-skill/SKILL.md"), files)
+                self.assertNotIn(Path("agents/outside-agent.agent.md"), files)
+
+    def test_membership_is_not_implicit_in_another_suite(self) -> None:
+        write_suite(self.root, "other", agents=["outside-agent"], skills=[])
+        self.assertIn(
+            Path("agents/outside-agent.agent.md"),
+            installer.render(self.root, "other", agent="outside-agent"),
+        )
+        with self.assertRaisesRegex(installer.InstallError, "Unknown agent"):
+            installer.render(self.root, "example", agent="outside-agent")
+
+    def test_missing_or_unsafe_suite(self) -> None:
+        for name in ("missing", "../example", "Example", ""):
+            with self.subTest(name=name):
+                with self.assertRaisesRegex(installer.InstallError, "Unknown suite"):
+                    installer.render(self.root, name)
+
+    def test_missing_extra_and_non_mapping_fields(self) -> None:
+        invalid = [None, [], "example"]
+        invalid.extend(
+            {key: value for key, value in self.data.items() if key != missing}
+            for missing in {"schema_version", "name", "version", "description", "agents"}
+        )
+        for data in invalid:
+            with self.subTest(data=data):
+                self.write(data)
+                with self.assertRaisesRegex(installer.InstallError, "Invalid suite manifest"):
+                    installer.render(self.root, "example")
+
+    def test_unknown_fields_are_ignored_with_a_warning(self) -> None:
+        self.write({
+            **self.data,
+            "future_field": "ignored",
+            "language_packs": {"optional": [], "future_option": True},
+        })
+        with patch("sys.stderr") as stderr:
+            installer.load_suite(self.root, "example", installer.inventory(self.root))
+        warnings = "".join(call.args[0] for call in stderr.write.call_args_list)
+        self.assertIn("future_field", warnings)
+        self.assertIn("future_option", warnings)
+
+    def test_bad_field_values(self) -> None:
+        for field, values in {
+            "schema_version": [None, 1, "2.0.0", "invalid"],
+            "name": [None, 1, "", "other", ["example"]],
+            "version": [None, 1, "invalid"],
+            "description": [None, 1, "", "  ", []],
+            "agents": [None, "included-agent", {}, [None], [1], ["Bad Name"], ["path/agent.md"]],
+            "skills": [None, "included-skill", {}, [False], ["bad_name"], ["path/skill.md"]],
+        }.items():
+            for value in values:
+                with self.subTest(field=field, value=value):
+                    self.write({**self.data, field: value})
+                    with self.assertRaisesRegex(installer.InstallError, "Invalid suite manifest"):
+                        installer.render(self.root, "example")
+
+    def test_duplicate_and_unknown_members(self) -> None:
+        for kind, name in (("agents", "included-agent"), ("skills", "included-skill")):
+            for values, message in (
+                ([name, name], "duplicate"), (["missing"], "unknown"),
+                (["included-skill" if kind == "agents" else "included-agent"], "unknown"),
+            ):
+                with self.subTest(kind=kind, values=values):
+                    self.write({**self.data, kind: values})
+                    with self.assertRaisesRegex(installer.InstallError, message):
+                        installer.render(self.root, "example")
+
+    def test_invalid_yaml_and_duplicate_keys(self) -> None:
+        for text, message in (
+            ("name: [broken\n", "Invalid YAML"),
+            ("!!python/object:builtins.object {}", "Invalid YAML"),
+            ("name: example\nname: example\n", "duplicate field"),
+            ("? [invalid, key]\n: value\n", "field names must be strings"),
+        ):
+            with self.subTest(text=text):
+                self.path.write_text(text, encoding="utf-8")
+                with self.assertRaisesRegex(installer.InstallError, message):
+                    installer.render(self.root, "example")
+
+    def test_definition_names_are_globally_unique(self) -> None:
+        for kind in ("agents", "skills"):
+            with self.subTest(kind=kind):
+                duplicate = self.root / "src" / kind / "another-category" / "included-agent.md"
+                duplicate.parent.mkdir(parents=True, exist_ok=True)
+                duplicate.write_text(
+                    "---\nname: included-agent\ndescription: Duplicate\n---\n",
+                    encoding="utf-8",
+                )
+                with self.assertRaisesRegex(installer.InstallError, "Duplicate definition name"):
+                    installer.inventory(self.root)
+                duplicate.unlink()
+
+    def test_engineering_manifest_covers_every_maintained_definition(self) -> None:
+        definitions = installer.inventory(installer.ROOT)
+        collection = installer.load_suite(installer.ROOT, "engineering", definitions)
+        files = installer.render(installer.ROOT, "engineering")
+        for kind in ("agents", "skills"):
+            self.assertEqual(
+                set(collection[kind]),
+                {name for definition_kind, name in definitions.values() if definition_kind == kind},
+            )
+        for source in definitions:
+            self.assertIn(installer.output_path(source, definitions, installer.ROOT), files)
+        self.assertFalse((installer.ROOT / "src/shared").exists())
+        self.assertFalse((installer.ROOT / "src/suites/engineering").exists())
+
+
 class RenderingTests(unittest.TestCase):
     def test_language_skills_default_includes_all_language_definitions(self) -> None:
         files = installer.render(installer.ROOT, "engineering")
@@ -104,7 +293,7 @@ class RenderingTests(unittest.TestCase):
             files,
             installer.render(installer.ROOT, "engineering", language_skills="include"),
         )
-        language_root = installer.ROOT / "src/suites/engineering/skills/programming-languages"
+        language_root = installer.ROOT / "src/skills/programming-languages"
         definitions = installer.inventory(installer.ROOT)
         language_definitions = [path for path in definitions if path.is_relative_to(language_root)]
         self.assertTrue(language_definitions)
@@ -114,7 +303,7 @@ class RenderingTests(unittest.TestCase):
     def test_suite_excludes_language_only_definitions_but_keeps_other_content(self) -> None:
         included = installer.render(installer.ROOT, "engineering")
         excluded = installer.render(installer.ROOT, "engineering", language_skills="exclude")
-        language_root = installer.ROOT / "src/suites/engineering/skills/programming-languages"
+        language_root = installer.ROOT / "src/skills/programming-languages"
         definitions = installer.inventory(installer.ROOT)
         for source in definitions:
             destination = installer.output_path(source, definitions, installer.ROOT)
@@ -128,11 +317,11 @@ class RenderingTests(unittest.TestCase):
         )
         self.assertIn(Path("agentic-toolkit/LICENSE"), excluded)
         matrix = Path(
-            "agentic-toolkit/resources/src/shared/skills/references/programming-language-matrix.md"
+            "agentic-toolkit/resources/src/skills/programming-languages/references/programming-language-matrix.md"
         )
         self.assertIn(
             (installer.REPOSITORY
-             + "src/suites/engineering/skills/programming-languages/rust/rust-code-quality.md").encode(),
+             + "src/skills/programming-languages/rust/rust-code-quality.md").encode(),
             excluded[matrix],
         )
         with tempfile.TemporaryDirectory() as directory:
@@ -150,13 +339,13 @@ class RenderingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()
             sources = {
-                "agents/example.md": (
+                "agents/implementation/example.md": (
                     "---\nname: example\ndescription: Example\n---\n"
-                    "[workflow](../skills/workflow.md)\n"
+                    "[workflow](../../skills/example/workflow.md)\n"
                 ),
-                "skills/workflow.md": (
+                "skills/example/workflow.md": (
                     "---\nname: workflow\ndescription: Workflow\n---\n"
-                    "[required](programming-languages/example/required.md)\n"
+                    "[required](../programming-languages/example/required.md)\n"
                     "[matrix](references/programming-language-matrix.md)\n"
                 ),
                 "skills/programming-languages/example/required.md": (
@@ -169,15 +358,16 @@ class RenderingTests(unittest.TestCase):
                 "skills/programming-languages/example/navigation-only.md": (
                     "---\nname: navigation-only\ndescription: Navigation only\n---\n"
                 ),
-                "skills/references/programming-language-matrix.md": (
-                    "[navigation](../programming-languages/example/navigation-only.md)\n"
+                "skills/example/references/programming-language-matrix.md": (
+                    "[navigation](../../programming-languages/example/navigation-only.md)\n"
                 ),
             }
             for relative, text in sources.items():
-                source = root / "src/suites/example" / relative
+                source = root / "src" / relative
                 source.parent.mkdir(parents=True, exist_ok=True)
                 source.write_text(text, encoding="utf-8")
             (root / "LICENSE").write_text("Test license", encoding="utf-8")
+            write_suite(root)
             for selection in ({}, {"agent": "example"}, {"skill": "workflow"}):
                 with self.subTest(selection=selection):
                     files = installer.render(
@@ -220,12 +410,12 @@ class RenderingTests(unittest.TestCase):
         governance = Path("skills") / "documentation-selection-workflow"
         self.assertIn(governance / "SKILL.md", files)
         common_docs = (
-            Path("agentic-toolkit") / "resources" / "src" / "shared"
-            / "skills" / "references" / "documentation"
+            Path("agentic-toolkit") / "resources" / "src" / "skills"
+            / "documentation" / "references" / "documentation"
         )
         documentation_matrix = (
-            Path("agentic-toolkit") / "resources" / "src" / "shared"
-            / "skills" / "references" / "documentation-matrix.md"
+            Path("agentic-toolkit") / "resources" / "src" / "skills"
+            / "documentation" / "references" / "documentation-matrix.md"
         )
         self.assertIn(documentation_matrix, files)
         for topic in (
@@ -256,7 +446,7 @@ class RenderingTests(unittest.TestCase):
                     if resolved is not None:
                         self.assertTrue(resolved[0].is_file(), (source, match[2]))
 
-    def test_shared_documentation_agent_installs_with_required_workflows(self) -> None:
+    def test_documentation_agent_installs_with_required_workflows(self) -> None:
         files = installer.render(
             installer.ROOT, "engineering", agent="technical-documentation-writer",
         )
@@ -285,32 +475,14 @@ class RenderingTests(unittest.TestCase):
                     if resolved is not None:
                         self.assertTrue(resolved[0].is_file(), (source, match[2]))
 
-    def test_shared_agent_can_be_selected_from_any_suite(self) -> None:
-        with tempfile.TemporaryDirectory() as directory:
-            root = Path(directory).resolve()
-            for suite in ("engineering", "research"):
-                (root / "src" / "suites" / suite).mkdir(parents=True)
-            shared_agents = root / "src" / "shared" / "agents" / "review"
-            shared_agents.mkdir(parents=True)
-            (root / "LICENSE").write_text("Test license", encoding="utf-8")
-            (shared_agents / "shared-reviewer.md").write_text(
-                "---\nname: shared-reviewer\ndescription: Shared review role\n---\n",
-                encoding="utf-8",
-            )
-
-            for suite in ("engineering", "research"):
-                with self.subTest(suite=suite):
-                    files = installer.render(root, suite, agent="shared-reviewer")
-                    self.assertIn(Path("agents/shared-reviewer.agent.md"), files)
-
     def test_documentation_matrix_shares_resources_without_installing_listed_skills(self) -> None:
         common_docs = (
-            Path("agentic-toolkit") / "resources" / "src" / "shared"
-            / "skills" / "references" / "documentation"
+            Path("agentic-toolkit") / "resources" / "src" / "skills"
+            / "documentation" / "references" / "documentation"
         )
         documentation_matrix = (
-            Path("agentic-toolkit") / "resources" / "src" / "shared"
-            / "skills" / "references" / "documentation-matrix.md"
+            Path("agentic-toolkit") / "resources" / "src" / "skills"
+            / "documentation" / "references" / "documentation-matrix.md"
         )
         technical = Path("skills") / "technical-documentation-workflow" / "SKILL.md"
         for include_writer in (False, True):
@@ -344,7 +516,7 @@ class RenderingTests(unittest.TestCase):
                     ), anchor)
                 self.assertIn(
                     installer.REPOSITORY
-                    + "src/suites/engineering/skills/design-and-planning/architecture-workflow.md",
+                    + "src/skills/design-and-planning/architecture-workflow.md",
                     matrix,
                 )
                 self.assertTrue(all(
@@ -367,7 +539,7 @@ class RenderingTests(unittest.TestCase):
                     self.assertNotIn(technical, files)
                     self.assertIn(
                         installer.REPOSITORY
-                        + "src/shared/skills/technical-documentation-workflow.md",
+                        + "src/skills/documentation/technical-documentation-workflow.md",
                         matrix,
                     )
 
@@ -395,11 +567,11 @@ class RenderingTests(unittest.TestCase):
             matrix,
         )
         self.assertIn(
-            "https://github.com/amrishAK/agentic-toolkit/blob/HEAD/src/suites/engineering/skills/testing/fuzz-testing-workflow.md",
+            "https://github.com/amrishAK/agentic-toolkit/blob/HEAD/src/skills/testing/fuzz-testing-workflow.md",
             matrix,
         )
         self.assertNotIn(Path("skills/fuzz-testing-workflow/SKILL.md"), files)
-        original = (installer.ROOT / "src/suites/engineering/agents/benchmark-engineer.md").read_text(encoding="utf-8")
+        original = (installer.ROOT / "src/agents/performance/benchmark-engineer.md").read_text(encoding="utf-8")
         translated = files[Path("agents/benchmark-engineer.agent.md")].decode()
         self.assertEqual(original.split("\n---\n")[0], translated.split("\n---\n")[0])
 
@@ -425,12 +597,12 @@ class RenderingTests(unittest.TestCase):
                     if resolved is not None:
                         self.assertTrue(resolved[0].is_file(), (source, match[2]))
 
-    def test_individual_shared_skill(self) -> None:
+    def test_individual_workflow_skill(self) -> None:
         files = installer.render(installer.ROOT, "engineering", skill="agent-output-standardization")
         self.assertFalse(any(path.parent == Path("agents") for path in files))
         self.assertIn(Path("skills/agent-output-standardization/SKILL.md"), files)
 
-    def test_shared_selection_skill_includes_its_suite_matrix_without_all_skills(self) -> None:
+    def test_selection_skill_includes_its_suite_matrix_without_all_skills(self) -> None:
         files = installer.render(installer.ROOT, "engineering", skill="skill-selection-workflow")
         self.assertIn(Path("skills/skill-selection-workflow/SKILL.md"), files)
         self.assertIn(
@@ -481,7 +653,7 @@ class RenderingTests(unittest.TestCase):
     def test_cycle_and_broken_dependency(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory).resolve()
-            skills = root / "src" / "suites" / "example" / "skills"
+            skills = root / "src" / "skills" / "example"
             skills.mkdir(parents=True)
             (root / "LICENSE").write_text("Test license", encoding="utf-8")
             first = skills / "first.md"
@@ -493,6 +665,7 @@ class RenderingTests(unittest.TestCase):
                 '---\nname: second\ndescription: "Second"\n---\n[first](first.md)',
                 encoding="utf-8",
             )
+            write_suite(root)
             files = installer.render(root, "example", skill="first")
             self.assertEqual(len(files), 3)
             self.assertIn(b"#heading", files[Path("skills/first/SKILL.md")])
@@ -595,7 +768,8 @@ class InstallationTests(unittest.TestCase):
             destination = Path(directory) / "not created"
             env = {
                 **os.environ, "CLIENT": "copilot", "SCOPE": "user",
-                "SUITE": "engineering", "AGENT": "", "SKILL": "agent-output-standardization",
+                "SUITE": "engineering", "PACKAGE": "", "AGENT": "",
+                "SKILL": "agent-output-standardization",
                 "SKILLS": "", "LANGUAGE_SKILLS": "include",
                 "DESTDIR": str(destination),
             }
