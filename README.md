@@ -42,7 +42,7 @@ See the [quick-start guide](docs/guides/quick-start.md) to browse and select gui
 - Keep one authoritative definition per agent or skill under `src/agents/<category>/` or `src/skills/<category>/`. Suite membership and descriptive metadata live in `src/suites/<suite>.yaml`; do not infer suite membership from source categories.
 - Compose suites from explicit `packages` lists rather than repeating package members. The Engineering suite includes the language-guidance package to preserve full-suite coverage; legacy direct agent and skill lists remain supported.
 - Maintain functional installation packages under [`src/packages/`](src/packages/), with explicit agent and skill membership and quoted schema/content versions. Use `PACKAGE=<name>` to select one instead of a suite; see [functional packages](docs/installation.md#functional-packages).
-- Declare shared package dependencies in `depends_on`; functional packages depend on [`core`](src/packages/core.yaml) for output standardization, documentation, and skill selection. Dependencies are resolved recursively, deduplicated, and checked for missing packages and cycles.
+- Declare shared package dependencies in `depends_on`; agent-oriented functional packages depend on [`core`](src/packages/core.yaml) for [universal agent guidelines](src/skills/agent-workflows/agent-guidelines.md), output standardization, documentation, and skill selection. Dependencies are resolved recursively, deduplicated, and checked for missing packages and cycles.
 - Organize agent source directories by function: design and planning, implementation, testing, review and security, build and delivery, performance, documentation, and project standards. These categories organize sources; they do not create installation bundles or change agent names.
 - Keep suite manifests versioned with `schema_version` and `version`. JSON Schema Draft 2020-12 contracts and cross-file checks are maintained in [`schemas/`](schemas/) and [`scripts/validate_manifests.py`](scripts/validate_manifests.py); see the [manifest schema guide](docs/reference/manifest-schemas.md) before changing manifest formats.
 - Keep required role workflows explicit in agent definitions; use the shared [skill selection workflow](src/skills/agent-workflows/skill-selection-workflow.md) to choose additional task-specific guidance from the applicable suite matrix. Maintain Engineering category-level inventory and task routing in its [skill selection matrix](src/skills/agent-workflows/references/skill-selection-workflow-matrix.md), and language coverage and task-to-skill mappings in the [Engineering language-specific skill matrix](src/skills/programming-languages/references/programming-language-matrix.md). Do not duplicate task-to-skill maps in agent definitions.
@@ -86,6 +86,10 @@ Feature tracking is intentionally omitted for this source-content repository. De
 Use Conventional Commits for future authorized commits, such as `docs: clarify repository guidance` or `fix(skills): repair reference links`. Commit, push, remote, release, and installation actions require separate explicit authorization.
 
 See [AGENTS.md](AGENTS.md) for repository editing guidance.
+
+## Acknowledgments
+
+The simplicity guidance in the [agent guidelines](src/skills/agent-workflows/agent-guidelines.md) draws on [Ponytail](https://github.com/DietrichGebert/ponytail), adapted here as role-independent agent guidelines.
 
 ## License
 

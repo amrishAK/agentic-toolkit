@@ -95,6 +95,7 @@ on the [`core` package](../src/packages/core.yaml), which contains:
 
 - Agents: `source-documentation-writer` and `technical-documentation-writer`.
 - Skills:
+  - `agent-guidelines`
   - `agent-output-standardization`
   - `skill-selection-workflow`
   - `documentation-selection-workflow`
@@ -103,6 +104,11 @@ on the [`core` package](../src/packages/core.yaml), which contains:
 Install `PACKAGE=core` directly to get these documentation agents, shared skills,
 and their linked resources. Documentation is part of core, not a separate
 installation package.
+
+The [agent guidelines](../src/skills/agent-workflows/agent-guidelines.md) provide
+a universal behavioral baseline within each role's permissions. Package inclusion
+makes the skill available; it does not make it automatically loaded or enforced
+by every agent.
 
 `programming-languages` is an independent skill-only package and does not depend
 on core. Installing it alone does not install documentation agents. The

@@ -1,7 +1,7 @@
 schema_version: "1.0.0"
 name: programming-languages
 version: "0.1.0"
-description: C, C++, C#, and Rust code quality, testing, benchmarking, and source documentation guidance.
+description: C, C++, C#, Rust, and general unlisted-language code quality guidance, plus supported-language testing, benchmarking, and source documentation guidance.
 agents: []
 skills:
   - c-benchmarking
@@ -19,6 +19,7 @@ skills:
   - csharp-integration-testing
   - csharp-source-documentation
   - csharp-unit-testing
+  - general-code-quality
   - rust-benchmarking
   - rust-code-quality
   - rust-integration-testing

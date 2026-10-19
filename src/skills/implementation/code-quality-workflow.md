@@ -22,16 +22,10 @@ Use this workflow with the [language-specific skill matrix](../programming-langu
 - Preserve unrelated work. Ask a focused question only when a material behavior or design choice cannot be safely inferred.
 - Reuse established helpers and conventions. Do not introduce a dependency, upgrade a standard, or change an API/ABI merely to follow a newer idiom.
 
-### 2. Apply Clean Code and SOLID pragmatically
+### 2. Apply shared code-quality guidance
 
-- Choose names that convey domain meaning and keep functions/modules cohesive. Single responsibility concerns meaningful reasons for change, not how many steps a function performs.
-- Prefer explicit contracts, straightforward control flow, and intentional error handling. Do not impose arbitrary limits on function length, nesting, or parameter counts.
-- Keep APIs narrow and dependencies clear. Introduce abstraction where it addresses a demonstrated boundary, reuse, variation, or testability need.
-- Open/closed is not a ban on editing code or using branching. Preserve documented contracts for interchangeable implementations; do not strengthen preconditions or weaken postconditions.
-- Keep interfaces cohesive and avoid forcing clients to depend on unrelated operations. Dependency inversion is not a mandate to add an interface for every concrete type.
-- Share genuinely common concepts without premature DRY abstractions. Avoid speculative frameworks and needless layers.
-- Evaluate boolean and output parameters in context rather than treating them as automatic defects.
-- Comments explain intent, invariants, ownership, safety, and non-obvious decisions. Accurate public API documentation remains important even when the implementation looks simple.
+- Apply the [shared code-quality guidelines](../programming-languages/references/code-quality-guidelines.md) pragmatically. They are design heuristics, not language rules or rigid metrics.
+- Prefer the smallest complete solution that preserves correctness, safety, user-visible contracts, and necessary validation.
 
 ### 3. Review with evidence
 

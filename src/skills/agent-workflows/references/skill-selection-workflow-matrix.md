@@ -2,6 +2,7 @@
 
 | Use | Skill |
 |---|---|
+| Universal guardrails for evidence, scope, simplicity, useful output, uncertainty, trust, and honest outcomes across agent roles | [agent-guidelines](../agent-guidelines.md) |
 | Common Engineering task framing, evidence, role boundaries, validation, and reporting | [engineering-task-workflow](../../implementation/engineering-task-workflow.md) |
 | Standardized responses, clarification questions, findings, summaries, and handoffs | [agent-output-standardization](../agent-output-standardization.md) |
 | Coordination of explicitly selected review fixes and separately authorized delivery actions | [change-delivery-workflow](../change-delivery-workflow.md) |

@@ -406,7 +406,7 @@ class RenderingTests(unittest.TestCase):
     def test_suite_layout_and_all_links(self) -> None:
         files = installer.render(installer.ROOT, "engineering")
         self.assertEqual(sum(path.suffix == ".md" and path.parent == Path("agents") for path in files), 13)
-        self.assertEqual(sum(path.name == "SKILL.md" for path in files), 45)
+        self.assertEqual(sum(path.name == "SKILL.md" for path in files), 47)
         governance = Path("skills") / "documentation-selection-workflow"
         self.assertIn(governance / "SKILL.md", files)
         common_docs = (

@@ -52,7 +52,7 @@ class PackageTests(unittest.TestCase):
         self.assertEqual(len(paths), 9)
         core_agents = {"source-documentation-writer", "technical-documentation-writer"}
         core_skills = {
-            "agent-output-standardization", "skill-selection-workflow",
+            "agent-guidelines", "agent-output-standardization", "skill-selection-workflow",
             "documentation-selection-workflow", "technical-documentation-workflow",
         }
         for path in paths:
