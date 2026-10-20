@@ -60,7 +60,7 @@ For regressions, demonstrate the expected failure before the fix when safe. If e
 
 ### 6. Review, correct, and report
 
-- Self-review the task changes against the contract, test quality, module boundaries, and scope. Follow the active role's independent implementation-review requirement; a review handoff must include the relevant changes, criteria, and verification evidence.
-- Assess findings, fix applicable in-scope issues, rerun affected checks, and obtain re-review as required by the role. Report unavailable review, unresolved decisions, and blockers; do not claim the review loop is complete without evidence.
+- Self-review each task against the contract, test quality, module boundaries, and scope. Follow the active role's independent implementation-review requirement; a review handoff must include the relevant changes, criteria, and verification evidence. When that role requires independent review, assess each task's change: review significant changes individually; combine low-impact changes (for example, narrow behavior-preserving edits) with the next task's review. Include any remaining low-impact changes in a final review batch before reporting completion.
+- Assess findings, fix applicable in-scope issues, rerun affected checks, and obtain re-review of finding corrections and other fixes that materially change the reviewed scope, as required by the role. Report unavailable review, unresolved decisions, and blockers; do not claim the review loop is complete without evidence.
 - Report completed and remaining tasks, acceptance-criterion evidence, whether expected red and green were actually observed, exact checks/results, review status, and limitations. Distinguish implemented from verified behavior.
 - Finalization means an evidence-backed completion report, not automatic staging, commit, push, publication, or independent readiness approval.

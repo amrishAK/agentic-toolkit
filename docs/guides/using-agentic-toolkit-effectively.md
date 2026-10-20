@@ -1,98 +1,35 @@
 # Using Agentic Toolkit effectively
 
-> **Status:** This guide describes a proposed lifecycle model, not a currently available end-to-end workflow. The maintained Software Product Development suite provides `product-management` and `engineer` packages, each including its respective independent reviewers. Discovery & Shaping and product-level feature-brief guidance remain proposed. For current roles and task routes, see the [suite guide](../suites/software-product-development.md) and [documentation index](../README.md).
+Agentic Toolkit helps you find reusable guidance for product planning and software development. It does not make decisions, run a required end-to-end process, or guarantee that a client discovers installed definitions. The [Software Product Development suite](../suites/software-product-development.md) describes the roles available today.
 
-Agentic Toolkit is intended to help people and teams do important software lifecycle work with less coordination overhead and better traceability. Use agents to surface gaps, organize project facts, connect decisions to evidence, and prepare useful handoffs—not to replace people or make decisions on their behalf.
+## Start with a clear task
 
-## Start with the decision or outcome
+Before choosing an agent or skill, decide what you need: a product plan, a feature contract, an implementation, a test, or a review. Give the agent the relevant project context and point to authoritative sources. Mark what is confirmed, proposed, assumed, or still unknown.
 
-Before invoking an agent, state what you need to understand or decide. Examples include:
+Choose an **agent** for role-specific responsibilities and boundaries. Choose a **skill** for a task method. Use the [skill selection workflow](../../src/skills/agent-workflows/skill-selection-workflow.md) and its [task matrix](../../src/skills/agent-workflows/references/skill-selection-workflow-matrix.md) to find relevant skills.
 
-- Is this user problem worth addressing?
-- Which product outcome should a target version prioritize?
-- What technical approach can meet an approved product need?
-- Is a proposed scope change justified?
+## Use current guidance; treat the wider model as proposed
 
-Give the agent the relevant project context and identify what is authoritative. This may include product goals, user research, constraints, existing architecture, supported environments, decisions already made, and current scope. Link to source documents where possible. Distinguish confirmed facts from assumptions, proposals, and questions.
+The proposed lifecycle model groups work into three areas. It is a way to think about decisions, not an automatic route or a requirement to use every stage.
 
-Ask the agent to identify missing or conflicting information before it draws conclusions. Do not present generated summaries as verified project facts until a person has checked them against their sources.
+1. **Product Discovery & Shaping — proposed.** This area covers understanding a problem, exploring options, and identifying useful evidence. It is not a current role in the suite. Do not present generated ideas or questions as completed research.
+2. **Product Management — current roles, with limits.** The [product-planner](../../src/agents/design-and-planning/product-planner.md) supports product direction, roadmaps, release plans, and scope trade-offs. The [product-plan-reviewer](../../src/agents/design-and-planning/product-plan-reviewer.md) reviews plans independently. Product-level feature-brief guidance remains proposed; detailed Engineering feature contracts are current.
+3. **Engineering — current roles.** The [feature-designer](../../src/agents/design-and-planning/feature-designer.md) defines detailed behavior and handoffs. The [code-engineer](../../src/agents/implementation/code-engineer.md) implements authorized changes and verifies them. Testing and independent change review are available when appropriate.
 
-## Apply the model with current guidance
+Use only the guidance needed for the task. For security work, use the [security-reviewer](../../src/agents/review-and-security/security-reviewer.md) within its authorization and read-only assessment boundaries; it does not perform active probing or direct fixes.
 
-The three-stage model below is future direction, not an automatic route through the toolkit. For work covered today, start with the current [suite guide](../suites/software-product-development.md), which links to maintained roles and workflows. Product planning and plan review are available through `product-management`; technical design, delivery, testing, and technical review are available through `engineer`. These are packages, not separate suites.
+## Keep decisions and handoffs clear
 
-For an authorized source security review, use the [security-reviewer role](../../src/agents/review-and-security/security-reviewer.md) and its [security review workflow](../../src/skills/review-and-security/security-review-workflow.md). Assessment is read-only: it does not include command execution, active probing, or direct remediation. Fixes require an explicit selection and delegated editing; if the client cannot support that delegation, the reviewer must report the limitation rather than edit directly.
+For significant decisions, record what was decided, who owns it, the evidence considered, and whether it is proposed or approved. Link each handoff to the relevant goal, contract, or prior decision.
 
-## Use the proposed lifecycle model
-
-The proposed three-stage lifecycle model describes decision-support handoffs, not a required sequence or separate people. Use only the stage needed for the current decision; do not repeat completed work just to follow a process.
-
-### 1. Product Discovery & Shaping
-
-Use this stage when the problem, users, or opportunity are not yet clear. It can help plan research, structure supplied findings, explore use cases and solution options, challenge assumptions, and prepare a high-level proposal.
-
-The proposal should make clear:
-
-- Who has the problem and what evidence supports that claim
-- The user need, opportunity, and relevant use cases
-- Candidate solutions and meaningful scope trade-offs
-- Assumptions, risks, unknowns, and further research needed
-- What decision is being requested
-
-Do not describe research as conducted unless there are actual findings. Treat generated hypotheses and devil's-advocate questions as prompts for investigation, not evidence that a risk exists or has been resolved.
-
-### 2. Product Management
-
-Use this stage to evaluate a proposal against product direction and constraints. It can help compare opportunities, shape goals and roadmap priorities, propose target-version scope, and produce product-level feature briefs.
-
-Product-level feature briefs should describe user-visible outcomes, intended scope and exclusions, dependencies, success measures, and acceptance examples. Acceptance criteria are observable conditions for judging an outcome; examples illustrate expected behavior. Behavior-driven scenarios can help make outcomes concrete. Keep detailed technical contracts and implementation task breakdown for Engineering.
-
-Plan in sequence: create and approve the high-level roadmap first, then plan individual releases from approved roadmap milestones. Keep roadmap entries brief and link to release plans; keep release scope, gates, and readiness evidence in the release plan. The `product-planner` can request independent read-only validation from `product-plan-reviewer`; the reviewer surfaces gaps and questions but does not decide priorities or approve the plan.
-
-Priorities, roadmaps, target versions, and release scope remain proposals until the responsible product owner approves them. Ask the agent to make trade-offs and deferred work explicit rather than silently expanding scope.
-
-### 3. Engineering
-
-Use this stage after product intent and scope are sufficiently clear. Engineering should validate technical feasibility, identify technical risks and dependencies, elaborate architecture and feature contracts, plan implementation and verification, and deliver evidence about the result.
-
-Engineering may discover that a product assumption is infeasible or that scope needs to change. Route that information back to the product decision owner; do not let a technical workaround silently redefine the user outcome or approved scope.
-
-## Keep decisions and scope traceable
-
-For each significant decision, preserve a short record of:
-
-- The decision and its owner
-- The evidence and constraints considered
-- Alternatives or trade-offs that materially affected the choice
-- The decision status: open, proposed, or approved
-- Consequences for scope, roadmap, architecture, or release
-
-Link handoffs to the user need, product goal, or prior decision they address. When scope changes, record what changed, why, who approved it, and what was deferred or affected. Agents can help identify missing links and summarize change impact, but people must verify the record and approve the change.
+A handoff asks someone to make a decision or take an action; it does not grant approval or authorization. A review is not approval, implementation is not verification, and verified work is not automatically release-ready.
 
 ## Keep the process proportionate
 
-- Use the smallest useful artifact for the decision. A small effort may combine research findings and a proposal; a roadmap or release plan is useful when there are actual priorities or versions to manage.
-- Reuse and update canonical project documents rather than creating competing copies.
-- Ask for concise outputs that include evidence, assumptions, decisions needed, risks, and next handoff.
-- Do not repeat research, analysis, or design without a reason. Ask what changed since the prior decision.
-- Record unresolved questions instead of filling gaps with invented facts, estimates, or commitments.
-- Match the depth of analysis to the impact and uncertainty of the decision; do not mistake longer documents for better decisions.
+- Use the smallest useful record. Do not create a roadmap, release plan, or feature document just because a template exists.
+- Reuse canonical project documents and link to them instead of making competing copies.
+- Ask for evidence, assumptions, risks, open decisions, and the next useful step.
+- Match the depth of analysis to the impact and uncertainty of the decision.
+- If guidance or evidence is missing, say so instead of filling the gap with a guess.
 
-## Select relevant technical guidance
-
-For Engineering work, provide the project's actual stack and deployment context, then check the relevant maintained catalogues and workflows. A project might use a Vue frontend, Rust backend, containers, and Azure infrastructure defined with Bicep; that context would help select applicable guidance if it exists.
-
-Do not infer technology coverage from an example or catalogue category. Language, framework, runtime, container, cloud, and infrastructure guidance may each have different scope. Deployment, validation, security, and operations should account for the actual target platform and toolchain. If relevant guidance is missing, make that gap explicit instead of substituting unrelated guidance.
-
-## Human review and responsibility
-
-At each handoff, the responsible person should check that:
-
-1. Important claims are supported by project evidence or clearly marked as assumptions.
-2. The output answers the intended decision and preserves relevant constraints.
-3. Scope, risks, dependencies, and unresolved questions are visible.
-4. The next responsible person or role accepts the context and understands what decision or action is needed.
-
-Agents can help teams notice lifecycle gaps and avoid preventable omissions or scope creep. They cannot guarantee that every step is completed, that facts are correct, or that scope will not change. People remain responsible for validation, judgment, priorities, approvals, and outcomes.
-
-For the proposed suite boundaries and document flow, see the [V2 project overview](../proposals/project-overview-v2.md).
+People remain responsible for checking facts, deciding priorities, approving scope, and judging results. For the individual version of this approach, see [Using Agentic Toolkit as a solo developer](using-agentic-toolkit-as-a-solo-developer.md).

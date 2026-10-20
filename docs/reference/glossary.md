@@ -16,7 +16,7 @@ Entries marked **Proposed V2** describe future direction, not current repository
 | **Maintained source / generated client file** | The repository-owned source is canonical; a generated client file is an installation output for a particular client layout, not a second source of truth. |
 | **Task workflow** | Procedural guidance for a particular task or a shared task cycle. Use **lifecycle model** for a broader grouping of responsibility areas. |
 | **Stage** (**Proposed V2**) | A responsibility area in the proposed lifecycle model, not necessarily a maintained suite, separate person, or mandatory step. |
-| **Lifecycle model** (**Proposed V2**) | The proposed grouping of Discovery & Shaping, Product Management, and Engineering responsibility areas. It is decision-support guidance, not a required sequence or automatic orchestration. |
+| **Lifecycle model** (**Proposed V2**) | The proposed grouping of Product Discovery & Shaping, Product Management, and Engineering responsibility areas. It is decision-support guidance, not a required sequence or automatic orchestration. |
 | **Handoff** | Context and a requested next decision or action for a responsible person or role. It does not imply approval, execution, or automatic orchestration. |
 | **Product-level feature brief** (**Proposed V2**) | A product-facing description of user outcomes, intended scope, and exclusions. It is distinct from a detailed Engineering feature contract. |
 | **Engineering feature contract** | Detailed intended behavior, edge cases, and failure behavior used to guide implementation and verification. A contract describes intent, not implementation evidence. |

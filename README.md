@@ -1,91 +1,50 @@
 # Agentic Toolkit
 
-Agentic Toolkit is the authoritative source repository for reusable agents, skills, and supporting resources. It is for people maintaining reusable agent guidance independently of any one personal installation. The Software Product Development suite covers product management, engineering, and quality through independently installable packages. Research and everyday-assistance suites remain future direction. It is pre-release and includes a Make-based Copilot installer for Windows and Linux. Installer tests do not constitute client behavioral certification.
+Reusable agent roles and task workflows for software product work—from planning and feature design to implementation, testing, and review.
 
-## Documentation
+Explore the guidance, use what fits your task, or install selected content into Copilot. The sources are maintained here so improvements can be shared instead of drifting across personal copies.
 
-Read the [project overview](docs/project-overview.md) for purpose, audience, organization, and boundaries. Browse the maintained definitions under [`src/`](src/). The [quick-start guide](docs/guides/quick-start.md) shows how to find and use current guidance; the [documentation index](docs/README.md) and [suite guide](docs/suites/software-product-development.md) explain roles, skill categories, and task handoffs. Source definitions own detailed behavior contracts; the guides explain how to navigate them.
+## Explore the collection
+
+- **Find a starting point:** browse the [Software Product Development suite](docs/suites/software-product-development.md) by task, or use the [quick-start guide](docs/guides/quick-start.md).
+- **See the available roles and workflows:** browse [agents](src/agents/) and [skills](src/skills/). Agents describe responsibilities; skills provide reusable task methods.
+- **Understand the project:** read the [project overview](docs/project-overview.md) for the purpose, intended audience, and boundaries.
+
+## Try it with Copilot
+
+The installer needs GNU Make, Python 3.10 or newer, and the dependencies in `requirements.txt`. From the repository root:
+
+```text
+python -m pip install -r requirements.txt
+make list
+make plan AGENT=code-engineer SCOPE=user
+make install AGENT=code-engineer SCOPE=user
+```
+
+On Linux, use `python3` instead of `python` when needed. Review the plan before installing: user scope writes guidance under `.copilot` in the Python user's home directory. For workspace installs, other selections, or safe-update details, see the [quick-start guide](docs/guides/quick-start.md) and [installation guide](docs/installation.md).
 
 ## Usage and compatibility
 
-Browse the source definitions and follow their relative links to supporting guidance. This repository is not an automatically discoverable agent or skill installation layout; use the [installation guide](docs/installation.md) rather than copying the source tree unchanged.
+This repository contains maintained source definitions, not an automatically discoverable agent installation or runtime. The installer currently supports Copilot layouts only; other clients and suites are not supported. After installing, confirm that your Copilot client discovers the files and provides the required tools. Installation tests do not certify client discovery or behavior.
 
-Filenames and source organization are neutral, but agent metadata and tool aliases remain Copilot/VS Code-oriented. Running a Claude model through Copilot is not the same as running Claude Code. No drop-in Claude Code support, cross-client tool equivalence, permission enforcement, or runtime discovery is established by this layout.
-
-The Copilot installer:
-
-1. Emits `agents/<name>.agent.md` and `skills/<name>/SKILL.md` under the user `.copilot` or workspace `.github` directory.
-2. Resolves linked source dependencies and supporting resources, rewriting relative file links and preserving anchors. Repository documentation snapshots link back to the online repository.
-3. Preserves existing Copilot metadata, tool aliases, read-only review phases, numbered findings, and approval-gated editing-subagent delegation. It does not translate to other clients or broaden tool permissions.
-4. Warns that discovery, available tools, and delegation must be verified in the actual client. Unsupported delegation must be reported rather than replaced by direct reviewer edits.
-
-Make and the installation engine are shared across clients. The [Copilot adapter](scripts/clients/copilot.py) owns client-specific paths and definition translation; dependency resolution, reference rewriting, and safe updates remain reusable. A future Claude adapter can use the same `CLIENT` interface, but `CLIENT=claude` is not implemented. See [adapter boundaries](docs/installation.md#shared-engine-and-client-adapters).
-
-No directory links or MCP dependencies are installed. Host tools, permissions, and task-specific executables are still required when using the guidance. The layouts follow current [Copilot agent](https://code.visualstudio.com/docs/copilot/customization/custom-agents) and [skill](https://code.visualstudio.com/docs/copilot/customization/agent-skills) documentation. User-agent discovery depends on the selected Copilot harness; legacy VS Code Local harness profile storage is not configured. Runtime discovery and model behavior remain unverified.
-
-### Quick start
-
-For a minimal Copilot install, use GNU Make and Python 3.10+ from the repository root, and install the declared dependency with `python -m pip install -r requirements.txt` (`python3` on Linux when needed). Preview and install one agent with its linked resources:
-
-```text
-make list
-make plan PACKAGE=product-management SCOPE=user
-make install PACKAGE=product-management SCOPE=user
-make plan SUITE=software-product-development SCOPE=user
-make install SUITE=software-product-development SCOPE=user
-```
-
-See the [quick-start guide](docs/guides/quick-start.md) to browse and select guidance, and the [installation guide](docs/installation.md) for workspace installation, multi-skill selection, staging, update safety, and validation.
+For the current installer behavior, compatibility limits, and source-versus-generated layout, see the [installation guide](docs/installation.md). The [project overview](docs/project-overview.md) distinguishes current capabilities from proposed direction.
 
 ## Maintaining the collection
 
-- Keep one authoritative definition per agent or skill under `src/agents/<category>/` or `src/skills/<category>/`. Suite membership and descriptive metadata live in `src/suites/<suite>.yaml`; do not infer suite membership from source categories.
-- Compose suites from explicit `packages` lists rather than repeating package members. The Software Product Development suite composes `product-management` and `engineer`, including their respective independent reviewers, with the language-guidance package optional and enabled by default; legacy direct agent and skill lists remain supported.
-- Maintain installation packages under [`src/packages/`](src/packages/), with explicit agent and skill membership and quoted schema/content versions. Use `PACKAGE=<name>` to select one instead of a suite; see [responsibility and functional packages](docs/installation.md#responsibility-and-functional-packages).
-- Declare shared package dependencies in `depends_on`; agent-oriented packages depend on [`core`](src/packages/core.yaml) for [universal agent guidelines](src/skills/agent-workflows/agent-guidelines.md), the shared task cycle, output standardization, documentation, and skill selection. Responsibility packages may compose smaller functional packages without copying their membership. Dependencies are resolved recursively, deduplicated, and checked for missing packages and cycles.
-- Organize agent source directories by function: design and planning, implementation, testing, review and security, build and delivery, performance, documentation, and project standards. These categories organize sources; they do not create installation bundles or change agent names.
-- Keep suite manifests versioned with `schema_version` and `version`. JSON Schema Draft 2020-12 contracts and cross-file checks are maintained in [`schemas/`](schemas/) and [`scripts/validate_manifests.py`](scripts/validate_manifests.py); see the [manifest schema guide](docs/reference/manifest-schemas.md) before changing manifest formats.
-- Keep required role workflows explicit in agent definitions; use the shared [skill selection workflow](src/skills/agent-workflows/skill-selection-workflow.md) to choose additional task-specific guidance from the applicable suite matrix. Maintain Software Product Development category-level inventory and task routing in its [skill selection matrix](src/skills/agent-workflows/references/skill-selection-workflow-matrix.md), and language coverage and task-to-skill mappings in the [Engineering language-specific skill matrix](src/skills/programming-languages/references/programming-language-matrix.md). Do not duplicate task-to-skill maps in agent definitions.
-- Add language skills and update the language-specific skill matrix without duplicating language lists in agents, general workflow descriptions, or the suite's category-level skill selection matrix.
-- Selection workflows own how to access and use their matrices; matrices own routing data. Use the shared [documentation matrix](src/skills/documentation/references/documentation-matrix.md) as the single entry point for document types, locations, owners, update triggers, and rule links. Each linked document-type reference owns its usage guidance, content, suggested structure, and validation; common rules apply across types. Keep these references in the same [reference folder](src/skills/documentation/references/documentation) without workflow-specific filename prefixes.
-- Keep `name` and `description` metadata meaningful. Preserve role boundaries and behavior unless an intentional change is requested.
-- Follow [definition-authoring guidance](docs/reference/definition-authoring.md) for the responsibilities and content of agent definitions, skill definitions, supporting references, templates, and catalogues. Follow the [repository glossary](docs/reference/glossary.md) for canonical terminology.
-- Use relative links for repository resources; never link back to a personal installation or embed machine-specific paths.
-- When renaming or moving definitions, update inbound links and links from bundled resources in the same change. Keep resource owner prefixes consistent.
-- Treat agent instructions as source content, not permission to execute their workflows while editing this repository.
-- Keep generated client output separate from maintained sources when translation is introduced.
+- Keep agent and skill definitions in `src/agents/` and `src/skills/`. Suite and package manifests—not source folders—define what can be selected for installation.
+- Keep linked resources and relative links up to date when adding, moving, or renaming definitions. Use the [definition-authoring guide](docs/reference/definition-authoring.md) for content ownership and the [repository glossary](docs/reference/glossary.md) for canonical terms.
+- Before changing suite or package manifests, consult the [manifest schema guide](docs/reference/manifest-schemas.md). Keep generated client files separate from maintained sources.
+- Use `make check` for manifest validation and installer tests. For content changes, also review frontmatter, role boundaries, links, and the full diff; `git diff --check` catches whitespace errors.
 
 ### Validation
 
-There is no compiled application build or benchmark harness. The installer uses PyYAML for suite manifests, and the manifest checker uses `jsonschema`; install declared dependencies from `requirements.txt`. `make check` validates manifest schemas and cross-file references before running the installer's regression tests, including generated-layout link checks, temporary installs, update/conflict handling, and CLI checks. GitHub Actions runs these checks on pushes and pull requests. No compiler is required. Language-specific test, build, and benchmark skills describe work in consuming projects, not additional test tiers here.
-
-For content changes, manually check:
-
-- Frontmatter structure, unique names, descriptions, and filename/name agreement.
-- Declared tools and reviewer boundaries; prose restrictions are not a hard permission sandbox.
-- Relative file links, heading anchors, and complete inclusion of referenced resources.
-- Absence of secrets, personal-machine paths, and obsolete definition references.
-- The diff, including new and untracked files, for unintended changes.
-
-Existing Git supports read-only inspection:
-
-```text
-git status --short
-git diff --check
-git diff
-```
-
-Git diff commands do not cover untracked file contents; inspect those separately. For installer changes, run `make check` and exercise affected Make targets using a temporary `DESTDIR`, never an active personal installation without explicit authorization. Passing static checks or installer tests does not establish runtime discovery, delegation, client compatibility, or behavior. Report executed checks separately from untested claims.
+`make check` validates manifests and runs the installer tests. These checks do not establish client discovery, runtime behavior, or compatibility with other clients. Check content links and definition metadata as part of review; inspect untracked files separately because Git diff does not include them by default.
 
 ## Repository scope
 
-This repository owns reusable source guidance, its supporting resources, and the local Copilot installer and its tests. GitHub Actions runs manifest validation and unit tests on pushes and pull requests; broader CI, release/deployment automation, other client adapters, generated distributions, and additional suites remain deferred. Changes here do not authorize changes to an active personal installation.
+This is a pre-release source-content repository for reusable guidance and a local Copilot installer. The current suite is Software Product Development, covering product management, engineering, and quality. Additional suites, client adapters, and release automation are not established; the proposed V2 overview is not an approved roadmap. Use [Conventional Commits](https://www.conventionalcommits.org/) for repository changes.
 
-Feature implementation tracking is intentionally omitted for this source-content repository. Project direction, known limitations, important decisions, and confirmed technical debt are tracked separately under `docs/status/`. Dedicated release plans, contribution/security policies, and changelog are not established; do not infer support commitments or release approval from this baseline.
-
-Use Conventional Commits for future authorized commits, such as `docs: clarify repository guidance` or `fix(skills): repair reference links`. Commit, push, remote, release, and installation actions require separate explicit authorization.
-
-See [AGENTS.md](AGENTS.md) for repository editing guidance.
+See [AGENTS.md](AGENTS.md) for contributor instructions.
 
 ## Acknowledgments
 

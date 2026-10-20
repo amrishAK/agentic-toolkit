@@ -42,7 +42,7 @@ The proposal should identify intended users, the problem and supporting evidence
 
 Product-level feature briefs can describe user-visible outcomes, intended scope, exclusions, and acceptance examples, including behavior-driven scenarios where useful. These briefs are proposed product-facing artifacts, distinct from Engineering feature contracts, which describe detailed intended behavior, edge cases, and failure behavior. Acceptance criteria are observable conditions for judging an outcome; acceptance examples illustrate expected behavior and do not replace criteria unless explicitly adopted as criteria. Engineering remains responsible for validating technical feasibility and elaborating its contracts, implementation tasks, and verification.
 
-Roadmaps, target versions, feature priorities, and release scope are proposals until approved by the responsible product owner. The [project roadmap](../status/roadmap.md) records high-level direction; no release plans or approved release scope for these future suites currently exist.
+Roadmaps, target versions, feature priorities, and release scope are proposals until approved by the responsible product owner. This proposal is not a project roadmap or delivery commitment; this repository currently maintains no approved roadmap or release plan for these future capabilities.
 
 ## Shared guidance and technology selection
 

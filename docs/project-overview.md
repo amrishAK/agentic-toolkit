@@ -16,6 +16,21 @@ Agent guidance is often written into personal client configurations. As collecti
 - **A path from source to use.** Make it practical to select and install guidance into an agent client, while keeping the source as the place to make and review changes.
 - **Portability as a direction.** Over time, client-specific adapters could make the same maintained guidance usable in more clients. Each client would need explicit support; source organization alone does not provide compatibility.
 
+## Agent design philosophy
+
+The agents are designed as bounded specialist roles that people can select for a task, not as autonomous personas expected to own an entire project. Each role should make its outcome, responsibilities, and limits clear. Roles are reusable guidance categories, not a recommendation for a particular team structure or headcount.
+
+The design follows several principles:
+
+- **Define responsibility before procedure.** Agent definitions say what a role owns, where its responsibility stops, and when it should hand work to another role. This keeps adjacent responsibilities distinct—for example, product planning stays separate from detailed feature-contract design and implementation.
+- **Keep methods reusable.** Skills describe task methods that can be shared across roles; supporting references hold focused detail. Agents link to the guidance they need instead of duplicating whole workflows. Selection should bring in only relevant additional guidance.
+- **Make review distinct where it matters.** The collection includes independent reviewer roles for product plans, feature contracts, and engineering changes. Review boundaries are explicit: a reviewer evaluates work without taking over its authoring, and any selected remediation follows its own authorization and handoff rules.
+- **Ground work in evidence and preserve human decisions.** Roles are expected to distinguish evidence from assumptions and proposals. Product priorities, scope, approvals, and other decisions remain with the responsible person; a recommendation or handoff does not itself approve or execute an action.
+- **Coordinate through clear handoffs, not assumed automation.** A handoff carries context and identifies a requested next decision or action. It does not mean that another agent will be invoked automatically, that work is approved, or that a process must always run end to end.
+- **Scale guidance to the task.** Shared task framing and specialist workflows help users choose an appropriate method, but roles do not require every workflow for every request. Select enough guidance to do the work correctly without turning a simple task into unnecessary process.
+
+These principles describe how the maintained roles and workflows are intended to fit together. For the actual role boundaries and available handoffs, see the [Software Product Development suite guide](suites/software-product-development.md) and the maintained [agent definitions](../src/agents/). The [definition-authoring guide](reference/definition-authoring.md) explains how responsibilities are divided between agents, skills, references, templates, and catalogues.
+
 ## Intended user workflow
 
 1. Maintainers improve roles, workflows, and supporting material in the shared source.
@@ -60,6 +75,7 @@ The current installer implements this model for Copilot only. This high-level de
 ## Related documents
 
 - [README](../README.md): current repository scope, compatibility, and maintenance boundaries.
+- [Definition authoring](reference/definition-authoring.md): source ownership and requirements for agent and skill guidance.
 - [Copilot installation guide](installation.md): supported installation workflow and its limitations.
 - [Documentation index](README.md): available suite guides and collection navigation.
 - [Software Product Development suite guide](suites/software-product-development.md): current packages, roles, skill categories, and handoffs.

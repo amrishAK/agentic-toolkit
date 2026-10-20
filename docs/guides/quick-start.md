@@ -1,53 +1,61 @@
 # Quick start
 
-Use this guide to find and use maintained Agentic Toolkit guidance for a software product development task. The repository provides the Software Product Development suite, independently installable `product-management` and `engineer` packages, and a Copilot installer; it does not provide an automatic workflow or guarantee that an agent client will discover installed definitions.
+Use this guide to find, preview, install, and use Agentic Toolkit guidance. The repository includes the Software Product Development suite and a Copilot installer. It does not automate the workflow or guarantee that a Copilot client discovers installed files.
 
-## 1. Choose a starting point
+## 1. Choose guidance
 
-You can browse the maintained definitions without installing them. Start with the [suite guide](../suites/software-product-development.md) to find a role or task workflow, or use the [skill selection workflow](../../src/skills/agent-workflows/skill-selection-workflow.md) and its [Software Product Development task matrix](../../src/skills/agent-workflows/references/skill-selection-workflow-matrix.md) to select relevant guidance.
+Start with the [suite guide](../suites/software-product-development.md) to find a role or task. Use an **agent** for a role with defined responsibilities; use a **skill** for a task method. Browse the maintained files directly if you do not need to install them.
 
-Choose an agent when you need a role with defined responsibilities and boundaries. Choose a skill when you need a task method. An agent may require linked skills; selecting one skill does not install an agent.
+## 2. Preview an installation
 
-## 2. Preview a Copilot installation
+From the repository root, use GNU Make and Python 3.10 or newer. Install the declared Python dependencies first:
 
-To install guidance, use GNU Make and Python 3.10 or newer from the repository root. Install the declared Python dependency with `python -m pip install -r requirements.txt` (use `python3` instead of `python` on Linux when needed).
+```text
+python -m pip install -r requirements.txt
+```
 
-List available definitions, then preview one agent and its linked resources:
+On Linux, use `python3` instead of `python` if that is your Python command. List available guidance, then preview an agent and its required resources:
 
 ```text
 make list
 make plan SUITE=software-product-development AGENT=code-engineer SCOPE=user
 ```
 
-`plan` displays the generated paths and checks the destination without creating files. The user scope installs under `.copilot` in the Python user's home directory. To install to a project instead, set `SCOPE=workspace` and `WORKSPACE` to an existing project directory; see the [installation guide](../installation.md) for platform-specific examples and staging options.
+`plan` shows the files and checks the destination without writing anything. The default `user` scope installs under `.copilot` in the Python user's home directory. For a project installation, use `SCOPE=workspace` and provide an existing project path with `WORKSPACE`. See the [installation guide](../installation.md) for platform details and safe update options.
 
-## 3. Install only what you need
+## 3. Install what you need
 
-If the preview is as expected, run the matching install command:
+If the preview looks right, run the corresponding `install` command:
 
 ```text
 make install SUITE=software-product-development AGENT=code-engineer SCOPE=user
 ```
 
-For a task that needs skills without an agent, select the relevant skills explicitly. For example, for Rust code-quality work:
+You can instead install a responsibility package:
+
+```text
+make plan PACKAGE=product-management
+make install PACKAGE=product-management
+```
+
+Or select skills without installing an agent:
 
 ```text
 make plan SUITE=software-product-development SKILLS=code-quality-workflow,rust-code-quality
 make install SUITE=software-product-development SKILLS=code-quality-workflow,rust-code-quality
 ```
 
-For a responsibility package, use `PACKAGE=product-management` or `PACKAGE=engineer` instead of `AGENT` or `SKILLS`. Omit individual selectors to install the full suite. Each package includes its respective independent reviewers; `engineer` also includes testing and change/security review.
+Choose one selector: `PACKAGE`, `AGENT`, `SKILL`, or `SKILLS`. Omit them to select the full suite. An agent includes its required linked resources; selected skills include their linked resources, not unrelated agents. The [installation guide](../installation.md) explains selection and update behavior.
 
-Agent selection includes that agent's linked required skills and resources, not every skill listed in a catalogue. Skill selection installs the selected skills and their linked resources, not unrelated agents. Read the [installation guide](../installation.md) before updating an existing installation or when you need the full selection and update behavior.
+## 4. Use and check the guidance
 
-## 4. Use and verify the guidance
+If your Copilot client discovers the generated files, select the agent and explain the task, relevant project context, and intended result. Follow the role's boundaries and required workflows. If discovery is unavailable, read the maintained source directly.
 
-If your Copilot harness discovers the generated definition, select the agent and describe the task, relevant project context, and desired outcome. Follow the role's boundaries and any required workflows; use the task matrix for additional guidance when needed. If discovery is unavailable, open the maintained source and use it directly rather than assuming the installation is active.
-
-Confirm that generated files are in the intended destination and check discovery in the actual client. Installation does not configure client settings or prove runtime discovery, tool availability, delegation, or behavior. The [usage and compatibility notes](../../README.md#usage-and-compatibility) explain these limits.
+Check that files were written to the intended location and confirm discovery in the actual client. Installation does not configure client settings or prove discovery, tool availability, delegation, or behavior. See the repository's [usage and compatibility notes](../../README.md#usage-and-compatibility).
 
 ## Next
 
-- Use the [Software Product Development suite guide](../suites/software-product-development.md) to choose roles and understand handoffs.
-- See [Using Agentic Toolkit effectively](using-agentic-toolkit-effectively.md) for proportionate decision-making and traceability.
-- See [Using Agentic Toolkit as a solo developer](using-agentic-toolkit-as-a-solo-developer.md) for a lightweight individual workflow.
+- [Installation guide](../installation.md): scopes, selection options, and safe updates.
+- [Software Product Development suite](../suites/software-product-development.md): current roles and task routes.
+- [Roadmap-to-release workflow](roadmap-to-release-workflow.md): planning through authorized delivery.
+- [Using Agentic Toolkit effectively](using-agentic-toolkit-effectively.md) and [as a solo developer](using-agentic-toolkit-as-a-solo-developer.md): proportionate use and decision-making.
