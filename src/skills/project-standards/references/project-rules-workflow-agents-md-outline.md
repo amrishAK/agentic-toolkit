@@ -2,7 +2,7 @@
 
 Keep `AGENTS.md` short: it loads on every request. Use it for navigation and essential agent operations, not duplicated scope or architecture policies. Replace every `<placeholder>` with verified project facts, or delete the line. Link only existing paths; report missing authorities rather than inventing them.
 
-Build the map from the [confirmed setup structure](project-rules-workflow-setup-interview.md#structure-proposal-and-refinement), selecting only useful existing entry points from the [repository-wide placement map](project-conventions-architecture-and-scope.md#repository-layout). Keep proposed/deferred paths and rationale in the setup proposal/report, not as fictional locations in `AGENTS.md`. Client-specific guidance directories are optional, not baseline scaffolding.
+Use this outline when creating/updating an agent guide is in the agreed scope; the default [setup outcome](../project-rules-workflow.md) is a repository profile and README. Build the map from the [confirmed setup structure](project-rules-workflow-setup-interview.md#structure-proposal-and-refinement), selecting only useful existing entry points from the [repository-wide placement map](project-conventions-architecture-and-scope.md#repository-layout). Keep proposed/deferred paths and rationale in the setup proposal/report, not as fictional locations in `AGENTS.md`. Client-specific guidance directories are optional, not baseline scaffolding.
 
 Feature tracking is required by default and may be omitted only by an explicit, confirmed project-specific rule; see [project tracking](../../documentation/references/documentation/project-tracking.md). Include the tracker link and require same-change tracker updates when tracking is adopted; omit both when the project has confirmed an opt-out.
 
@@ -15,6 +15,7 @@ Feature tracking is required by default and may be omitted only by an explicit, 
 
 | Path | Purpose / authority | Consult when |
 |---|---|---|
+| <repository profile link, when adopted> | Confirmed technical profile, not configuration or execution evidence | Checking project characteristics; recheck relevant configuration |
 | <product overview link> | Product scope, non-goals and vision | Assessing product boundaries |
 | <architecture/contract links> | Architecture constraints and public contracts | Changing relevant modules or APIs |
 | <feature tracker link, when tracking is adopted> | Current implementation state | Checking or changing feature status |

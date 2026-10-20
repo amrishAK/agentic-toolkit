@@ -1,109 +1,95 @@
 ---
 name: project-rules-workflow
-description: "Use when setting up, standardizing, reviewing, or updating repository structure and guidance: questionnaire-based interviews, AGENTS.md, README, scoped instructions, project skills, feature tracking, LICENSE, and .gitignore. Covers baseline inventory, confirmed setup, license and ignore safeguards, convention drift, and validation."
+description: "Use for profile-first repository setup, standardization, updates, and audits: inspect, prefill a YAML repository profile, interview about repository and application types, build systems and CI/CD, confirm, save the profile, create or update README, and validate. Covers optional agent guidance, licensing, and ignore safeguards."
 ---
 
 # Repository setup and project rules workflow
 
 ## When to use
 
-Use this skill to set up or audit repository structure and agent guidance.
+Use this skill to establish or maintain a repository profile, README, and agreed repository guidance, or to audit their consistency.
 
 ## Scope and boundaries
 
-Establish a useful repository structure and a reliable guide for any agent. Project guidance and its authorities live in the repository so they are versioned and shared. Cross-project defaults come from [project conventions](project-conventions.md); record adopted conventions locally because a repository cannot reference personal skills. Review-only requests are findings-only; setup and standardization use the confirmed interview scope.
+The default setup outcome is a confirmed repository profile and a useful README. Other baseline files are conditional on project requirements, usefulness, and approval, not a directory-creation checklist. Preserve established decisions and locations; use [project conventions](project-conventions.md) as adaptable defaults.
 
-For setup, follow **inspect → explain/propose → ask/refine → confirm → create essentials → validate/report**. Initial interview questions may collect context before a meaningful proposal is possible; they do not replace an explained structure proposal, refinement and final confirmation. Essentials are the applicable files confirmed during the interview, not every catalogue item or a fixed directory scaffold.
+Setup follows **inspect -> prefill profile -> interview gaps -> confirm -> save profile and write README -> validate**. Audits are findings-only. Targeted updates use only the relevant steps and do not restart the full interview or require a new profile.
+
+The profile is descriptive, not executable configuration, a policy override, permission, or proof of verification. Production code, tests, build/CI/CD configuration, dependencies, file migrations, and publishing require separate explicit authorization.
 
 ## Procedure
 
-### 1. Gather evidence
+### 1. Inspect
 
-- Inspect existing rule files first: `AGENTS.md`, `.github/copilot-instructions.md`, `.github/instructions/`, `.github/skills/`, `.github/agents/`, `CLAUDE.md`, and nested `AGENTS.md` files.
-- Read the README, `docs/`, directory READMEs (such as `tests/`, `.github/`, or build folders), build manifests, CI workflows, test layout, and representative source modules.
-- Inventory license files, notices, package license metadata, `.gitignore`, tracked files, generated output, local configuration, and existing release/contribution guidance. Do not read or reproduce secret contents.
-- Assess each applicable baseline item as present, missing, inconsistent, or not established. Separate required project guidance from optional infrastructure; inspect existing authorities before proposing replacements.
-- Load `documentation-selection-workflow` or read [the selection method](../documentation/documentation-selection-workflow.md) to access the shared matrix and assess essential and stage-dependent documents, their locations, owners, and rules. Reuse the selected shared rules and templates instead of inventing parallel formats.
-- Confirm build, test, and lint commands from manifests, aliases, scripts, and CI. Run read-only or safe commands only when needed to confirm them.
-- Check recent commit messages for the convention in use.
-- Treat current code as evidence of present behaviour, not automatically the intended contract. When code and docs disagree, report the contradiction instead of choosing one silently.
-- Do not invent commands, paths, conventions, or decisions. Ask one focused question when a material rule cannot be inferred.
-- For initial setup or requested standardization, run the [setup interview](references/project-rules-workflow-setup-interview.md) after gathering evidence. Use the [repository-wide placement map](references/project-conventions-architecture-and-scope.md#repository-layout) to explain common items and propose a structure suited to the detected ecosystem. Show each relevant path's meaning/contents, existing/proposed/deferred state and rationale or applicable conditions before asking the user to choose; refine the proposal as answers arrive. Confirm the project summary, tracking applicability and feature states when relevant, exact files and structural changes, preserved opt-outs, and deferred gaps before writing. Create or update the tracker only when tracking applies and that scope is confirmed. Ask one question at a time whenever uncertain, including during implementation.
+- Read applicable repository instructions first, then the existing profile if any, README, relevant docs, manifests, CI/CD configuration, and established test/build entry points. Inspect representative source only as needed to understand deliverables.
+- Identify repository purpose and layout, application types, languages/toolchains, build systems, CI, CD, and intended platforms. Distinguish configuration that exists from future wishes and successful execution.
+- Inspect licensing, ignore rules, tracked/generated files, and other baseline items only as relevant to the request. Do not read or reproduce secret contents.
+- Check paths and command definitions from actual files. Code is evidence of current behavior, not automatically the intended contract. Surface contradictions between instructions, profile, docs, and configuration rather than silently choosing one.
 
-### 2. Choose the right place for each rule
+### 2. Prefill the profile
 
-The [repository-wide placement map](references/project-conventions-architecture-and-scope.md#repository-layout) covers code, tests, resources, tools and configuration. The table below routes guidance only; client-specific paths are options for supported hosts, not directories to create for every project.
+- Follow the [repository profile format and example](references/project-rules-workflow-repository-profile.md). Reuse an established equivalent; otherwise propose root `project-profile.yaml`.
+- Draft supported facts from repository evidence. Keep unknown information explicit and distinguish absent tools from unknown or not-applicable ones. Do not substitute a desired build or pipeline for the current setup.
+- Keep the draft in the conversation until approved. Do not write a scratch profile into the repository.
+- For targeted updates, inspect only affected fields and authorities. Preserve unrelated fields and established formats; do not silently migrate a profile.
 
-| Content | Location |
-|---|---|
-| Rules that apply to most work | `AGENTS.md` at the repository root; use the [outline](references/project-rules-workflow-agents-md-outline.md) |
-| Rules for specific folders or file types | `.github/instructions/<topic>.instructions.md` with a narrow `applyTo` glob |
-| Repeatable multi-step project procedures | `.github/skills/<name>/SKILL.md` |
-| Explanations, architecture, plans, status | `docs/`, following the [docs layout requirements](../documentation/references/documentation/docs-layout.md); link from rules |
-| Project entry point and setup | `README.md`, linked to the project guide and authoritative docs |
-| License and ignore policy | Existing license files (or `LICENSE`) and `.gitignore`, using the safeguards below |
-| Contribution/security/changelog and issue/PR templates | Stage-appropriate policy docs and `.github/` templates from the document catalogue; confirm policy and contacts before writing |
+### 3. Interview gaps
 
-- Prefer `AGENTS.md` over `.github/copilot-instructions.md`. If both exist, consolidate or make one defer to the other; never keep conflicting copies.
-- Use nested `AGENTS.md` files only for independent subprojects, such as separate workspace members with their own commands.
-- Avoid `applyTo: "**"`; it loads on every request. Use specific globs such as `src/db/**` or `tests/**`.
-- Path-scoped instructions link to the matching directory README rather than repeating it.
-- Create project skills or agents only for recurring procedures that `AGENTS.md` and path-scoped instructions cannot cover.
+- Use the [setup interview](references/project-rules-workflow-setup-interview.md) as a question bank, not a mandatory questionnaire.
+- Confirm purpose, audience, problem, and stage for initial setup. Offer an evidence-based draft; do not require the user to retype facts or reconfirm settled answers individually.
+- Ask one focused question at a time using an interactive question tool when available. Resolve only missing, ambiguous, conflicting, or intentional choices needed for the requested scope.
+- Separate current CI/CD, build systems, and deliverables from requested future infrastructure. If user confirmation is unavailable, return the draft and open questions without writing.
+- Use [documentation selection](../documentation/documentation-selection-workflow.md) for the README and any additional documents. Select relevant rules and owners rather than proposing every catalogue item.
 
-### 3. Apply conventions
+### 4. Confirm
 
-- Record what the project actually does. Where it follows a [project convention](project-conventions.md), restate that convention briefly in the project's own rules.
-- Where the project differs from a convention, write the project's actual rule and report the difference to the user. Do not migrate files, rename paths, or add tooling unless asked.
-- For new projects, or when the user asks to adopt conventions, record the applicable, confirmed conventions in their repository-owned authorities and link them from the guide.
-- After final confirmation, create or update the agreed essentials rather than stopping at recommendations: `AGENTS.md`, `README.md`, and applicable confirmed licensing, ignore rules and supporting documentation, using the safeguards below. Essentials do not mean every catalogue entry. Preserve existing decisions and opt-outs; report deferred items instead of filling gaps with placeholders.
-- Implement only the confirmed documentation structure and baseline files with useful, evidence-based content. Report absent test tiers and infrastructure rather than creating empty directories, fictional commands, or unsupported guarantees.
-- General setup does not authorize production code, tests, build/CI configuration, installing tools, publishing, or moving existing files. Obtain explicit authorization for those changes and otherwise report them as deferred.
+- Present the completed profile, proposed README content/changes, and exact file actions. Include retained decisions, deliberate deviations, unknowns, and deferred gaps.
+- Explain any additional baseline files or structure changes with purpose and evidence using the [structure proposal](references/project-rules-workflow-setup-interview.md#structure-proposal-and-refinement). Do not expand into a full repository redesign.
+- Obtain approval before setup/standardization writes. An explicit, sufficiently clear targeted update already authorizes that bounded scope; ask again only if a material decision or scope change arises.
 
-#### License and ignore-file safeguards
+### 5. Save the profile and write the README
 
-- **License:** Inspect existing licenses, notices, README statements, and package metadata. Ask whether the project is intended to be open source when unclear; do not impose an open-source license on a private/proprietary project. Preserve existing licensing and third-party notices. Ask the user to choose or confirm a missing, replacement, conflicting, or ambiguous license and any required rights-holder details; never invent ownership or silently relicense.
-- Use the exact authoritative text for the confirmed license and its identifier, not a paraphrase. Verify project references and metadata agree; manifest edits require explicit authorization, otherwise report the mismatch. Do not claim legal advice or grant rights on the user's behalf.
-- **Ignore rules:** Derive focused `.gitignore` patterns from the actual tools and repository layout. Preserve useful existing rules and exceptions. Check lockfile and shared-editor-config conventions rather than blanket-ignoring them; keep intended source, fixtures, examples, and configuration templates visible.
-- Validate representative ignored and retained paths with `git check-ignore -v --no-index` or equivalent, and inspect status for newly hidden intended files. An ignore rule does not untrack committed files or remove secrets from history. Never run `git rm --cached`, delete files, or rewrite history as an incidental fix; report tracked sensitive/generated files without exposing secret contents.
-
-### 4. Write enforceable rules
-
-- Make root `AGENTS.md` a navigation-first entry point, not a scope or architecture handbook. Link the authoritative scope, non-goals, architecture, and public-contract documents rather than reproducing their rules. Keep area-specific enforceable constraints in their owning guidance.
-- Cover, where relevant:
-  - the project summary and, when feature tracking is confirmed as applicable, a link to the feature tracker (`docs/status/features.md`);
-  - links to scope/non-goals and architecture/public-contract authorities, with when to consult them;
-  - where source, unit tests (including inline tests), integration tests, E2E tests, fixtures, test infrastructure, benchmarks and examples live, where established;
-  - release plans, acceptance gates and candidate evidence, separately from feature state and high-level roadmap;
-  - the shared entry-point commands for each test tier, which tiers need infrastructure or serial runs, and known platform limits;
-  - where docs live, and the rule that status files are updated in the same change;
-  - the commit convention;
-  - paths and operations agents must not touch without approval.
-- Keep `AGENTS.md` short. Move detail into path-scoped instructions, skills, or linked docs.
-- Use a compact `Path | Purpose / authority | Consult when` map with relative Markdown links. Route agents to task-relevant context rather than requiring every document on every task. Report missing test tiers, benchmark harnesses, or owning documents instead of inventing them; distinguish planned gates from existing runners.
-- When removing duplicated scope or architecture rules, preserve their authority elsewhere. If a constraint exists only in root instructions, report the gap and obtain a decision about preserving or relocating it rather than silently deleting it.
-- Link to the authoritative document with relative paths. Never copy facts that change often, such as test counts, coverage, benchmark numbers, or progress percentages; link to their source.
-- Keep current behaviour separate from planned work. Put proposals in the project's established location (default `docs/proposals/` for new structures); do not migrate an existing layout incidentally.
-- Exclude secrets, credentials, machine-specific paths, and personal preferences that do not apply to other contributors.
-- Customization files need valid YAML frontmatter where required and a keyword-rich `description` beginning "Use when" or "Use for". Quote values that contain colons.
-
-### 5. Update and audit
-
-- Preserve useful existing rules, terminology, and structure. Make focused edits rather than wholesale rewrites.
-- An audit checks for:
-  - stale paths, commands, or globs;
-  - contradictions between rules, docs, and code;
-  - duplicated rules, or copied facts that have drifted;
-  - overly broad `applyTo` globs and missing descriptions;
-  - plans described as implemented behaviour;
-  - a missing or outdated project summary, and, when tracking applies, a missing tracker or one whose contents disagree with the code; assess any omission against confirmed project rules rather than treating a missing file alone as an opt-out;
-  - missing/conflicting license declarations, lost notices, and absent or overly broad ignore rules;
-  - drift from [project conventions](project-conventions.md), reported per convention and marked as deliberate or unexplained;
-  - gaps against the [open-source baseline](references/project-conventions-oss-baseline.md), reported by stage.
+- Save only confirmed information in the profile, with explicit unresolved values where the user accepts deferral. Create or update the README from confirmed project purpose and verified repository evidence, not by dumping YAML into Markdown.
+- Follow the [README guidance](../documentation/references/documentation/docs-layout.md#readme-and-documentation-index): purpose, status, prerequisites, first supported workflow, development commands, deeper docs, and confirmed licensing where applicable. Preserve useful existing content; do not rewrite unrelated sections.
+- Link to real configuration and authoritative docs instead of copying mutable details. Report missing or unverified commands without inventing usage or claiming setup works.
+- Create other baseline files only within agreed scope. Use the routing and safeguards below. Record adopted conventions in repository-owned guidance, not links to a personal skill installation.
 
 ### 6. Validate and report
 
-- Confirm every referenced path, link, and glob matches real files.
-- Confirm listed commands exist; run safe, relevant ones when feasible and report any not run.
-- Check frontmatter syntax, that skill `name` matches its folder, and that `applyTo` globs are specific.
-- Review the final changes, including new/untracked files, against the confirmed scope. Check that existing constraints and unrelated work were preserved.
-- Report files created or changed, evidence used, convention drift, contradictions, open questions, and unverified items. Account for each baseline item as present, created/updated, deferred, not applicable, or unresolved; do not claim the whole baseline is complete when gates remain unverified.
+- Parse the YAML with an available safe parser, reject duplicate keys, and check the profile's [field meanings](references/project-rules-workflow-repository-profile.md#field-rules). If parsing is unavailable, explicitly report syntax as unverified; do not install tools without approval.
+- Compare changed profile fields and README claims with manifests, workflows, and linked authorities. Check paths, relative links/anchors, documented commands, and relevant instruction globs. Distinguish intended platform support from executed evidence.
+- Check customization frontmatter where applicable: names follow the source or installed layout being maintained, descriptions support discovery, and scoped globs are specific.
+- Run the smallest safe relevant checks when feasible. Inspect the full diff and new/untracked files, preserving unrelated work.
+- Report changed files, exact checks/results, contradictions, and unresolved/deferred items. Account for applicable baseline gaps without claiming the whole repository is complete.
+
+### Choosing the right place for each rule
+
+Use the [repository placement map](references/project-conventions-architecture-and-scope.md#repository-layout) for broader layout decisions. Client-specific paths below apply only to supported hosts.
+
+| Content | Location |
+|---|---|
+| Structured project characteristics | Existing profile location, otherwise proposed root `project-profile.yaml` |
+| Human-facing introduction and first workflow | `README.md` |
+| Agent navigation and essential project constraints | `AGENTS.md`, using the [outline](references/project-rules-workflow-agents-md-outline.md) |
+| Narrow folder/file-type instructions | Applicable scoped instructions, such as `.github/instructions/<topic>.instructions.md` |
+| Recurring project procedures | Established project skills; create only when ordinary guidance is insufficient |
+| Detailed explanations, contracts, plans, status | Existing canonical docs, selected through the [documentation matrix](../documentation/references/documentation-matrix.md) |
+| Licensing and ignored output | Existing license files and `.gitignore`, with safeguards below |
+
+- Preserve existing instruction ownership. Resolve conflicting copies before consolidating; do not remove rules that lack another authority. Keep `AGENTS.md` navigation-first, linking detailed scope, contracts, and commands.
+- Use nested guides for independent subprojects where useful. Keep scoped globs narrow and link directory guides rather than copying them.
+- Treat feature tracking as the default; omit it only for an explicit, confirmed project-specific opt-out. Keep unrelated stage-dependent baseline policies conditional, proposing them only when relevant. Never create other baseline items merely because a convention lists them.
+
+### License and ignore-file safeguards
+
+- Inspect existing licenses, notices, README statements, and package metadata. Preserve licensing and third-party notices. Confirm unclear open-source/private intent and ask the user to choose or confirm missing, replacement, or conflicting licensing and rights-holder details; never invent ownership or silently relicense.
+- Use exact authoritative license text and identifiers, not paraphrases. Report metadata mismatches; manifest edits need explicit authorization. Do not claim legal advice or grant rights.
+- Derive `.gitignore` rules from actual generated/local output. Preserve useful rules and exceptions; retain intended source, fixtures, lockfiles, shared settings, and sanitized templates.
+- Check representative ignored and retained paths with `git check-ignore -v --no-index` or equivalent and inspect status for newly hidden files. Never incidentally delete/untrack files or rewrite history; report tracked sensitive/generated content without exposing secrets.
+
+### Audit and follow-up
+
+- Compare the profile with configuration and README claims. Check stale paths/commands, conflicting or duplicated rules, unsupported claims, plans presented as implemented, and applicable license/ignore gaps.
+- Report convention differences as deliberate or unexplained, not automatically defects. Assess applicable [open-source baseline](references/project-conventions-oss-baseline.md) gaps by stage while preserving project-specific requirements.
+- A missing profile is not a broken build or automatic permission to create one; recommend it where useful. Do not start an interview or persist a report during a findings-only audit.
+- Explicit fix selections authorize only the selected recommendations. Follow the active role's review and delegation boundaries; selection does not authorize unrelated baseline work, infrastructure, or delivery.

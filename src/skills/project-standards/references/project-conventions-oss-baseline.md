@@ -45,5 +45,6 @@
 
 - New projects start at Stage 1. Existing projects report their gaps by stage and fix them in order.
 - This baseline is a checklist, not blanket authorization to add tooling or CI. During setup, confirm applicable items and deferred work through the [setup interview](project-rules-workflow-setup-interview.md).
+- The [profile-first setup workflow](../project-rules-workflow.md) defaults to a confirmed repository profile and README. Propose other stage items only when useful or required by adopted project rules; report deferred gaps instead of expanding the approved scope.
 - Private/proprietary intent is not permission to add an open-source license. Follow the [license and ignore-file safeguards](../project-rules-workflow.md#license-and-ignore-file-safeguards); ask about ambiguous licensing and preserve existing rights and notices.
 - Generated files must be reviewed against the real project. Do not add a template that describes commands, platforms or policies the project does not have.

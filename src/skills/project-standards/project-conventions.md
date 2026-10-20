@@ -11,10 +11,11 @@ Use this skill to apply or audit cross-project conventions while preserving esta
 
 ## Scope and boundaries
 
-These are adaptable cross-project defaults, not mandatory directory scaffolding. They explain common repository items, where they belong, when they are useful, and what belongs elsewhere. Each convention lives in its own file so it can be changed independently; other skills and agents link here instead of restating them. The [setup workflow](project-rules-workflow.md) owns inspection, interviewing, structure proposals, confirmation, and creation of agreed essentials; conventions supply placement and content guidance.
+These are adaptable cross-project defaults, not mandatory directory scaffolding. They explain common repository items, where they belong, when they are useful, and what belongs elsewhere. Each convention lives in its own file so it can be changed independently; other skills and agents link here instead of restating them. The [setup workflow](project-rules-workflow.md) owns profile-first inspection, interviewing, confirmation, and creation of the profile, README, and additional agreed files; conventions supply placement and content guidance.
 
 | Convention | File |
 |---|---|
+| Repository profile: purpose/layout, application types, languages, build systems, CI/CD, intended platforms | [Repository profile format](references/project-rules-workflow-repository-profile.md) |
 | One shared entry point for local runs and CI | [entry-points.md](references/project-conventions-entry-points.md) |
 | Documentation tree only: `docs/` layout, documentation entry points, status files, evidence-backed claims | [docs-layout.md](../documentation/references/documentation/docs-layout.md) |
 | Document catalogue: what each document is, where it lives, its owner, and its rules | [Documentation selection matrix](../documentation/references/documentation-matrix.md) |

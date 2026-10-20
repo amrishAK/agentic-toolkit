@@ -1,72 +1,57 @@
 # Setup interview
 
-Use this for initial setup or requested repository standardization, including projects that already have `AGENTS.md`. Follow **inspect → explain/propose → ask/refine → confirm → create essentials → validate/report**, with evidence-based defaults. Collect initial context before proposing when needed, but do not replace meaningful proposal/refinement/confirmation with automatic scaffolding or a final unexplained file list.
+Use this question bank during the [profile-first setup flow](../project-rules-workflow.md). Inspect first and prefill the [repository profile](project-rules-workflow-repository-profile.md); ask only about unresolved facts or choices. Do not run the entire interview for an audit or targeted update.
 
 ## How to ask
 
-1. Gather evidence first (workflow section 1). For each topic below, draft an answer from the repository.
-   - Explain detected structure and suitable options using the [repository-wide placement map](project-conventions-architecture-and-scope.md#repository-layout). Clearly label example or proposed paths; do not imply they already exist.
-2. Ask **one question at a time**, using the ask-question tool when available.
-   - When evidence suggests an answer, offer it as the first choice, marked "(detected)", with alternatives.
-   - When nothing can be inferred, ask an open question.
-3. Skip questions the user has already answered in this conversation.
-4. When running as a subagent without a way to ask the user, stop before writing. Return the drafted answers and the open questions instead of guessing.
-5. Ask whenever a material fact or decision is uncertain; do not treat missing policy as permission to choose one.
-6. Present and refine the structure proposal below before final approval. Finish by showing all answers, exact agreed files and structural changes, retained decisions/opt-outs, deliberate deviations, and deferred items. Ask for confirmation before writing files; a newly discovered material change needs another focused question and confirmation of that change.
+1. Show detected answers with their evidence. Offer them as defaults, not assumptions the user must accept.
+2. Ask one focused question at a time, using an interactive question tool when available. Skip settled questions and irrelevant topics.
+3. For initial setup, confirm a short project summary covering purpose, audience, problem, and stage. An accurate existing summary may be confirmed with the complete profile; do not demand a new essay.
+4. Distinguish unknown, absent/disabled, and not applicable. A wanted build system or pipeline is future intent, not an existing system.
+5. If a material conflict remains, ask the decision owner. Without access to user confirmation, return the draft and open questions without writing.
 
-## Required: the project summary
+## Profile questions
 
-Never skip this. Ask the user for a summary of three to five sentences: what the project is, who it is for, the problem it solves, and its current stage. Offer a draft built from the README if one exists, but the user must confirm or rewrite it. Do not write `AGENTS.md` without a confirmed summary.
+Use these in a useful order for the detected project, not as a fixed script.
 
-## Topics
-
-Ask in this order. Skip a topic only when the evidence is unambiguous, and still show it in the final summary.
-
-| # | Topic | What to establish |
+| Topic | Focused question when evidence is insufficient | Profile fields |
 |---|---|---|
-| 1 | Summary | The required project summary above |
-| 2 | Stage | Prototype, pre-v1 or released; first release target |
-| 3 | Languages and toolchain | Languages, edition or standard, minimum Rust version or compiler support, supported platforms |
-| 4 | Pipeline | The shared entry point (Make, Cargo aliases, scripts), the CI provider, and which CI jobs exist or are wanted |
-| 5 | Layout | Explain and refine the repository-wide structure proposal: source/public interfaces, test tiers, fixtures/test infrastructure, docs, scripts/tools, examples, benchmarks, manifests/configuration, client guidance, outputs and local secrets |
-| 6 | Test tiers | Which tiers exist, which need infrastructure (databases, containers, network), and how to run each |
-| 7 | Architecture boundaries | Layers, platform or backend isolation, public versus internal API, invariants that must hold |
-| 8 | Non-goals | What the project deliberately will not do |
-| 9 | Features and tracking applicability | Whether the project adopts a feature tracker; if so, implemented, in-progress and planned features for `docs/status/features.md` |
-| 10 | Licensing | Open-source or private/proprietary intent; existing or chosen license, notices, required rights-holder details, and metadata conflicts |
-| 11 | Ignore policy | Generated/local files to exclude; source, fixtures, lockfiles and shared configuration to retain; ambiguous tracked output |
-| 12 | Agent boundaries | Paths agents must not touch, and actions that need approval |
-| 13 | Documentation and release policy | Applicable catalog documents; audiences, release scope/gates, contribution workflow, supported versions, private security-reporting contact and any adopted response commitments |
-| 14 | Setup scope | Which missing baseline documents and structure to create now, which deviations to retain, and what to defer |
+| Purpose | What does this project do, for whom, and what problem does it solve? | `project.summary`, `project.audience` |
+| Stage | Is this a prototype, pre-release, or released project? | `project.stage` |
+| Repository | Is this software, documentation, tooling, a template, or a mixed repository? | `repository.type` |
+| Layout | Is this a single project or a monorepo with independently maintained components? | `repository.layout` |
+| Deliverables | What does each component deliver: executable, library, web app, service, or another artifact? | `applications` with type, optional interface, and path |
+| Languages | Which languages/toolchains are maintained here? | `languages`, authoritative manifest/guide links |
+| Build | What build systems are in use, and is there a shared developer entry point? | `build` |
+| CI | Is CI configured? Which provider or providers run it? | `ci` |
+| CD | Is delivery/deployment automated? Which providers and non-sensitive targets are established? | `cd` |
+| Platforms | Which operating systems or runtimes are intended to be supported? | `platforms.intended` |
+| Authorities | Which existing documents/configuration own setup, architecture, and support details? | `authorities` |
 
-Use the [document catalogue](../../documentation/references/documentation-matrix.md) to prepare the documentation questions and proposed outlines. Ask unresolved policy questions separately, one at a time; the table groups topics, not multiple questions in one prompt. Do not manufacture policies or contacts to complete a template.
+Ask CI and CD separately. CI is automated validation; CD is automated delivery/deployment, including package publication where established. Neither records a successful run or gives permission to implement automation.
+
+## Additional questions only when relevant
+
+- **README:** What first supported user workflow should it explain? Verify prerequisites, commands, and expected results from the repository.
+- **Agent guidance:** Is creating/updating `AGENTS.md` or scoped guidance useful and in scope? Identify constraints and authoritative documents rather than inventing policies.
+- **License and ignore rules:** Resolve ambiguous licensing/ownership and intended tracked/generated content using the [safeguards](../project-rules-workflow.md#license-and-ignore-file-safeguards).
+- **Tracking and policies:** Feature tracking is the default; include it unless an explicit, confirmed project-specific opt-out applies. Ask about unrelated stage-dependent policies, such as contribution/security policy or release documents, only when relevant to project stage and scope. Use [documentation selection](../../documentation/documentation-selection-workflow.md) and the responsible decision owners. Do not manufacture contacts, commitments, or release targets.
+- **Architecture and tests:** Locate existing boundaries, non-goals, test tiers, and prerequisites needed for accurate documentation. Missing infrastructure is a gap, not permission to create it.
 
 ## Structure proposal and refinement
 
-Once enough context is known, explain a suitable repository-wide structure, not just the docs tree or the placement of `AGENTS.md`. Use detected paths first and the placement map for applicable gaps. Cover the layout categories above; explicitly mark categories that are not applicable or not established rather than inventing paths. Keep the proposal in the conversation unless a persisted plan is separately requested.
+The default proposal is the profile and README. Expand it only for useful or project-required baseline items. Keep the proposal in the conversation unless a persisted document is requested.
 
-Use a compact table or equivalent with these fields:
-
-| Path / item | Meaning and contents | State | Rationale / applicable conditions |
+| Path / item | Purpose | Action | Evidence / remaining decision |
 |---|---|---|---|
-| Actual path, or clearly labelled candidate path; no path if not established | What it owns and what belongs elsewhere | Existing (retain/update), proposed (create only after confirmation), deferred, or not applicable | Project evidence, ecosystem convention, user need, prerequisite or approval still required |
+| Established profile path, otherwise proposed `project-profile.yaml` | Confirmed technical profile | Create/update only after approval | Detected facts, confirmed answers, explicit unknowns |
+| `README.md` | Human-facing introduction and first supported workflow | Create or focused update | Existing content and verified setup/usage |
+| Additional applicable file | Explain why it is needed | Retain, create/update, defer, or not applicable | Project requirement, evidence, and any approval needed |
 
-- Explain alternatives and trade-offs **before asking the user to choose**. Ask one focused structure question at a time; refine the table as answers arrive. Do not require a choice for settled, unambiguous locations, but include them in the proposal for context.
-- Separate existing paths from proposed paths and future/deferred infrastructure. Describing a desired test tier, build system or CI layout does not authorize its implementation or a file migration.
-- Identify the exact essentials to create/update: `AGENTS.md`, `README.md`, and applicable confirmed licensing, ignore rules and supporting documentation. Select these from evidence and interview answers, not every catalogue row. Preserve confirmed omissions and opt-outs; do not introduce a mandatory tracker.
-- Before writing, confirm the final structure and file actions together with the answers, preserved decisions, deferred work and any remaining unresolved items. Do not silently add files after approval or put links to merely proposed paths in the finished guide.
+Explain alternatives before asking the user to choose. Use the [repository placement map](project-conventions-architecture-and-scope.md#repository-layout) only when layout decisions arise; do not propose every category or migrate files incidentally.
 
-## Feature list (when tracking applies)
+## Confirm and finish
 
-- Confirm whether feature tracking applies. Treat a missing tracker as insufficient evidence of an opt-out; honor an explicit, confirmed project rule to omit one, even when the cross-project default recommends it.
-- Only when tracking applies and is confirmed, build the first draft of the feature table from the README, `docs/`, the public API and tests. Mark each feature `Done` only when code and tests exist.
-- When tracking applies, ask the user to confirm the states, add planned features, and assign targets.
-- When tracking is confirmed as applicable, write the result to `docs/status/features.md`, using the format in the project-tracking convention, and link to it from `README.md` and `AGENTS.md`. Otherwise, do not create the table or add tracker links.
-
-## After the interview
-
-- Only after final confirmation, implement the agreed essentials; do not end at a proposal when setup is authorized. If confirmation cannot be obtained, return the draft proposal and open questions without writing.
-- Write `AGENTS.md` from the [outline](project-rules-workflow-agents-md-outline.md) using the confirmed answers. Align the README summary, link both entry points to relevant authorities, and link to the feature tracker only when tracking is confirmed as applicable.
-- Create or update the confirmed supporting documentation, `LICENSE`, and `.gitignore` using the workflow safeguards. Do not add placeholder directories or template policies unsupported by the answers.
-- Report any differences from project conventions that the answers reveal. Pipeline wishes are not authorization to implement infrastructure: do not migrate files, add tooling, change build/CI configuration, or edit production code/tests without explicit authorization.
-- Verify the completed setup and report deferred, not-applicable, unresolved, and unverified items separately.
+- Show the completed profile, README outline or bounded changes, exact file actions, preserved decisions, and deferred gaps. Obtain setup approval before writing; resolve any later material scope changes separately.
+- Save the profile and create/update the README using the [workflow](../project-rules-workflow.md#5-save-the-profile-and-write-the-readme). Apply optional baseline changes only within approved scope.
+- Validate and report using the workflow. Unknowns and unverified commands remain explicit; a completed interview is not evidence that the build, CI/CD, or claimed platforms work.

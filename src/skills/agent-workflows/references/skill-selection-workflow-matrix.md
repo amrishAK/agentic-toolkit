@@ -32,7 +32,7 @@
 | Documentation selection | Identifying document type, owner, placement, and applicable content/structure rules before reviewing or changing a document | [documentation-selection-workflow](../../documentation/documentation-selection-workflow.md) |
 | Technical documentation | Writing, reviewing, or maintaining README files, guides, architecture docs, runbooks, and other technical documentation | [technical-documentation-workflow](../../documentation/technical-documentation-workflow.md) |
 | Project conventions | Applying or auditing repository-wide conventions, documentation layout, entry points, test tiers, and baseline files | [project-conventions](../../project-standards/project-conventions.md) |
-| Project setup and standardization | Inspecting and standardizing repository guidance and structure through an agreed setup process | [project-rules-workflow](../../project-standards/project-rules-workflow.md) |
+| Project setup and standardization | Inspecting, prefilling a repository profile, interviewing gaps, and creating/updating the profile, README, and agreed guidance | [project-rules-workflow](../../project-standards/project-rules-workflow.md) |
 | Change review | Readiness assessment for a commit, pre-PR, pull request, or release in the active role's supported mode | [review-workflow](../../review-and-security/review-workflow.md) |
 | Security review | Authorized source security review and threat modeling | [security-review-workflow](../../review-and-security/security-review-workflow.md) |
 
