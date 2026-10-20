@@ -271,10 +271,10 @@ class SuiteManifestTests(unittest.TestCase):
                     installer.inventory(self.root)
                 duplicate.unlink()
 
-    def test_engineering_manifest_covers_every_maintained_definition(self) -> None:
+    def test_software_product_development_manifest_covers_every_maintained_definition(self) -> None:
         definitions = installer.inventory(installer.ROOT)
-        collection = installer.load_suite(installer.ROOT, "engineering", definitions)
-        files = installer.render(installer.ROOT, "engineering")
+        collection = installer.load_suite(installer.ROOT, "software-product-development", definitions)
+        files = installer.render(installer.ROOT, "software-product-development")
         for kind in ("agents", "skills"):
             self.assertEqual(
                 set(collection[kind]),
@@ -283,15 +283,15 @@ class SuiteManifestTests(unittest.TestCase):
         for source in definitions:
             self.assertIn(installer.output_path(source, definitions, installer.ROOT), files)
         self.assertFalse((installer.ROOT / "src/shared").exists())
-        self.assertFalse((installer.ROOT / "src/suites/engineering").exists())
+        self.assertFalse((installer.ROOT / "src/suites/software-product-development").exists())
 
 
 class RenderingTests(unittest.TestCase):
     def test_language_skills_default_includes_all_language_definitions(self) -> None:
-        files = installer.render(installer.ROOT, "engineering")
+        files = installer.render(installer.ROOT, "software-product-development")
         self.assertEqual(
             files,
-            installer.render(installer.ROOT, "engineering", language_skills="include"),
+            installer.render(installer.ROOT, "software-product-development", language_skills="include"),
         )
         language_root = installer.ROOT / "src/skills/programming-languages"
         definitions = installer.inventory(installer.ROOT)
@@ -301,8 +301,8 @@ class RenderingTests(unittest.TestCase):
             self.assertIn(installer.output_path(source, definitions, installer.ROOT), files)
 
     def test_suite_excludes_language_only_definitions_but_keeps_other_content(self) -> None:
-        included = installer.render(installer.ROOT, "engineering")
-        excluded = installer.render(installer.ROOT, "engineering", language_skills="exclude")
+        included = installer.render(installer.ROOT, "software-product-development")
+        excluded = installer.render(installer.ROOT, "software-product-development", language_skills="exclude")
         language_root = installer.ROOT / "src/skills/programming-languages"
         definitions = installer.inventory(installer.ROOT)
         for source in definitions:
@@ -386,9 +386,9 @@ class RenderingTests(unittest.TestCase):
         ):
             with self.subTest(selection=selection):
                 self.assertEqual(
-                    installer.render(installer.ROOT, "engineering", **selection),
+                    installer.render(installer.ROOT, "software-product-development", **selection),
                     installer.render(
-                        installer.ROOT, "engineering", language_skills="exclude", **selection,
+                        installer.ROOT, "software-product-development", language_skills="exclude", **selection,
                     ),
                 )
 
@@ -400,13 +400,13 @@ class RenderingTests(unittest.TestCase):
                         installer.InstallError, "LANGUAGE_SKILLS must be include or exclude",
                     ):
                         installer.render(
-                            installer.ROOT, "engineering", language_skills=value, **selection,
+                            installer.ROOT, "software-product-development", language_skills=value, **selection,
                         )
 
     def test_suite_layout_and_all_links(self) -> None:
-        files = installer.render(installer.ROOT, "engineering")
-        self.assertEqual(sum(path.suffix == ".md" and path.parent == Path("agents") for path in files), 13)
-        self.assertEqual(sum(path.name == "SKILL.md" for path in files), 47)
+        files = installer.render(installer.ROOT, "software-product-development")
+        self.assertEqual(sum(path.suffix == ".md" and path.parent == Path("agents") for path in files), 15)
+        self.assertEqual(sum(path.name == "SKILL.md" for path in files), 50)
         governance = Path("skills") / "documentation-selection-workflow"
         self.assertIn(governance / "SKILL.md", files)
         common_docs = (
@@ -422,7 +422,8 @@ class RenderingTests(unittest.TestCase):
             "documentation-rules", "docs-layout", "technical-guides",
             "product-overview", "architecture-docs",
             "feature-docs", "project-tracking", "release-docs",
-            "release-notes", "roadmap-known-issues", "community-docs",
+            "release-notes", "roadmap-docs", "known-issues-docs",
+            "decision-log", "technical-debt-docs", "community-docs",
         ):
             self.assertIn(common_docs / f"{topic}.md", files)
         self.assertFalse(any(
@@ -446,9 +447,31 @@ class RenderingTests(unittest.TestCase):
                     if resolved is not None:
                         self.assertTrue(resolved[0].is_file(), (source, match[2]))
 
+    def test_code_engineer_includes_tdd_and_validation_workflows(self) -> None:
+        files = installer.render(
+            installer.ROOT, "software-product-development", agent="code-engineer",
+        )
+        self.assertEqual(
+            [path.name for path in files if path.parent == Path("agents")],
+            ["code-engineer.agent.md"],
+        )
+        for name in (
+            "test-driven-implementation-workflow",
+            "unit-test-workflow",
+            "integration-test-workflow",
+            "e2e-test-workflow",
+            "release-workflow",
+        ):
+            with self.subTest(skill=name):
+                self.assertIn(Path("skills") / name / "SKILL.md", files)
+        agent = files[Path("agents") / "code-engineer.agent.md"].decode()
+        self.assertIn(
+            "../skills/test-driven-implementation-workflow/SKILL.md", agent,
+        )
+
     def test_documentation_agent_installs_with_required_workflows(self) -> None:
         files = installer.render(
-            installer.ROOT, "engineering", agent="technical-documentation-writer",
+            installer.ROOT, "software-product-development", agent="technical-documentation-writer",
         )
         agent = Path("agents") / "technical-documentation-writer.agent.md"
         self.assertIn(agent, files)
@@ -490,9 +513,9 @@ class RenderingTests(unittest.TestCase):
                 selection = ("documentation-selection-workflow",)
                 if include_writer:
                     selection += ("technical-documentation-workflow",)
-                files = installer.render(installer.ROOT, "engineering", skills=selection)
+                files = installer.render(installer.ROOT, "software-product-development", skills=selection)
                 self.assertEqual(
-                    sum(path.parent == common_docs for path in files), 11,
+                    sum(path.parent == common_docs for path in files), 14,
                 )
                 self.assertIn(common_docs / "technical-guides.md", files)
                 self.assertNotIn(common_docs / "document-outlines.md", files)
@@ -544,7 +567,7 @@ class RenderingTests(unittest.TestCase):
                     )
 
     def test_agent_selection_includes_only_one_agent_and_transitive_skills(self) -> None:
-        files = installer.render(installer.ROOT, "engineering", agent="benchmark-engineer")
+        files = installer.render(installer.ROOT, "software-product-development", agent="benchmark-engineer")
         self.assertEqual(
             [path.name for path in files if path.parent == Path("agents")],
             ["benchmark-engineer.agent.md"],
@@ -578,7 +601,7 @@ class RenderingTests(unittest.TestCase):
     def test_multiple_skill_selection_keeps_catalogue_links_out_of_dependencies(self) -> None:
         files = installer.render(
             installer.ROOT,
-            "engineering",
+            "software-product-development",
             skills=("rust-code-quality", "c-code-quality"),
         )
         self.assertIn(Path("skills/rust-code-quality/SKILL.md"), files)
@@ -598,12 +621,12 @@ class RenderingTests(unittest.TestCase):
                         self.assertTrue(resolved[0].is_file(), (source, match[2]))
 
     def test_individual_workflow_skill(self) -> None:
-        files = installer.render(installer.ROOT, "engineering", skill="agent-output-standardization")
+        files = installer.render(installer.ROOT, "software-product-development", skill="agent-output-standardization")
         self.assertFalse(any(path.parent == Path("agents") for path in files))
         self.assertIn(Path("skills/agent-output-standardization/SKILL.md"), files)
 
     def test_selection_skill_includes_its_suite_matrix_without_all_skills(self) -> None:
-        files = installer.render(installer.ROOT, "engineering", skill="skill-selection-workflow")
+        files = installer.render(installer.ROOT, "software-product-development", skill="skill-selection-workflow")
         self.assertIn(Path("skills/skill-selection-workflow/SKILL.md"), files)
         self.assertIn(
             Path("skills/skill-selection-workflow/references/skill-selection-workflow-matrix.md"),
@@ -614,13 +637,14 @@ class RenderingTests(unittest.TestCase):
 
     def test_bad_selections(self) -> None:
         for suite, agent, skill, skills in [
-            ("missing", "", "", ()), ("../engineering", "", "", ()),
-            ("engineering", "missing", "", ()), ("engineering", "", "missing", ()),
-            ("engineering", "benchmark-engineer", "benchmark-workflow", ()),
-            ("engineering", "", "", ("benchmark-workflow", "benchmark-workflow")),
-            ("engineering", "", "", ("bad name",)),
-            ("engineering", "", "", ("rust-code-quality", "missing-skill")),
-            ("engineering", "", "benchmark-workflow", ("rust-code-quality",)),
+            ("missing", "", "", ()), ("../software-product-development", "", "", ()),
+            ("software-product-development", "missing", "", ()),
+            ("software-product-development", "", "missing", ()),
+            ("software-product-development", "benchmark-engineer", "benchmark-workflow", ()),
+            ("software-product-development", "", "", ("benchmark-workflow", "benchmark-workflow")),
+            ("software-product-development", "", "", ("bad name",)),
+            ("software-product-development", "", "", ("rust-code-quality", "missing-skill")),
+            ("software-product-development", "", "benchmark-workflow", ("rust-code-quality",)),
         ]:
             with self.subTest(suite=suite, agent=agent, skill=skill):
                 with self.assertRaises(installer.InstallError):
@@ -680,11 +704,11 @@ class InstallationTests(unittest.TestCase):
             root = Path(directory).resolve()
             language_skill = Path("skills/rust-code-quality/SKILL.md")
             installer.install(
-                root, installer.render(installer.ROOT, "engineering", skill="rust-code-quality"),
+                root, installer.render(installer.ROOT, "software-product-development", skill="rust-code-quality"),
             )
             original = (root / language_skill).read_bytes()
             installer.install(
-                root, installer.render(installer.ROOT, "engineering", language_skills="exclude"),
+                root, installer.render(installer.ROOT, "software-product-development", language_skills="exclude"),
             )
             self.assertEqual((root / language_skill).read_bytes(), original)
             manifest = json.loads((root / installer.MANIFEST).read_text(encoding="utf-8"))
@@ -768,7 +792,7 @@ class InstallationTests(unittest.TestCase):
             destination = Path(directory) / "not created"
             env = {
                 **os.environ, "CLIENT": "copilot", "SCOPE": "user",
-                "SUITE": "engineering", "PACKAGE": "", "AGENT": "",
+                "SUITE": "software-product-development", "PACKAGE": "", "AGENT": "",
                 "SKILL": "agent-output-standardization",
                 "SKILLS": "", "LANGUAGE_SKILLS": "include",
                 "DESTDIR": str(destination),

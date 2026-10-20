@@ -541,7 +541,7 @@ def main() -> int:
     if args.command == "help":
         print(
             "make list | plan | install | check\n"
-            f"  CLIENT={'|'.join(sorted(CLIENTS))} SCOPE=user|workspace SUITE=engineering\n"
+            f"  CLIENT={'|'.join(sorted(CLIENTS))} SCOPE=user|workspace SUITE=software-product-development\n"
             "  PACKAGE=<name> selects a functional agent + skill package instead of SUITE\n"
             "  AGENT=<name>, SKILL=<name>, or SKILLS=<name,name> (listed in suite YAML)\n"
             "  Omit selections to install a suite, or set PACKAGE to install a package\n"
@@ -557,7 +557,7 @@ def main() -> int:
         )
         return 0
     client = get_client(os.environ.get("CLIENT", DEFAULT_CLIENT.name))
-    suite = os.environ.get("SUITE", "engineering")
+    suite = os.environ.get("SUITE", "software-product-development")
     package = os.environ.get("PACKAGE", "")
     optional_packages = os.environ.get("OPTIONAL_PACKAGES", "include")
     if args.command == "list":

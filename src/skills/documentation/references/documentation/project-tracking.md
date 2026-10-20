@@ -46,7 +46,7 @@ Updated: YYYY-MM-DD
 - Feature state records what is implemented; feature references own detailed contracts and open design questions.
 - Roadmap records high-level direction. Release documents own milestone scope, gates, progress and candidate evidence; an implemented feature is not itself a passed release gate.
 - Product overview owns vision, intended usage and boundaries, not mutable status tables or unresolved decisions.
-- Use the [roadmap and known-issues guidance](roadmap-known-issues.md), [product overview outline](product-overview.md), and [release document outline](release-docs.md) for those document types. Update each affected owner in the same change without copying its mutable tables into other documents.
+- Use the [roadmap guidance](roadmap-docs.md), [known-issues guidance](known-issues-docs.md), [decision-log guidance](decision-log.md), [technical-debt guidance](technical-debt-docs.md), [product overview outline](product-overview.md), and [release document outline](release-docs.md) for those document types. Update each affected owner in the same change without copying its mutable tables into other documents.
 
 ## Review and validation
 

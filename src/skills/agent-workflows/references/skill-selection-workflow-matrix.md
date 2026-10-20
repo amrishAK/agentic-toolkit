@@ -1,9 +1,9 @@
-# Engineering task matrix
+# Software Product Development task matrix
 
 | Use | Skill |
 |---|---|
 | Universal guardrails for evidence, scope, simplicity, useful output, uncertainty, trust, and honest outcomes across agent roles | [agent-guidelines](../agent-guidelines.md) |
-| Common Engineering task framing, evidence, role boundaries, validation, and reporting | [engineering-task-workflow](../../implementation/engineering-task-workflow.md) |
+| Common task framing, evidence, role boundaries, validation, and reporting across product management, engineering, and quality | [engineering-task-workflow](../../implementation/engineering-task-workflow.md) |
 | Standardized responses, clarification questions, findings, summaries, and handoffs | [agent-output-standardization](../agent-output-standardization.md) |
 | Coordination of explicitly selected review fixes and separately authorized delivery actions | [change-delivery-workflow](../change-delivery-workflow.md) |
 
@@ -11,11 +11,14 @@
 
 | Task area | Task signal | Skill |
 |---|---|---|
-| Product planning | Product purpose, priorities, roadmap, release goals, scope trade-offs, or acceptance planning | [product-planning-workflow](../../design-and-planning/product-planning-workflow.md) |
-| Feature design | Detailed requirements, public contracts, edge cases, acceptance criteria, or implementation plans | [feature-design-workflow](../../design-and-planning/feature-design-workflow.md) |
+| Product planning coordination | Product purpose, planning decisions across documents, roadmap-to-release sequencing, approval boundaries, or handoffs to feature design | [product-planning-workflow](../../design-and-planning/product-planning-workflow.md) |
+| Roadmap planning | Drafting, updating, or reviewing high-level direction, relative priorities, or proposed release sequence | [roadmap-planning-workflow](../../design-and-planning/roadmap-planning-workflow.md) |
+| Release planning | Drafting, updating, or reviewing milestone scope, exclusions, dependencies, supported configurations, acceptance gates, or candidate evidence | [release-planning-workflow](../../design-and-planning/release-planning-workflow.md) |
+| Feature contracts | Drafting, updating, or reviewing detailed behavior, public contracts, edge cases, acceptance criteria, or implementation handoffs | [feature-design-workflow](../../design-and-planning/feature-design-workflow.md) |
 | Architecture | Component boundaries, dependency direction, public interfaces, lifecycle, data flow, storage/protocol choices, or compatibility trade-offs | [architecture-workflow](../../design-and-planning/architecture-workflow.md) |
-| Code implementation and review | Implementing, fixing, refactoring, or reviewing code across languages | [code-quality-workflow](../../implementation/code-quality-workflow.md) |
-| Debugging | Diagnosing code, build, or CI failures using evidence and reproductions | [debugging-workflow](../../implementation/debugging-workflow.md) |
+| Code implementation and review | Reviewing code or implementing, fixing, or refactoring focused code changes; pair with test-driven implementation when changing behavior | [code-quality-workflow](../../implementation/code-quality-workflow.md) |
+| Test-driven implementation | Implementing a feature, fix, or behavior change from an agreed contract or bounded request, including task planning, unit-first red-green-refactor, and feature validation; not review-only or diagnosis-only work | [test-driven-implementation-workflow](../../implementation/test-driven-implementation-workflow.md) |
+| Debugging | Diagnosing code, build, or CI failures without implementing a fix; when a fix is authorized, use code-quality guidance and test-driven implementation for behavior changes | [debugging-workflow](../../implementation/debugging-workflow.md) |
 | Unit testing | Focused unit tests, contract coverage, fixtures, or regression tests | [unit-test-workflow](../../testing/unit-test-workflow.md) |
 | Integration testing | Real component interactions through public interfaces | [integration-test-workflow](../../testing/integration-test-workflow.md) |
 | End-to-end testing | Complete application journeys through external interfaces | [e2e-test-workflow](../../testing/e2e-test-workflow.md) |

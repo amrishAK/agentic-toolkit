@@ -10,7 +10,7 @@ docs/
   architecture/        Current design: components, boundaries, data flow, decisions
   guides/              Build, test, usage, integration, troubleshooting
   proposals/           Active feature contracts: proposed or accepted, possibly awaiting or undergoing implementation
-  status/              Feature tracker, roadmap, known issues
+  status/              Feature tracker (when adopted), roadmap, known issues, decisions, technical debt
   releases/            Milestone plans, gates and evidence; versioned notes consolidating completed features
   reports/             Dated incident reports and investigations
 ```
@@ -68,11 +68,14 @@ When navigation spans multiple documents or audiences, add a documentation index
 
 - **`architecture/`** describes only implemented behaviour. Record each design decision with the decision, rationale, and trade-off, in one place.
 - **`proposals/`** holds active feature documents with a contract-decision status of `Proposed` or `Accepted`. This status does not describe implementation progress; the feature tracker records implementation state when adopted. Keep implemented features here while they await release consolidation; update `architecture/` for current behavior, which remains its authority. When versioned release notes are ready, consolidate completed features and remove superseded documents according to the [release notes requirements](release-notes.md#consolidate-feature-documents). Keep unfinished or future work active. Use the [feature document template](feature-docs.md).
-- **`status/`** files carry an `Updated: YYYY-MM-DD` line. Update them in the same change that alters status, such as fixing a listed issue or completing a roadmap item. A stale status file is a defect.
+- **`status/`** files carry an `Updated: YYYY-MM-DD` line. Update them in the same change that alters status, such as fixing a listed issue, completing a roadmap item, recording a decision, or changing a debt entry. A stale status file is a defect.
 - **Product overview** describes product purpose, audience, intended usage, architecture direction, responsibilities and non-goals. Link the feature tracker when adopted and applicable plans; keep progress tables, acceptance gates and open decisions in their owners.
 - Use the [product overview outline](product-overview.md) when a README does not provide enough room for product intent and boundaries.
 - **`releases/`** holds milestone scope, observable acceptance, blockers, and candidate evidence, as well as adopted versioned release notes that consolidate completed features. Update readiness gates with changes affecting readiness; passing requires linked evidence for the candidate, not just an implemented feature. Follow the [release notes requirements](release-notes.md).
-- **Roadmap** records high-level direction, not release progress or detailed acceptance. Link release documents instead of duplicating their scope/gates.
+- **Roadmap** records high-level direction and proposed or approved priorities, not release progress or detailed acceptance. Link release documents instead of duplicating their scope/gates. Use the decision log for material product or technical choices; use the debt register for confirmed engineering liabilities.
+- **Known issues** records confirmed user- or operator-impacting defects and limitations. Keep speculative risks, planned work, and technical debt in their respective owners.
+- **Decision log** indexes important user, product, and technical decisions and links to their canonical records. It complements rather than replaces architecture decision records and feature contracts.
+- **Technical-debt register** records confirmed maintenance costs, impact, accountable owner, state, and remediation links. It is separate from both the decision log and known-issues list.
 - **`reports/`** files are named `YYYY-MM-DD-topic.md` and record symptom, root cause, fix, verification, and current state. They are historical records: add follow-ups rather than rewriting them.
 
 ## One source of truth

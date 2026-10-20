@@ -13,6 +13,8 @@ Use this skill when reviewing, designing, writing, or maintaining black-box inte
 
 Verify real components working together through their public contracts. Black-box describes how tests interact and assert, not a prohibition on reading source for planning or diagnosis. Integration tests need not launch the full application; complete deployed user journeys belong to a separate E2E workflow.
 
+Use integration tests as the primary feature-validation evidence for behavior spanning real component boundaries. Plan those scenarios during implementation planning; they may also drive TDD when the interaction itself is the task's contract. Test tiers describe boundaries, not fixed development stages; unit tests alone do not establish that real components work together.
+
 Use this skill with the [language-specific skill matrix](../programming-languages/references/programming-language-matrix.md)'s **Integration testing** guidance for the relevant languages. It is self-contained and does not require the unit-test or code-quality skills.
 
 ## Procedure

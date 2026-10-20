@@ -13,6 +13,8 @@ Use this skill when reviewing, designing, writing, updating, or fixing unit test
 
 Use this workflow with the [language-specific skill matrix](../programming-languages/references/programming-language-matrix.md)'s **Unit testing** guidance for the relevant languages. It complements the code-quality workflow with testing-specific procedures; it does not require loading that skill or authorize production-code changes.
 
+Unit tests are the default first test tier for isolated implementation tasks in the [test-driven implementation workflow](../implementation/test-driven-implementation-workflow.md). Write and run the focused behavior test before an authorized production change; coordinate with the implementer when production edits are outside this role's scope. Real component interactions or complete journeys may need a different tier to drive TDD.
+
 ## Procedure
 
 ### 1. Establish the intended contract

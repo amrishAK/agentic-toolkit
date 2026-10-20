@@ -1,12 +1,13 @@
 schema_version: "1.0.0"
 name: core
 version: "0.1.0"
-description: Shared documentation agents and universal guidelines, output, documentation, and guidance-selection skills for agent-oriented functional packages.
+description: Shared documentation agents, task framing, universal guidelines, output, documentation, and guidance selection for agent-oriented packages.
 agents:
   - source-documentation-writer
   - technical-documentation-writer
 skills:
   - agent-guidelines
+  - engineering-task-workflow
   - agent-output-standardization
   - skill-selection-workflow
   - documentation-selection-workflow

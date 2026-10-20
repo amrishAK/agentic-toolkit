@@ -23,9 +23,9 @@ make help
 make list
 make list PACKAGE=testing
 make plan PACKAGE=testing SCOPE=user
-make plan CLIENT=copilot SUITE=engineering SCOPE=user
-make plan SUITE=engineering LANGUAGE_SKILLS=exclude
-make plan SUITE=engineering SKILLS=code-quality-workflow,rust-code-quality
+make plan CLIENT=copilot SUITE=software-product-development SCOPE=user
+make plan SUITE=software-product-development LANGUAGE_SKILLS=exclude
+make plan SUITE=software-product-development SKILLS=code-quality-workflow,rust-code-quality
 ```
 
 `plan` resolves dependencies, checks destination conflicts, and prints generated paths without creating directories or files. `install` uses the same variables and performs the writes.
@@ -33,7 +33,7 @@ make plan SUITE=engineering SKILLS=code-quality-workflow,rust-code-quality
 | Variable | Meaning |
 |---|---|
 | `CLIENT` | Only `copilot` is currently accepted |
-| `SUITE` | Suite manifest name; defaults to `engineering` |
+| `SUITE` | Suite manifest name; defaults to `software-product-development` |
 | `PACKAGE` | Optional functional package name; replaces suite selection and cannot be combined with `AGENT`, `SKILL`, or `SKILLS` |
 | `AGENT` | Optional agent name listed in the suite manifest |
 | `SKILL` | Optional skill name listed in the suite manifest; mutually exclusive with `AGENT` |
@@ -53,24 +53,18 @@ For full-suite selection, `LANGUAGE_SKILLS=include` preserves the default behavi
 
 ### Suites composed of packages
 
-The [Engineering suite](../src/suites/engineering.yaml) lists package IDs rather
+The [Software Product Development suite](../src/suites/software-product-development.yaml) lists package IDs rather
 than duplicating their agent and skill membership:
 
 ```yaml
 packages:
-  - core
-  - design-and-planning
-  - implementation
-  - testing
-  - review-and-security
-  - build-and-delivery
-  - performance
-  - project-standards
+  - product-management
+  - engineer
 optional_packages:
   - programming-languages
 ```
 
-`make install SUITE=engineering` resolves these packages and their dependencies,
+`make install SUITE=software-product-development` resolves these packages and their dependencies,
 deduplicating agent and skill members. `optional_packages` are offered by the
 suite and enabled by default; the installer prints them on `plan` and `install`.
 Set `OPTIONAL_PACKAGES=exclude` to skip them, or a comma-separated list of the
@@ -85,17 +79,42 @@ if combined with `packages`, their membership is merged. A suite must declare
 `agents` or a non-empty `packages` list. Missing packages and invalid dependency
 graphs fail validation and installation.
 
-### Functional packages
+### Responsibility and functional packages
+
+The two responsibility packages can be installed independently:
+
+| Package | Included responsibilities |
+|---|---|
+| [product-management](../src/packages/product-management.yaml) | Product planning, roadmaps, release plans, and independent product-plan review |
+| [engineer](../src/packages/engineer.yaml) | Feature design, contract review, and architecture, plus implementation, build/delivery, performance, project standards, testing, and review/security packages |
+
+Both depend on `core` and include their corresponding independent reviewers
+alongside the writing agents. The former `quality` package is retired; testing
+and change/security review are included in `engineer`. Missing independent validation must be reported,
+not replaced with self-review. Reviewers remain read-only; testing specialists
+retain their existing edit and execution permissions. Package membership does not
+alter any role's boundaries.
+
+```text
+make install PACKAGE=product-management SCOPE=user
+make install PACKAGE=engineer SCOPE=user
+```
+
+The suite was renamed from `engineering` to `software-product-development`;
+`SUITE=engineering` is no longer a valid selection. Existing generated definition
+names are unchanged. Use the new suite selector for future plans and updates;
+no active installation is migrated or pruned automatically.
 
 Versioned [package manifests](../src/packages/) explicitly list agents and skills
-by canonical name. Available packages are `design-and-planning`, `implementation`,
+by canonical name. Smaller functional packages remain available: `implementation`,
 `testing`, `review-and-security`, `build-and-delivery`, `performance`,
-`project-standards`, and `programming-languages`. The seven agent-oriented packages depend
+`project-standards`, and `programming-languages`. The agent-oriented packages depend
 on the [`core` package](../src/packages/core.yaml), which contains:
 
 - Agents: `source-documentation-writer` and `technical-documentation-writer`.
 - Skills:
   - `agent-guidelines`
+  - `engineering-task-workflow` (the shared task cycle across both responsibility packages)
   - `agent-output-standardization`
   - `skill-selection-workflow`
   - `documentation-selection-workflow`
@@ -112,7 +131,7 @@ by every agent.
 
 `programming-languages` is an independent skill-only package and does not depend
 on core. Installing it alone does not install documentation agents. The
-Engineering suite lists it as an optional package, enabled by default.
+Software Product Development suite lists it as an optional package, enabled by default.
 
 ```text
 make list PACKAGE=testing
@@ -151,8 +170,9 @@ and the language matrix is omitted when `LANGUAGE_SKILLS=exclude`. Missing
 reference files fail installation and validation. `core` ships the task and
 documentation matrices plus the shared documentation rules, layout, and technical
 guides; functional packages ship the document-type references for their area
-(for example `design-and-planning` ships the feature, architecture, product, and
-roadmap references); `programming-languages` ships the language matrix.
+(for example `engineer` ships feature and architecture references, while
+`product-management` ships product, roadmap, release-plan, and decision-log
+references); `programming-languages` ships the language matrix.
 
 ```yaml
 schema_version: "1.0.0"
@@ -172,13 +192,13 @@ The [package schema](../schemas/package.schema.json) and reference checks run in
 User installation, on either platform:
 
 ```text
-make install SUITE=engineering SCOPE=user
-make install SUITE=engineering LANGUAGE_SKILLS=exclude SCOPE=user
-make install SUITE=engineering AGENT=benchmark-engineer SCOPE=user
-make install SUITE=engineering SKILL=agent-output-standardization SCOPE=user
-make plan SUITE=engineering SKILLS=code-quality-workflow,rust-code-quality
-make install SUITE=engineering SKILLS=code-quality-workflow,rust-code-quality
-make install SUITE=engineering SKILL=rust-code-quality LANGUAGE_SKILLS=exclude
+make install SUITE=software-product-development SCOPE=user
+make install SUITE=software-product-development LANGUAGE_SKILLS=exclude SCOPE=user
+make install SUITE=software-product-development AGENT=benchmark-engineer SCOPE=user
+make install SUITE=software-product-development SKILL=agent-output-standardization SCOPE=user
+make plan SUITE=software-product-development SKILLS=code-quality-workflow,rust-code-quality
+make install SUITE=software-product-development SKILLS=code-quality-workflow,rust-code-quality
+make install SUITE=software-product-development SKILL=rust-code-quality LANGUAGE_SKILLS=exclude
 ```
 
 Workspace installation from Windows PowerShell:

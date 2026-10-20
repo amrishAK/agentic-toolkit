@@ -8,7 +8,7 @@ endif
 
 CLIENT ?= copilot
 SCOPE ?= user
-SUITE ?= engineering
+SUITE ?= software-product-development
 PACKAGE ?=
 AGENT ?=
 SKILL ?=

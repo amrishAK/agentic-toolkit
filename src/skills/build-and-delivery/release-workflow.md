@@ -27,6 +27,7 @@ Apply with build automation and relevant build/CI/container guidance. Consult th
 ### Build and verify
 
 - Verify required checks actually executed for the supported release matrix; distinguish reviewed, locally tested, and remotely observed results.
+- Include applicable unit and integration regression suites and critical [E2E journeys](../testing/e2e-test-workflow.md) for the intended candidate. Release validation is broader than E2E: passing journeys or feature acceptance does not replace artifact, installation, compatibility, migration, provenance, or other project-specific gates. Reuse prior evidence only when it applies to the candidate; rerun affected checks after changes.
 - Build intended artifacts with recorded toolchain/dependency identities. Version pinning alone does not prove reproducibility; verify repeatability only where required and feasible.
 - Inspect package contents and test installation/loading plus a meaningful smoke operation in an isolated consumer environment. A build-tree test does not validate the installed package.
 - Review direct/transitive dependency inventories and license obligations with existing tooling/policy. Report uncertain obligations; do not offer legal certification.

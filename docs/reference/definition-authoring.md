@@ -32,4 +32,4 @@ Use this guide to decide what maintained agent and skill source files should con
 4. Add only the content needed for the source type; update applicable catalogues, inbound links, and directly affected docs when selection, names, or locations change.
 5. Verify metadata, names, relative links, linked-resource inclusion, and catalogue routing. Run existing checks that cover the affected behavior.
 
-For project documentation types and their owners, use the [documentation selection matrix](../../src/skills/documentation/references/documentation-matrix.md). For task-wide Engineering framing, use the [engineering task workflow](../../src/skills/implementation/engineering-task-workflow.md).
+For project documentation types and their owners, use the [documentation selection matrix](../../src/skills/documentation/references/documentation-matrix.md). For task-wide software product development framing, use the [shared task workflow](../../src/skills/implementation/engineering-task-workflow.md), which retains its canonical skill name.

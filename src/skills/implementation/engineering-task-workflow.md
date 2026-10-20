@@ -1,17 +1,17 @@
 ---
 name: engineering-task-workflow
-description: "Use for the shared Engineering task cycle, including task framing, evidence, guidance selection, role boundaries, validation, and reporting."
+description: "Use for the shared software product development task cycle across product management, engineering, and quality: task framing, evidence, guidance selection, role boundaries, validation, and reporting."
 ---
 
-# Engineering task workflow
+# Software product development task workflow
 
 ## When to use
 
-Use this skill for the shared Engineering task cycle, including task framing, evidence, guidance selection, role boundaries, validation, and reporting.
+Use this skill for the shared software product development task cycle, including task framing, evidence, guidance selection, role boundaries, validation, and reporting.
 
 ## Scope and boundaries
 
-Use this common task cycle with the active agent's role-specific procedures. It standardizes how Engineering work is framed and reported; it does not replace specialist workflows or grant permission to act.
+Use this common task cycle with the active agent's role-specific procedures across product management, engineering, and quality. The canonical skill name remains `engineering-task-workflow` so existing role links and invocations continue to work. It does not replace specialist workflows or grant permission to act.
 
 ## Procedure
 

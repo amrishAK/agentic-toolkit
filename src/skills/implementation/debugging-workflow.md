@@ -7,11 +7,11 @@ description: "Use for diagnosing code, build, or CI failures: minimal reproducti
 
 ## When to use
 
-Use this skill to diagnose code, build, and CI failures.
+Use this skill to diagnose code, build, and CI failures without implementing a fix. When a fix is requested or authorized, use the [code-quality workflow](code-quality-workflow.md); for behavior-changing fixes, also use the [test-driven implementation workflow](test-driven-implementation-workflow.md).
 
 ## Scope and boundaries
 
-Apply with the active role and the [language-specific skill matrix](../programming-languages/references/programming-language-matrix.md)'s **Code quality** guidance for the relevant languages. Diagnosis/review reports findings; implement fixes only when requested.
+Apply with the active role and the [language-specific skill matrix](../programming-languages/references/programming-language-matrix.md)'s **Code quality** guidance for the relevant languages. This workflow owns reproducing and diagnosing the failure; diagnosis reports findings and does not authorize a fix.
 
 ## Procedure
 

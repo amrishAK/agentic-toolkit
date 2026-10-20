@@ -13,4 +13,4 @@ Each linked label is the skill's invocation name and its target is the maintaine
 
 Update the relevant row when adding or changing a language skill. Matrix entries describe maintained guidance, not runtime, framework, or client support.
 
-For a language without a dedicated row, use [general-code-quality](../general/general-code-quality.md) for code-quality tasks. For other task types, select an applicable shared workflow from the [Engineering task matrix](../../agent-workflows/references/skill-selection-workflow-matrix.md) where one exists. This does not imply language-specific coverage.
+For a language without a dedicated row, use [general-code-quality](../general/general-code-quality.md) for code-quality tasks. For other task types, select an applicable shared workflow from the [Software Product Development task matrix](../../agent-workflows/references/skill-selection-workflow-matrix.md) where one exists. This does not imply language-specific coverage.

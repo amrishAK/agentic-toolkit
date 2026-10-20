@@ -7,7 +7,7 @@ description: "Use when reviewing, implementing, fixing, or refactoring code to a
 
 ## When to use
 
-Use this skill to review, refactor, or implement focused code changes using clear design and evidence-based validation.
+Use this skill to review code or implement, fix, or refactor focused code changes using clear design and evidence-based validation. For behavior-changing implementation, use it with the [test-driven implementation workflow](test-driven-implementation-workflow.md); use the [debugging workflow](debugging-workflow.md) for diagnosis without a code change.
 
 ## Scope and boundaries
 
@@ -46,6 +46,7 @@ State review scope, checks performed, and remaining uncertainty. If no actionabl
 ### 4. Implement focused changes
 
 - For implementation or combined requests, briefly identify key issues or design choices, then apply the requested changes without redundant confirmation.
+- Use the [test-driven implementation workflow](test-driven-implementation-workflow.md) for task planning and test-first behavior changes. It defines the red-green-refactor cycle and appropriate exceptions; this workflow retains code-quality and scope guidance.
 - Make the smallest complete change. Preserve behavior and public contracts unless changing them is part of the request.
 - Update affected callers and directly related documentation. Add focused tests for changed behavior, regression conditions, boundaries, and important error paths.
 - Review the diff for unintended behavior, unnecessary complexity, formatting churn, and unrelated edits.

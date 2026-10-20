@@ -1,0 +1,17 @@
+schema_version: "1.0.0"
+name: product-management
+depends_on: [core]
+version: "0.1.0"
+description: Product goals, roadmap direction, release planning, independent plan review, and handoffs to Engineering.
+agents:
+  - product-planner
+  - product-plan-reviewer
+skills:
+  - product-planning-workflow
+  - roadmap-planning-workflow
+  - release-planning-workflow
+references:
+  - src/skills/documentation/references/documentation/product-overview.md
+  - src/skills/documentation/references/documentation/roadmap-docs.md
+  - src/skills/documentation/references/documentation/release-docs.md
+  - src/skills/documentation/references/documentation/decision-log.md

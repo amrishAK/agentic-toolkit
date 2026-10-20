@@ -1,0 +1,14 @@
+schema_version: "1.0.0"
+name: engineer
+depends_on: [core, implementation, build-and-delivery, performance, project-standards, testing, review-and-security]
+version: "0.1.0"
+description: Feature design and contract review, architecture, implementation, builds, performance, project standards, testing, and change/security review.
+agents:
+  - feature-designer
+  - feature-contract-reviewer
+skills:
+  - feature-design-workflow
+  - architecture-workflow
+references:
+  - src/skills/documentation/references/documentation/feature-docs.md
+  - src/skills/documentation/references/documentation/architecture-docs.md

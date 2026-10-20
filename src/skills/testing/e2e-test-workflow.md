@@ -13,6 +13,8 @@ Use this skill to design or review black-box tests of complete user-visible appl
 
 Verify complete user-visible journeys through a running application and the infrastructure required for those journeys. E2E scope is defined by the journey and system boundary, not by the number of services or implementation language. This workflow is self-contained; component integration and unit tests remain separate.
 
+Plan critical journeys during feature planning and execute them for feature acceptance when the criteria require a complete application workflow; do not defer that evidence until release. Reuse and rerun applicable journeys for release validation against the intended candidate. Not every task needs E2E tests, and passing E2E tests does not replace other release gates.
+
 ## Procedure
 
 ### 1. Define the journey and oracle

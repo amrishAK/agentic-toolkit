@@ -1,10 +1,10 @@
 # Agentic Toolkit
 
-Agentic Toolkit is the authoritative source repository for reusable agents, skills, and supporting resources. It is for people maintaining reusable agent guidance independently of any one personal installation. The collection is initially engineering-focused, with research, product, and everyday-assistance suites intended for future expansion. It is pre-release and includes a Make-based Copilot installer for Windows and Linux. Installer tests do not constitute client behavioral certification.
+Agentic Toolkit is the authoritative source repository for reusable agents, skills, and supporting resources. It is for people maintaining reusable agent guidance independently of any one personal installation. The Software Product Development suite covers product management, engineering, and quality through independently installable packages. Research and everyday-assistance suites remain future direction. It is pre-release and includes a Make-based Copilot installer for Windows and Linux. Installer tests do not constitute client behavioral certification.
 
 ## Documentation
 
-Read the [project overview](docs/project-overview.md) for purpose, audience, organization, and boundaries. Browse the maintained definitions under [`src/`](src/). The [quick-start guide](docs/guides/quick-start.md) shows how to find and use current Engineering guidance; the [documentation index](docs/README.md) and [engineering-suite guide](docs/suites/engineering.md) explain roles, skill categories, and task handoffs. Source definitions own detailed behavior contracts; the guides explain how to navigate them.
+Read the [project overview](docs/project-overview.md) for purpose, audience, organization, and boundaries. Browse the maintained definitions under [`src/`](src/). The [quick-start guide](docs/guides/quick-start.md) shows how to find and use current guidance; the [documentation index](docs/README.md) and [suite guide](docs/suites/software-product-development.md) explain roles, skill categories, and task handoffs. Source definitions own detailed behavior contracts; the guides explain how to navigate them.
 
 ## Usage and compatibility
 
@@ -29,10 +29,10 @@ For a minimal Copilot install, use GNU Make and Python 3.10+ from the repository
 
 ```text
 make list
-make plan PACKAGE=testing SCOPE=user
-make install PACKAGE=testing SCOPE=user
-make plan SUITE=engineering AGENT=code-engineer SCOPE=user
-make install SUITE=engineering AGENT=code-engineer SCOPE=user
+make plan PACKAGE=product-management SCOPE=user
+make install PACKAGE=product-management SCOPE=user
+make plan SUITE=software-product-development SCOPE=user
+make install SUITE=software-product-development SCOPE=user
 ```
 
 See the [quick-start guide](docs/guides/quick-start.md) to browse and select guidance, and the [installation guide](docs/installation.md) for workspace installation, multi-skill selection, staging, update safety, and validation.
@@ -40,13 +40,13 @@ See the [quick-start guide](docs/guides/quick-start.md) to browse and select gui
 ## Maintaining the collection
 
 - Keep one authoritative definition per agent or skill under `src/agents/<category>/` or `src/skills/<category>/`. Suite membership and descriptive metadata live in `src/suites/<suite>.yaml`; do not infer suite membership from source categories.
-- Compose suites from explicit `packages` lists rather than repeating package members. The Engineering suite includes the language-guidance package to preserve full-suite coverage; legacy direct agent and skill lists remain supported.
-- Maintain functional installation packages under [`src/packages/`](src/packages/), with explicit agent and skill membership and quoted schema/content versions. Use `PACKAGE=<name>` to select one instead of a suite; see [functional packages](docs/installation.md#functional-packages).
-- Declare shared package dependencies in `depends_on`; agent-oriented functional packages depend on [`core`](src/packages/core.yaml) for [universal agent guidelines](src/skills/agent-workflows/agent-guidelines.md), output standardization, documentation, and skill selection. Dependencies are resolved recursively, deduplicated, and checked for missing packages and cycles.
+- Compose suites from explicit `packages` lists rather than repeating package members. The Software Product Development suite composes `product-management` and `engineer`, including their respective independent reviewers, with the language-guidance package optional and enabled by default; legacy direct agent and skill lists remain supported.
+- Maintain installation packages under [`src/packages/`](src/packages/), with explicit agent and skill membership and quoted schema/content versions. Use `PACKAGE=<name>` to select one instead of a suite; see [responsibility and functional packages](docs/installation.md#responsibility-and-functional-packages).
+- Declare shared package dependencies in `depends_on`; agent-oriented packages depend on [`core`](src/packages/core.yaml) for [universal agent guidelines](src/skills/agent-workflows/agent-guidelines.md), the shared task cycle, output standardization, documentation, and skill selection. Responsibility packages may compose smaller functional packages without copying their membership. Dependencies are resolved recursively, deduplicated, and checked for missing packages and cycles.
 - Organize agent source directories by function: design and planning, implementation, testing, review and security, build and delivery, performance, documentation, and project standards. These categories organize sources; they do not create installation bundles or change agent names.
 - Keep suite manifests versioned with `schema_version` and `version`. JSON Schema Draft 2020-12 contracts and cross-file checks are maintained in [`schemas/`](schemas/) and [`scripts/validate_manifests.py`](scripts/validate_manifests.py); see the [manifest schema guide](docs/reference/manifest-schemas.md) before changing manifest formats.
-- Keep required role workflows explicit in agent definitions; use the shared [skill selection workflow](src/skills/agent-workflows/skill-selection-workflow.md) to choose additional task-specific guidance from the applicable suite matrix. Maintain Engineering category-level inventory and task routing in its [skill selection matrix](src/skills/agent-workflows/references/skill-selection-workflow-matrix.md), and language coverage and task-to-skill mappings in the [Engineering language-specific skill matrix](src/skills/programming-languages/references/programming-language-matrix.md). Do not duplicate task-to-skill maps in agent definitions.
-- Add language skills and update the language-specific skill matrix without duplicating language lists in agents, general workflow descriptions, or the Engineering category-level skill selection matrix.
+- Keep required role workflows explicit in agent definitions; use the shared [skill selection workflow](src/skills/agent-workflows/skill-selection-workflow.md) to choose additional task-specific guidance from the applicable suite matrix. Maintain Software Product Development category-level inventory and task routing in its [skill selection matrix](src/skills/agent-workflows/references/skill-selection-workflow-matrix.md), and language coverage and task-to-skill mappings in the [Engineering language-specific skill matrix](src/skills/programming-languages/references/programming-language-matrix.md). Do not duplicate task-to-skill maps in agent definitions.
+- Add language skills and update the language-specific skill matrix without duplicating language lists in agents, general workflow descriptions, or the suite's category-level skill selection matrix.
 - Selection workflows own how to access and use their matrices; matrices own routing data. Use the shared [documentation matrix](src/skills/documentation/references/documentation-matrix.md) as the single entry point for document types, locations, owners, update triggers, and rule links. Each linked document-type reference owns its usage guidance, content, suggested structure, and validation; common rules apply across types. Keep these references in the same [reference folder](src/skills/documentation/references/documentation) without workflow-specific filename prefixes.
 - Keep `name` and `description` metadata meaningful. Preserve role boundaries and behavior unless an intentional change is requested.
 - Follow [definition-authoring guidance](docs/reference/definition-authoring.md) for the responsibilities and content of agent definitions, skill definitions, supporting references, templates, and catalogues. Follow the [repository glossary](docs/reference/glossary.md) for canonical terminology.
@@ -81,7 +81,7 @@ Git diff commands do not cover untracked file contents; inspect those separately
 
 This repository owns reusable source guidance, its supporting resources, and the local Copilot installer and its tests. GitHub Actions runs manifest validation and unit tests on pushes and pull requests; broader CI, release/deployment automation, other client adapters, generated distributions, and additional suites remain deferred. Changes here do not authorize changes to an active personal installation.
 
-Feature tracking is intentionally omitted for this source-content repository. Dedicated release plans, contribution/security policies, and changelog are not established; do not infer support commitments or release approval from this baseline.
+Feature implementation tracking is intentionally omitted for this source-content repository. Project direction, known limitations, important decisions, and confirmed technical debt are tracked separately under `docs/status/`. Dedicated release plans, contribution/security policies, and changelog are not established; do not infer support commitments or release approval from this baseline.
 
 Use Conventional Commits for future authorized commits, such as `docs: clarify repository guidance` or `fix(skills): repair reference links`. Commit, push, remote, release, and installation actions require separate explicit authorization.
 

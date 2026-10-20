@@ -1,6 +1,6 @@
 # Using Agentic Toolkit effectively
 
-> **Status:** This guide describes a proposed lifecycle model, not a currently available end-to-end workflow. Discovery & Shaping and Product Management are not maintained suites here; the Engineering suite is. For current roles and task routes, see the [Engineering suite guide](../suites/engineering.md) and [documentation index](../README.md).
+> **Status:** This guide describes a proposed lifecycle model, not a currently available end-to-end workflow. The maintained Software Product Development suite provides `product-management` and `engineer` packages, each including its respective independent reviewers. Discovery & Shaping and product-level feature-brief guidance remain proposed. For current roles and task routes, see the [suite guide](../suites/software-product-development.md) and [documentation index](../README.md).
 
 Agentic Toolkit is intended to help people and teams do important software lifecycle work with less coordination overhead and better traceability. Use agents to surface gaps, organize project facts, connect decisions to evidence, and prepare useful handoffs—not to replace people or make decisions on their behalf.
 
@@ -19,7 +19,7 @@ Ask the agent to identify missing or conflicting information before it draws con
 
 ## Apply the model with current guidance
 
-The three-stage model below is future direction, not an automatic route through the toolkit. For work covered today, start with the current [Engineering suite guide](../suites/engineering.md), which links to maintained roles and workflows. Product planning is available through the Engineering `product-planner` role; it is not a separate Product Management suite.
+The three-stage model below is future direction, not an automatic route through the toolkit. For work covered today, start with the current [suite guide](../suites/software-product-development.md), which links to maintained roles and workflows. Product planning and plan review are available through `product-management`; technical design, delivery, testing, and technical review are available through `engineer`. These are packages, not separate suites.
 
 For an authorized source security review, use the [security-reviewer role](../../src/agents/review-and-security/security-reviewer.md) and its [security review workflow](../../src/skills/review-and-security/security-review-workflow.md). Assessment is read-only: it does not include command execution, active probing, or direct remediation. Fixes require an explicit selection and delegated editing; if the client cannot support that delegation, the reviewer must report the limitation rather than edit directly.
 
@@ -46,6 +46,8 @@ Do not describe research as conducted unless there are actual findings. Treat ge
 Use this stage to evaluate a proposal against product direction and constraints. It can help compare opportunities, shape goals and roadmap priorities, propose target-version scope, and produce product-level feature briefs.
 
 Product-level feature briefs should describe user-visible outcomes, intended scope and exclusions, dependencies, success measures, and acceptance examples. Acceptance criteria are observable conditions for judging an outcome; examples illustrate expected behavior. Behavior-driven scenarios can help make outcomes concrete. Keep detailed technical contracts and implementation task breakdown for Engineering.
+
+Plan in sequence: create and approve the high-level roadmap first, then plan individual releases from approved roadmap milestones. Keep roadmap entries brief and link to release plans; keep release scope, gates, and readiness evidence in the release plan. The `product-planner` can request independent read-only validation from `product-plan-reviewer`; the reviewer surfaces gaps and questions but does not decide priorities or approve the plan.
 
 Priorities, roadmaps, target versions, and release scope remain proposals until the responsible product owner approves them. Ask the agent to make trade-offs and deferred work explicit rather than silently expanding scope.
 

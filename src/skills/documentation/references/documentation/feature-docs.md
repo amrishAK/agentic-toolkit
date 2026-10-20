@@ -53,14 +53,19 @@ tests. List known gaps that planned work must close.>
 ## Design
 
 <Planned behaviour. Use numbered subsections so rules can be referenced, for
-example "### 1. <Rule or component>". Include flows, examples, and the
-reasoning for important choices.>
+example "### 1. <Rule or component>". Include applicable interfaces/API
+contracts, architecture and durable decisions, data, compatibility, migration,
+security, operations, rollout, and recovery concerns. Link a separate ADR only
+for a significant durable architecture decision. Include flows, examples, and
+the reasoning for important choices.>
 
 ## Acceptance criteria
 
-| ID | Observable outcome | Verification |
-|---|---|---|
-| <FEAT-1> | <Testable result, including relevant failure behavior> | <Test or other verification link; label planned or unverified checks> |
+For each criterion, include one or more acceptance scenarios that make the expected behavior concrete. Given/When/Then may be used when helpful, but is not required. Identify the applicable verification method and test tier; do not assume every criterion needs unit, integration, and E2E tests.
+
+| ID | Observable outcome | Acceptance scenario(s) | Verification |
+|---|---|---|---|
+| <FEAT-1> | <Testable result, including relevant failure behavior> | <Scenario(s), optionally in Given/When/Then form> | <Applicable test tier and test or other verification link; label planned or unverified checks> |
 
 ## Rule set
 
@@ -68,13 +73,14 @@ reasoning for important choices.>
 
 ## Open questions
 
-These questions are deliberately left open until they are needed. When one is
-answered, record the decision in the relevant section above and move it to
-**Answered**.
+Categorize open questions by the area they affect (for example product/scope,
+behavior/API, architecture, data/migration, compatibility, security/operations,
+or verification). When a question is answered, record the decision in the
+relevant section above and move it to **Answered**.
 
-| ID | Question | Decision owner | Needed by |
-|---|---|---|---|
-| <XX-1> | <Question> | <Role or person> | <Milestone or feature that needs the answer> |
+| ID | Category | Question | Decision owner | Needed by |
+|---|---|---|---|---|
+| <XX-1> | <Area> | <Question> | <Role or person> | <Milestone or feature that needs the answer> |
 
 ### Answered
 

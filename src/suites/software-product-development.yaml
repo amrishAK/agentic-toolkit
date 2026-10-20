@@ -1,0 +1,9 @@
+schema_version: "1.0.0"
+name: software-product-development
+version: "0.1.0"
+description: Product management, engineering, and quality guidance for software product development.
+packages:
+  - product-management
+  - engineer
+optional_packages:
+  - programming-languages

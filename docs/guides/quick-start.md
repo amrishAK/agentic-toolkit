@@ -1,10 +1,10 @@
 # Quick start
 
-Use this guide to find and use maintained Agentic Toolkit guidance for an Engineering task. The repository currently provides the Engineering suite and a Copilot installer; it does not provide an automatic workflow or guarantee that an agent client will discover installed definitions.
+Use this guide to find and use maintained Agentic Toolkit guidance for a software product development task. The repository provides the Software Product Development suite, independently installable `product-management` and `engineer` packages, and a Copilot installer; it does not provide an automatic workflow or guarantee that an agent client will discover installed definitions.
 
 ## 1. Choose a starting point
 
-You can browse the maintained definitions without installing them. Start with the [Engineering suite guide](../suites/engineering.md) to find a role or task workflow, or use the [skill selection workflow](../../src/skills/agent-workflows/skill-selection-workflow.md) and its [Engineering task matrix](../../src/skills/agent-workflows/references/skill-selection-workflow-matrix.md) to select relevant guidance.
+You can browse the maintained definitions without installing them. Start with the [suite guide](../suites/software-product-development.md) to find a role or task workflow, or use the [skill selection workflow](../../src/skills/agent-workflows/skill-selection-workflow.md) and its [Software Product Development task matrix](../../src/skills/agent-workflows/references/skill-selection-workflow-matrix.md) to select relevant guidance.
 
 Choose an agent when you need a role with defined responsibilities and boundaries. Choose a skill when you need a task method. An agent may require linked skills; selecting one skill does not install an agent.
 
@@ -16,7 +16,7 @@ List available definitions, then preview one agent and its linked resources:
 
 ```text
 make list
-make plan SUITE=engineering AGENT=code-engineer SCOPE=user
+make plan SUITE=software-product-development AGENT=code-engineer SCOPE=user
 ```
 
 `plan` displays the generated paths and checks the destination without creating files. The user scope installs under `.copilot` in the Python user's home directory. To install to a project instead, set `SCOPE=workspace` and `WORKSPACE` to an existing project directory; see the [installation guide](../installation.md) for platform-specific examples and staging options.
@@ -26,15 +26,17 @@ make plan SUITE=engineering AGENT=code-engineer SCOPE=user
 If the preview is as expected, run the matching install command:
 
 ```text
-make install SUITE=engineering AGENT=code-engineer SCOPE=user
+make install SUITE=software-product-development AGENT=code-engineer SCOPE=user
 ```
 
 For a task that needs skills without an agent, select the relevant skills explicitly. For example, for Rust code-quality work:
 
 ```text
-make plan SUITE=engineering SKILLS=code-quality-workflow,rust-code-quality
-make install SUITE=engineering SKILLS=code-quality-workflow,rust-code-quality
+make plan SUITE=software-product-development SKILLS=code-quality-workflow,rust-code-quality
+make install SUITE=software-product-development SKILLS=code-quality-workflow,rust-code-quality
 ```
+
+For a responsibility package, use `PACKAGE=product-management` or `PACKAGE=engineer` instead of `AGENT` or `SKILLS`. Omit individual selectors to install the full suite. Each package includes its respective independent reviewers; `engineer` also includes testing and change/security review.
 
 Agent selection includes that agent's linked required skills and resources, not every skill listed in a catalogue. Skill selection installs the selected skills and their linked resources, not unrelated agents. Read the [installation guide](../installation.md) before updating an existing installation or when you need the full selection and update behavior.
 
@@ -46,6 +48,6 @@ Confirm that generated files are in the intended destination and check discovery
 
 ## Next
 
-- Use the [Engineering suite guide](../suites/engineering.md) to choose roles and understand handoffs.
+- Use the [Software Product Development suite guide](../suites/software-product-development.md) to choose roles and understand handoffs.
 - See [Using Agentic Toolkit effectively](using-agentic-toolkit-effectively.md) for proportionate decision-making and traceability.
 - See [Using Agentic Toolkit as a solo developer](using-agentic-toolkit-as-a-solo-developer.md) for a lightweight individual workflow.

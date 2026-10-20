@@ -1,6 +1,6 @@
 # Using Agentic Toolkit as a solo developer
 
-> **Status:** This guide describes a proposed way for a solo developer to apply a broader lifecycle model, not a currently available end-to-end workflow. Discovery & Shaping and Product Management are not maintained suites here; the Engineering suite is. For current roles and task routes, see the [Engineering suite guide](../suites/engineering.md) and [documentation index](../README.md).
+> **Status:** This guide describes a proposed way for a solo developer to apply a broader lifecycle model, not a currently available end-to-end workflow. The maintained Software Product Development suite provides `product-management` and `engineer` packages, each including its respective independent reviewers. Discovery & Shaping and product-level feature-brief guidance remain proposed. For current roles and task routes, see the [suite guide](../suites/software-product-development.md) and [documentation index](../README.md).
 
 As a solo developer, you may be the researcher, product owner, designer, engineer, tester, and release decision-maker. Agentic Toolkit is intended to help you cover those perspectives without making you follow a heavyweight team process. Agents can help you ask better questions, organize evidence, identify gaps, and challenge your reasoning; you remain responsible for verifying facts and making decisions.
 
@@ -34,7 +34,7 @@ Write down the chosen direction, what is out of scope, the key assumptions, and 
 
 ### 3. Choose the next valuable slice
 
-Use product-planning guidance to connect the proposal to a concrete user outcome. In the current Engineering suite, the [product-planner role](../../src/agents/design-and-planning/product-planner.md) provides this kind of guidance; the separate Product Management stage is proposed future direction. Define a small next increment, its boundaries, dependencies, and acceptance criteria, using examples to illustrate expected behavior. If you use BDD-style scenarios, make them describe user-visible behavior; avoid turning them into implementation prescriptions unless that is genuinely required.
+Use product-planning guidance to connect the proposal to a concrete user outcome. In the current Software Product Development suite, the [product-planner role](../../src/agents/design-and-planning/product-planner.md) is available through the `product-management` package; product-level feature-brief guidance remains proposed future direction. Define a small next increment, its boundaries, dependencies, and acceptance criteria, using examples to illustrate expected behavior. If you use BDD-style scenarios, make them describe user-visible behavior; avoid turning them into implementation prescriptions unless that is genuinely required.
 
 Do not create a formal roadmap or version plan just because a template exists. For a solo project, a short ordered list of outcomes and a clear current focus may be enough. Record a target version only when you have a meaningful reason to plan against one.
 

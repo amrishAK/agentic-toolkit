@@ -2,7 +2,7 @@
 
 Agentic Toolkit aims to make useful agent guidance easier to maintain, reuse, and improve. Instead of keeping roles and workflows in scattered client-specific copies, maintainers develop them as linked, reviewable sources that people can browse or deliver to an agent client.
 
-This is a product vision, not a promise of cross-client support. The repository is pre-release, currently focused on engineering, and has a Make-based installer for Copilot layouts. Other clients are not currently supported. See the [README](../README.md) for current scope and compatibility.
+This is a product vision, not a promise of cross-client support. The repository is pre-release, maintains a Software Product Development suite with product-management and engineer packages that include their respective reviewers, and has a Make-based installer for Copilot layouts. Other clients are not currently supported. See the [README](../README.md) for current scope and compatibility.
 
 ## The problem
 
@@ -28,7 +28,7 @@ Today, users can browse the sources or install them into supported Copilot layou
 ## Usage modes and intended audience
 
 - **Maintainers** organize and improve reusable guidance.
-- **Engineering practitioners** use roles and workflows for activities such as implementation, review, testing, documentation, and design.
+- **Software product practitioners** use roles and workflows for product planning, design, implementation, review, testing, and documentation.
 - **Readers and evaluators** browse the sources to understand the collection without installing it.
 
 ## Architecture direction and data flow
@@ -48,7 +48,7 @@ The current installer implements this model for Copilot only. This high-level de
 - The collection provides written guidance and organization. The client and user provide runtime discovery, tools, permissions, and execution.
 - Role handoffs describe ways to coordinate work; they do not automatically orchestrate agents.
 - Client support must be explicit. Preserving source text does not ensure that a client discovers, interprets, or behaves according to it.
-- The collection is currently engineering-focused. Other suites and client support are possible directions, not current offerings.
+- The Software Product Development suite covers product planning, engineering, and quality through responsibility packages. Discovery/research, product-level feature-brief guidance, other suites, and additional client support remain possible directions, not current offerings.
 
 ## Non-goals
 
@@ -62,4 +62,4 @@ The current installer implements this model for Copilot only. This high-level de
 - [README](../README.md): current repository scope, compatibility, and maintenance boundaries.
 - [Copilot installation guide](installation.md): supported installation workflow and its limitations.
 - [Documentation index](README.md): available suite guides and collection navigation.
-- [Engineering suite guide](suites/engineering.md): current engineering roles, skill categories, and handoffs.
+- [Software Product Development suite guide](suites/software-product-development.md): current packages, roles, skill categories, and handoffs.

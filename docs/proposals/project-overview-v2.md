@@ -24,7 +24,7 @@ The proposed lifecycle model has three connected responsibility stages:
 2. **Product Management** evaluates proposals and shapes product goals, priorities, roadmap direction, target-version scope, and product-level feature briefs.
 3. **Engineering** validates feasibility and technical implications, details the feature contracts and architecture, and plans, builds, tests, deploys, and operates the software.
 
-These responsibility areas could be organized as suites in a future version, but no additional suites are currently maintained. The repository currently maintains the Engineering suite; see the [documentation index](../README.md) for current coverage.
+These responsibility stages are not separate installable suites. The repository maintains one Software Product Development suite composed of `product-management` and `engineer` packages, each including its respective independent reviewers. Testing and change/security review are included in `engineer`. That packaging decision does not implement Discovery & Shaping or the proposed product-level feature briefs; see the [documentation index](../README.md) for current coverage.
 
 These stages describe responsibilities, not required headcount or a mandatory sequence. One person may hold multiple responsibilities, and a team can use only the stages relevant to its decision. Keep decision ownership clear; use separate review when the risk or project requires independent review.
 
@@ -42,7 +42,7 @@ The proposal should identify intended users, the problem and supporting evidence
 
 Product-level feature briefs can describe user-visible outcomes, intended scope, exclusions, and acceptance examples, including behavior-driven scenarios where useful. These briefs are proposed product-facing artifacts, distinct from Engineering feature contracts, which describe detailed intended behavior, edge cases, and failure behavior. Acceptance criteria are observable conditions for judging an outcome; acceptance examples illustrate expected behavior and do not replace criteria unless explicitly adopted as criteria. Engineering remains responsible for validating technical feasibility and elaborating its contracts, implementation tasks, and verification.
 
-Roadmaps, target versions, feature priorities, and release scope are proposals until approved by the responsible product owner. This repository does not currently maintain a product roadmap or release plan for these future suites.
+Roadmaps, target versions, feature priorities, and release scope are proposals until approved by the responsible product owner. The [project roadmap](../status/roadmap.md) records high-level direction; no release plans or approved release scope for these future suites currently exist.
 
 ## Shared guidance and technology selection
 
@@ -85,5 +85,5 @@ Containerization is a packaging and build concern, not a universal deployment mo
 - [Repository README](../../README.md): current collection maintenance, supported installation, validation, and repository boundaries.
 - [Documentation index](../README.md): maintained suite guides and navigation.
 - [Using Agentic Toolkit effectively](../guides/using-agentic-toolkit-effectively.md): a guide to using the proposed future lifecycle model with human oversight.
-- [Engineering suite guide](../suites/engineering.md): current Engineering roles, skills, and handoffs.
+- [Software Product Development suite guide](../suites/software-product-development.md): current packages, roles, skills, and handoffs.
 - [Copilot installation guide](../installation.md): current installation behavior and limitations.
